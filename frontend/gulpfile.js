@@ -28,9 +28,11 @@ var browserifyTask = function (options) {
   // Our app bundler
 	var appBundler = browserify({
 		entries: [options.src], // Only need initial file, browserify finds the rest
+    extensions: ['.js'],
    	transform: [babelify], // We want to convert JSX to normal javascript
 		debug: options.development, // Gives us sourcemapping
-		cache: {}, packageCache: {}, fullPaths: options.development // Requirement of watchify
+		cache: {}, packageCache: {}, fullPaths: options.development, // Requirement of watchify
+    paths: ['./app/']
 	});
 
 	// We set our dependencies as externals on our app bundler when developing.

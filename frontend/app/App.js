@@ -1,6 +1,6 @@
 var React = require('react');
-var Store = require('./Store.js');
-var actions = require('./actions.js');
+var Store = require('./Store');
+var actions = require('./actions');
 
 var App = React.createClass({
     getInitialState: function () {
@@ -35,18 +35,16 @@ var App = React.createClass({
     },
     renderMessages: function (message) {
         return (
-                <div>{message}</div>
-               );
+            <div>{message}</div>
+           );
     },
     render: function() {
         return (
-                <div>
-                {this.state.messages.map(this.renderMessages)}
-                <form onSubmit={this.addMessage}>
-                <input ref="newMessage" type="text" value={this.state.newMessage} onChange={this.updateNewMessage}/>
-                </form>
+            <div id="app-wrapper">
+                <div id="header">
                 </div>
-               );
+            </div>
+           );
     }
 
 });
