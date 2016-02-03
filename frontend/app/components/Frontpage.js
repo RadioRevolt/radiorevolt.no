@@ -15,7 +15,10 @@ var Frontpage = React.createClass({
     render: function() {
         return (
             <div id="frontpage-wrapper">
+            	<p>Frontpage</p>
             </div>
            );
     }
 });
+
+module.exports = Frontpage;

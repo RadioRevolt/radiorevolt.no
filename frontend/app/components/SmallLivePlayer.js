@@ -10,3 +10,5 @@ var SmallLivePlayer = React.createClass({
            );
     }
 });
+
+module.exports = SmallLivePlayer;

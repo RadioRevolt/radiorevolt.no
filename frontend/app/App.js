@@ -39,10 +39,13 @@ var App = React.createClass({
            );
     },
     render: function() {
+        var self = this;
         return (
             <div id="app-wrapper">
+                <p>App.js</p>
                 <div id="header">
                 </div>
+                { self.props.children }
             </div>
            );
     }

@@ -10,3 +10,5 @@ var Player = React.createClass({
            );
     }
 });
+
+module.exports = Player;

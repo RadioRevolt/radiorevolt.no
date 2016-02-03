@@ -15,7 +15,11 @@ var Program = React.createClass({
     render: function() {
         return (
             <div id="program-wrapper">
+                <p>Program</p>
+                { this.props.children }
             </div>
            );
     }
 });
+
+module.exports = Program;

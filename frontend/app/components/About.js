@@ -2,13 +2,14 @@ var React = require('react');
 var Store = require('Store');
 var actions = require('actions');
 
-var LargeLivePlayer = React.createClass({
+var About = React.createClass({
     render: function() {
         return (
-            <div id="large-live-player-wrapper">
+            <div id="frontpage-wrapper">
+            	<p>About</p>
             </div>
            );
     }
 });
 
-module.exports = LargeLivePlayer;
+module.exports = About;
