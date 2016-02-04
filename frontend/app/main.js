@@ -19,7 +19,7 @@ React.render((
 			<Route path="/" component={ App }>
 				<IndexRoute component={ Frontpage } />
 				<Route path="om" component={ About } />
-				<Route path=":program" component={ Program } >
+				<Route path=":programslug" component={ Program } >
 					<IndexRoute component={ ProgramFrontpage } />
 					<Route path=":postid" component={ Post } />
 				</Route>

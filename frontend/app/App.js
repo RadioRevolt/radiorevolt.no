@@ -2,6 +2,9 @@ var React = require('react');
 var Store = require('./Store');
 var actions = require('./actions');
 
+var Header = require('./components/Header');
+var Footer = require('./components/Footer');
+
 var App = React.createClass({
     getInitialState: function () {
         return {
@@ -43,9 +46,15 @@ var App = React.createClass({
         return (
             <div id="app-wrapper">
                 <p>App.js</p>
-                <div id="header">
+                <div id="header-block">
+                    <Header />
                 </div>
-                { self.props.children }
+                <div id="content-block">
+                    { self.props.children }
+                </div>
+                <div id="footer">
+                    <Footer />
+                </div>
             </div>
            );
     }
