@@ -6,7 +6,11 @@ var PopularPosts = React.createClass({
     render: function() {
         return (
             <div id="popular-posts-wrapper">
-            	PopularPosts
+            	<h3>Populære poster</h3>
+            	<ul>
+            		<li>Garasjen syter</li>
+            		<li>Garasjen klager</li>
+            	</ul>
             </div>
            );
     }

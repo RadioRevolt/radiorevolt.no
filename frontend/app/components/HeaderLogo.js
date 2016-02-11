@@ -6,7 +6,7 @@ var HeaderLogo = React.createClass({
     render: function() {
         return (
             <div id="header-logo-wrapper">
-            	HeaderLogo
+            	<img src="img/logo_black.png" id="header-logo" />
             </div>
            );
     }

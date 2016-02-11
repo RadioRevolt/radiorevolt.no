@@ -6,7 +6,11 @@ var LatestEpisodes = React.createClass({
     render: function() {
         return (
             <div id="latest-episodes-wrapper">
-            	LatestEpisodes
+            	<h3>Siste episoder</h3>
+            	<ul>
+            		<li>Garasjen 2</li>
+            		<li>Garasjen 1</li>
+            	</ul>
             </div>
            );
     }

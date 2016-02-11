@@ -12,7 +12,7 @@ var Header = React.createClass({
             	<div id="header-left" className="col-md-4">
             		<HeaderLogo />
             	</div>
-            	<div id="header-right" className="col-md-4 pull-right">
+            	<div id="header-right" className="col-md-4">
             		<HeaderMenu />
             	</div>
             </div>

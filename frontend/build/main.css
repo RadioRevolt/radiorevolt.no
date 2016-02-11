@@ -5,17 +5,37 @@ body {
 
 #header-block {
 	padding-top: 1em;
-	padding-bottom: 2em;
+	padding-bottom: 3em;
 	background-color: #ffe;
 }
 
+#header-logo {
+	width: 200px;
+}
+
+#header-menu {
+	padding-top: 3em;
+}
+
+#header-menu li {
+	display: inline;
+	padding-right: 10px;
+}
+
 #content-block {
-	padding-bottom: 2em;
+	padding-top: 1em;
+	padding-bottom: 1em;
 	background-color: #fef;
 }
 
 #footer-block {
+	padding-top: 1em;
+	padding-bottom: 1em;
 	background-color: #eff;
+}
+
+#footer-logo {
+	width: 150px;
 }
 
 #content-block-sidebar {

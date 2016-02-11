@@ -7,10 +7,16 @@ var Footer = React.createClass({
         return (
             <div id="footer-wrapper">
             	<div id="footer-left" className="col-md-8">
-            		Dusken.no og lignende
+            		<img src="img/logo_black.png" id="header-logo" />
             	</div>
             	<div id="footer-right" className="col-md-4 pull-right">
-            		Ikke Kris Monsen
+            		<h3>Har du et tips?</h3>
+            		<ul>
+            			<li>tips@radiorevolt.no</li>
+            			<li>@radiorevolt</li>
+            		</ul>
+            		<h3>Annonsere hos oss?</h3>
+            		<p>Kontakt <a href="mailto:salgssjef@studentmediene.no">salgssjef@studentmediene.no.</a></p>
             	</div>
             </div>
            );
