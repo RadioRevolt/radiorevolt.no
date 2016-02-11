@@ -28,10 +28,10 @@ var Frontpage = React.createClass({
     render: function() {
         return (
             <div id="frontpage-wrapper">
-            	<div id="content-block-body">
+            	<div id="content-block-body" className="col-md-8">
             		Frontpage
             	</div>
-            	<div id="content-block-sidebar">
+            	<div id="content-block-sidebar" className="col-md-4">
             		<FrontpageSidebar />
             	</div>
             </div>

@@ -1,3 +1,31 @@
 body {
-	background-color: #EAEAEA;
+	background-color: #fff;
+	color: #000;
+}
+
+#header-block {
+	padding-top: 1em;
+	padding-bottom: 2em;
+	background-color: #ffe;
+}
+
+#content-block {
+	padding-bottom: 2em;
+	background-color: #fef;
+}
+
+#footer-block {
+	background-color: #eff;
+}
+
+#content-block-sidebar {
+	background-color: #fcf;
+}
+
+#header-menu-wrapper {
+	background-color: #ffc;
+}
+
+#footer-right {
+	background-color: #cff;
 }
