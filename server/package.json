@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "babel-node index.js --presets es2015,stage-2",
+    "test": "jasmine-node ."
+  },
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-2": "^6.3.13",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.0"
+  },
+  "devDependencies": {
+    "babel-register": "^6.4.3",
+    "eslint": "^2.0.0",
+    "eslint-plugin-import": "^1.0.0-beta.0",
+    "gulp": "^3.9.0",
+    "gulp-jasmine": "^2.2.1"
+  }
+}
