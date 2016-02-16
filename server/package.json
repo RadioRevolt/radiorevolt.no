@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "babel-node index.js --presets es2015,stage-2",
-    "test": "jasmine-node ."
+    "start": "babel-node index.js",
+    "test": "gulp test",
+    "load-example-data": "babel-node generate_example_data.js"
   },
   "author": "",
   "private": true,
@@ -20,6 +21,7 @@
     "eslint": "^2.0.0",
     "eslint-plugin-import": "^1.0.0-beta.0",
     "gulp": "^3.9.0",
+    "gulp-eslint": "^2.0.0",
     "gulp-jasmine": "^2.2.1"
   }
 }
