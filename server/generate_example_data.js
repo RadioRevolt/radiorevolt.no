@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import async from 'async';
 
-import Show from './model/Show';
+import Show from './app/model/Show';
 
 const MONGOOSE_URL = 'mongodb://localhost/radiorevolt_test';
 
@@ -26,7 +26,7 @@ db.once('open', () => {
         new Show({name: name}).save(cb);
       };
     });
-  
+
     async.series(save_callbacks, (err, results) => {
       console.log(results);
       mongoose.disconnect();

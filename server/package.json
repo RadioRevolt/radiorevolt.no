@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "babel-node index.js",
+    "start": "babel-node app/index.js",
     "test": "mocha **/*.spec.js --compilers js:babel-register",
     "load-example-data": "babel-node generate_example_data.js"
   },
