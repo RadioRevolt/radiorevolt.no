@@ -7,7 +7,7 @@ plugins:
 env:
   node: true
   es6:  true
-  jasmine: true
+  mocha: true
 
 parserOptions:
   ecmaVersion: 6

@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "babel-node index.js",
-    "test": "gulp test",
+    "test": "mocha **/*.spec.js --compilers js:babel-register",
     "load-example-data": "babel-node generate_example_data.js"
   },
   "author": "",
@@ -22,6 +22,7 @@
     "eslint-plugin-import": "^1.0.0-beta.0",
     "gulp": "^3.9.0",
     "gulp-eslint": "^2.0.0",
-    "gulp-jasmine": "^2.2.1"
+    "mocha": "^2.4.5",
+    "should": "^8.2.2"
   }
 }
