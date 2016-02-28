@@ -44,4 +44,4 @@ var ProgramDAO = function () {
 	}
 };
 
-module.exports = ShowDAO;
+module.exports = ProgramDAO;
