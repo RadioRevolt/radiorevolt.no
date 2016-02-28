@@ -1,5 +1,5 @@
 var React = require('react');
-var Store = require('../Store');
+var PostStore = require('../PostStore');
 var actions = require('../actions');
 
 var LatestEpisodes = React.createClass({

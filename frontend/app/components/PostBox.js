@@ -1,17 +1,17 @@
 var React = require('react');
 var classNames = require('classnames');
-var PostStore = require('PostStore');
+var PostStore = require('../PostStore');
 var actions = require('../actions');
 
 var ReactRouter = require('react-router');
 var Link = ReactRouter.Link;
 
-var ArticleBox = React.createClass({
+var PostBox = React.createClass({
     render: function() {
         var extraClass = this.props.extraClass;
-        var wrapperDivClasses = classNames('article-box-wrapper', extraClass);
+        var wrapperDivClasses = classNames('post-box-wrapper', extraClass);
 
-        let article_id = this.props.article_id;
+        let post_id = this.props.post_id;
 
         return (
             <div className={ wrapperDivClasses }>
@@ -22,4 +22,4 @@ var ArticleBox = React.createClass({
     }
 });
 
-module.exports = ArticleBox;
+module.exports = PostBox;

@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactRouter = require('react-router');
-var Store = require('../Store');
+var PostStore = require('../PostStore');
 var actions = require('../actions');
 
 var Link = ReactRouter.Link;

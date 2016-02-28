@@ -1,5 +1,5 @@
 var React = require('react');
-var Store = require('./Store');
+var PostStore = require('./PostStore');
 var actions = require('./actions');
 
 var Header = require('./components/Header');
@@ -8,32 +8,32 @@ var Footer = require('./components/Footer');
 var App = React.createClass({
     getInitialState: function () {
         return {
-            messages: Store.getMessages(),
-            newMessage: ''
+            posts: PostStore.getPosts(),
+            newPosts: ''
         };
     },
     componentWillMount: function () {
-        Store.addChangeListener(this.changeState);
+        PostStore.addChangeListener(this.changeState);
     },
     componentWillUnmount: function () {
-        Store.removeChangeListener(this.changeState);
+        PostStore.removeChangeListener(this.changeState);
     },
     changeState: function () {
         this.setState({
-            messages: Store.getMessages()
+            messages: PostStore.getPosts()
         });
     },
     addMessage: function (event) {
         event.preventDefault();
-        var input = this.refs.newMessage.getDOMNode();
+        var input = this.refs.newPost.getDOMNode();
         actions.addMessage(input.value);
         this.setState({
-            newMessage: ''
+            newPost: ''
         });
     },
-    updateNewMessage: function (event) {
+    updateNewPost: function (event) {
         this.setState({
-            newMessage: event.target.value
+            newPost: event.target.value
         });
     },
     renderMessages: function (message) {

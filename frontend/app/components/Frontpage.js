@@ -1,11 +1,11 @@
 var React = require('react');
-var Store = require('Store');
+var PostStore = require('PostStore');
 var actions = require('actions');
 
 var LargeLivePlayer = require('./LargeLivePlayer');
 var LatestEpisodes = require('./LatestEpisodes');
-var PopularArticles = require('./PopularArticles');
-var ArticleBox = require('./ArticleBox');
+var PopularPosts = require('./PopularPosts');
+var PostBox = require('./PostBox');
 
 var FrontpageSidebar = React.createClass({
     render: function() {
@@ -17,8 +17,8 @@ var FrontpageSidebar = React.createClass({
             	<div id="sidebar-latest-episodes">
             		<LatestEpisodes />
             	</div>
-            	<div id="sidebar-popular-articles">
-            		<PopularArticles />
+            	<div id="sidebar-popular-posts">
+            		<PopularPosts />
             	</div>
             </div>
            );
@@ -30,9 +30,9 @@ var Frontpage = React.createClass({
         return (
             <div id="frontpage-wrapper">
             	<div id="content-block-body" className="col-md-8">
-            		<ArticleBox title="Testartikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
-            		<ArticleBox title="En annen artikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
-            		<ArticleBox title="Enda en artikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
+            		<PostBox title="Testartikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
+            		<PostBox title="En annen artikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
+            		<PostBox title="Enda en artikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
             	</div>
             	<div id="content-block-sidebar" className="col-md-4">
             		<FrontpageSidebar />
