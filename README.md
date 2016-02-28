@@ -14,14 +14,20 @@ Prosjektet benytter JavaScript både på frontend og backend, der frontenden bru
 
 
 # Development guide
+## Load example data
+```bash
+npm run-script load-example-data
+```
+
 ## Server
 [MongoDB](https://www.mongodb.org/downloads) must be installed in order to run and develop the server application.
 
 To get the application up and running locally, run
 
 ```bash
+cd server
 npm install
-npm run
+npm start
 ```
 
 and visit http://localhost:3000
