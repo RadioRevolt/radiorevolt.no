@@ -4,7 +4,7 @@ var actions = require('actions');
 
 var LargeLivePlayer = require('./LargeLivePlayer');
 var LatestEpisodes = require('./LatestEpisodes');
-var PopularPosts = require('./PopularPosts');
+var PopularArticles = require('./PopularArticles');
 var ArticleBox = require('./ArticleBox');
 
 var FrontpageSidebar = React.createClass({
@@ -17,8 +17,8 @@ var FrontpageSidebar = React.createClass({
             	<div id="sidebar-latest-episodes">
             		<LatestEpisodes />
             	</div>
-            	<div id="sidebar-popular-posts">
-            		<PopularPosts />
+            	<div id="sidebar-popular-articles">
+            		<PopularArticles />
             	</div>
             </div>
            );

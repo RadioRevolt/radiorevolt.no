@@ -2,14 +2,14 @@ var React = require('react');
 var Store = require('Store');
 var actions = require('actions');
 
-var About = React.createClass({
+var IndependentArticle = React.createClass({
     render: function() {
         return (
-            <div id="about-wrapper">
-            	<p>About</p>
+            <div id="independent-article-wrapper">
+                <p>IndependentArticle</p>
             </div>
            );
     }
 });
 
-module.exports = About;
+module.exports = IndependentArticle;
