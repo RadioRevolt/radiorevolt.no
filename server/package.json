@@ -3,15 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "babel-node index.js --presets es2015,stage-2",
-    "test": "jasmine-node ."
+    "start": "babel-node app/index.js",
+    "test": "mocha **/*.spec.js --compilers js:babel-register",
+    "load-example-data": "babel-node generate_example_data.js"
   },
   "author": "",
   "private": true,
   "dependencies": {
     "babel-cli": "^6.4.5",
+    "babel-plugin-transform-runtime": "^6.5.2",
+    "babel-polyfill": "^6.5.0",
     "babel-preset-es2015": "^6.3.13",
-    "babel-preset-stage-2": "^6.3.13",
+    "babel-preset-stage-0": "^6.5.0",
     "express": "^4.13.4",
     "mongoose": "^4.4.0"
   },
@@ -20,6 +23,9 @@
     "eslint": "^2.0.0",
     "eslint-plugin-import": "^1.0.0-beta.0",
     "gulp": "^3.9.0",
-    "gulp-jasmine": "^2.2.1"
+    "gulp-eslint": "^2.0.0",
+    "lorem-ipsum": "^1.0.3",
+    "mocha": "^2.4.5",
+    "should": "^8.2.2"
   }
 }
