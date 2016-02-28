@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
-const showSchema = new mongoose.Schema({
+const programSchema = new mongoose.Schema({
   name: String
 });
 
-showSchema.statics.findByName = function(name) {
+programSchema.statics.findByName = function(name) {
   return this.findOne({
     name: new RegExp(name, 'i')
   });
@@ -13,5 +13,5 @@ showSchema.statics.findByName = function(name) {
 
 
 
-const Show = mongoose.model('Show', showSchema);
-export default Show;
+const Program = mongoose.model('Program', programSchema);
+export default Program;

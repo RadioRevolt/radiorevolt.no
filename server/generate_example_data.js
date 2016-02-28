@@ -3,7 +3,7 @@ import loremIpsum from 'lorem-ipsum';
 
 
 import config from './config';
-import Show from './app/model/Show';
+import Program from './app/model/Program';
 import Post from './app/model/Post';
 
 const {ObjectId} = mongoose.Types;
@@ -17,7 +17,7 @@ mongoose.connect(MONGODB_URL);
 const db = mongoose.connection;
 
 
-const show_names = [
+const program_names = [
   'Reservebenken',
   'Garasjen',
   'Nerdeprat',
@@ -27,26 +27,26 @@ const show_names = [
 ];
 
 const flushCollections = async () => {
-  await Show.remove({});
+  await Program.remove({});
   await Post.remove({});
 };
 
-const generateShows = async () => {
-  for (const name of show_names) {
-    await Show.create({
+const generatePrograms = async () => {
+  for (const name of program_names) {
+    await Program.create({
       name: name
     });
   }
 };
 
 const generatePosts = async (cb) => {
-  for (const name of show_names) {
-    const show = await Show.findOne({name: name});
+  for (const name of program_names) {
+    const program = await Program.findOne({name: name});
     for (let i = 0; i < DUMMY_POST_COUNT_PER_SHOW; i++) {
       await Post.create({
         title: `Post number ${i+1}`,
         author: 'Team Rocket',
-        show: new ObjectId(show.id)
+        program: new ObjectId(program.id)
       });
     }
   }
@@ -55,7 +55,7 @@ const generatePosts = async (cb) => {
 db.once('open', async () => {
   try {
     await flushCollections();
-    await generateShows();
+    await generatePrograms();
     await generatePosts();
   } catch (error) {
     console.error(error);
