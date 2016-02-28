@@ -1,8 +1,9 @@
 var gulp = require('gulp');
+var eslint = require('gulp-eslint');
 var source = require('vinyl-source-stream'); // Used to stream bundle for further handling
 var browserify = require('browserify');
 var watchify = require('watchify');
-var babelify = require('babelify'); 
+var babelify = require('babelify');
 var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
@@ -67,7 +68,7 @@ var browserifyTask = function (options) {
 
   // We create a separate bundle for our dependencies as they
   // should not rebundle on file changes. This only happens when
-  // we develop. When deploying the dependencies will be included 
+  // we develop. When deploying the dependencies will be included
   // in the application bundle
   if (options.development) {
 
@@ -144,12 +145,18 @@ var cssTask = function (options) {
       gulp.src(options.src)
         .pipe(concat('main.css'))
         .pipe(cssmin())
-        .pipe(gulp.dest(options.dest));   
+        .pipe(gulp.dest(options.dest));
     }
 }
 
+gulp.task('lint', function () {
+	return gulp.src(['**/*.js', '!node_modules/**'])
+		.pipe(eslint())
+		.pipe(eslint.format())
+});
+
 // Starts our development workflow
-gulp.task('default', function () {
+gulp.task('default', ['lint'], function () {
 
   browserifyTask({
     development: true,
