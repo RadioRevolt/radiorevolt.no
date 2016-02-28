@@ -8,9 +8,13 @@ const {ObjectId} = mongoose.Types;
 
 const router = express.Router();
 
+router.get('/program', async (req, res) => {
+  const programs = await Program.find({});
+  res.json(programs);
+});
 
-router.get('/program/:program_name', async (req, res) => {
-  const program = await Program.findByName(req.params.program_name);
+router.get('/program/:program_id', async (req, res) => {
+  const program = await Program.findById(req.params.program_id);
   const posts = await Post.find({
     program: program.id
   });
