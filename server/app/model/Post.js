@@ -4,7 +4,10 @@ const {ObjectId} = mongoose.Schema.Types;
 
 const postSchema = new mongoose.Schema({
   title: String,
-  date: Date,
+  date: {
+    type: Date,
+    default: Date.now
+  },
   author: String,
   show: ObjectId
 });
