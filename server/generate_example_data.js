@@ -1,16 +1,18 @@
 import mongoose from 'mongoose';
 import loremIpsum from 'lorem-ipsum';
 
+
+import config from './config';
 import Show from './app/model/Show';
 import Post from './app/model/Post';
 
 const {ObjectId} = mongoose.Types;
 
-const MONGOOSE_URL = 'mongodb://localhost/radiorevolt_test';
+const {MONGODB_URL} = config;
 
 const DUMMY_POST_COUNT_PER_SHOW = 5;
 
-mongoose.connect(MONGOOSE_URL);
+mongoose.connect(MONGODB_URL);
 
 const db = mongoose.connection;
 
