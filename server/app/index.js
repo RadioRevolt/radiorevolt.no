@@ -1,6 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
+
+import config from '../config';
+
 import apiRouter from './api';
 
 // Assemble the routes
@@ -8,8 +11,8 @@ const app = express();
 app.use('/api', apiRouter);
 
 // Connect to MongoDB
-const MONGOOSE_URL = 'mongodb://localhost/radiorevolt_test';
-mongoose.connect(MONGOOSE_URL);
+const {MONGODB_URL} = config;
+mongoose.connect(MONGODB_URL);
 
 // Start the server when the connection is up
 const SERVER_PORT = 3000;

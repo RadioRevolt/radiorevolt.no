@@ -1,21 +1,25 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-import Show from './model/Show';
+import Program from './model/Program';
 import Post from './model/Post';
 
 const {ObjectId} = mongoose.Types;
 
 const router = express.Router();
 
+router.get('/program', async (req, res) => {
+  const programs = await Program.find({});
+  res.json(programs);
+});
 
-router.get('/show/:show_name', async (req, res) => {
-  const show = await Show.findByName(req.params.show_name);
+router.get('/program/:program_id', async (req, res) => {
+  const program = await Program.findById(req.params.program_id);
   const posts = await Post.find({
-    show: show.id
+    program: program.id
   });
   res.json({
-    show,
+    program,
     posts: posts
   });
 });
