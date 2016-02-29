@@ -1,8 +1,8 @@
 var qs = require('qs');
 
 var PostDAO = function () {
-	this.handleError = function() {
-		console.log('An error occurred.')
+	this.handleError = function () {
+		console.log('An error occurred.');
 	};
 
 	this.getPostsForProgram = function (programID, page, callback) {

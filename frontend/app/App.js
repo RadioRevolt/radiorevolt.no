@@ -8,7 +8,6 @@ var Footer = require('./components/Footer');
 var App = React.createClass({
     getInitialState: function () {
         return {
-            posts: PostStore.getPosts(),
             newPosts: ''
         };
     },
@@ -20,13 +19,13 @@ var App = React.createClass({
     },
     changeState: function () {
         this.setState({
-            messages: PostStore.getPosts()
+            //messages: PostStore.getPosts()
         });
     },
-    addMessage: function (event) {
+    /*addPost: function (event) {
         event.preventDefault();
         var input = this.refs.newPost.getDOMNode();
-        actions.addMessage(input.value);
+        actions.addPost(input.value);
         this.setState({
             newPost: ''
         });
@@ -35,10 +34,10 @@ var App = React.createClass({
         this.setState({
             newPost: event.target.value
         });
-    },
+    },*/
     renderMessages: function (message) {
         return (
-            <div>{message}</div>
+            <div>{post}</div>
            );
     },
     render: function() {
