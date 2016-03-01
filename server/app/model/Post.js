@@ -9,7 +9,11 @@ const postSchema = new mongoose.Schema({
     default: Date.now
   },
   author: String,
-  program: ObjectId
+  program: ObjectId,
+  broadcast: {
+    type: ObjectId,
+    default: null
+  }
 });
 
 const Post = mongoose.model('Post', postSchema);

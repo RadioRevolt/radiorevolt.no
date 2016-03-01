@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 
 import Program from './model/Program';
 import Post from './model/Post';
+import Broadcast from './model/Broadcast';
 
 const {ObjectId} = mongoose.Types;
 
@@ -28,5 +29,8 @@ router.get('/post', async (req, res) => {
   res.json(await Post.find({}));
 });
 
+router.get('/broadcast', async (req, res) => {
+  res.json(await Broadcast.find({}));
+});
 
 export default router;
