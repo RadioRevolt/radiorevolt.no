@@ -30,7 +30,11 @@ router.get('/post', async (req, res) => {
 });
 
 router.get('/broadcast', async (req, res) => {
-  res.json(await Broadcast.find({}));
+  await Broadcast.find({}).sort('-date').exec(function(err, broadcast) {
+    if (!err){
+      res.json(broadcast)
+    };
+  });
 });
 
 export default router;
