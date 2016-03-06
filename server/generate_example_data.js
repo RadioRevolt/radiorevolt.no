@@ -35,9 +35,12 @@ const flushCollections = async () => {
 };
 
 const generatePrograms = async () => {
+  let i = 1;
   for (const name of program_names) {
     await Program.create({
-      name: name
+      name: name,
+      programID: `100${i++}`,
+      description: loremIpsum()
     });
   }
 };
