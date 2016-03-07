@@ -7,8 +7,8 @@ var About = require('components/About.js');
 var ProgramList = require('components/ProgramList.js');
 var Program = require('components/Program.js');
 var ProgramFrontpage = require('components/ProgramFrontpage.js');
-var IndependentArticle = require('components/IndependentArticle.js');
-var Article = require('components/Article.js');
+var IndependentPost = require('components/IndependentPost.js');
+var Post = require('components/Post.js');
 
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
@@ -22,12 +22,12 @@ React.render((
 				<IndexRoute component={ Frontpage } />
 				<Route path="om" component={ About } />
 				<Route path="programmer" component={ ProgramList } />
-				<Route path="article" component={ IndependentArticle } >
-					<Route path=":articleid" component={ Article } />
+				<Route path="post" component={ IndependentPost } >
+					<Route path=":postid" component={ Post } />
 				</Route>
 				<Route path=":programslug" component={ Program } >
 					<IndexRoute component={ ProgramFrontpage } />
-					<Route path=":articleid" component={ Article } />
+					<Route path=":postid" component={ Post } />
 				</Route>
 			</Route>
 		</Router>

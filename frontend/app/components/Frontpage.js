@@ -1,38 +1,42 @@
 var React = require('react');
-var Store = require('Store');
+var PostStore = require('PostStore');
 var actions = require('actions');
 
+var FrontpageSidebar = require('./FrontpageSidebar');
 var LargeLivePlayer = require('./LargeLivePlayer');
 var LatestEpisodes = require('./LatestEpisodes');
-var PopularArticles = require('./PopularArticles');
-var ArticleBox = require('./ArticleBox');
-
-var FrontpageSidebar = React.createClass({
-    render: function() {
-        return (
-            <div id="frontpage-sidebar-wrapper">
-            	<div id="player">
-            		<LargeLivePlayer />
-            	</div>
-            	<div id="sidebar-latest-episodes">
-            		<LatestEpisodes />
-            	</div>
-            	<div id="sidebar-popular-articles">
-            		<PopularArticles />
-            	</div>
-            </div>
-           );
-    }
-});
+var PopularPosts = require('./PopularPosts');
+var PostBox = require('./PostBox');
 
 var Frontpage = React.createClass({
+    getInitialState: function() {
+        return {
+            posts: PostStore.getRecentPosts(6)
+        };
+    },
+    componentWillMount: function() {
+        PostStore.addChangeListener(this.changeState);
+    },
+    componentWillUnmount: function() {
+        PostStore.removeChangeListener(this.changeState);
+    },
+    changeState: function() {
+        this.setState({
+            posts: PostStore.getRecentPosts(6)
+        });
+    },
+    renderPost: function(post) {
+        return (
+            <PostBox title={ post.title } body={ post.lead } extraClass="col-md-6" />
+        );
+    },
     render: function() {
+        let posts = this.state.posts.map(this.renderPost);
+
         return (
             <div id="frontpage-wrapper">
             	<div id="content-block-body" className="col-md-8">
-            		<ArticleBox title="Testartikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
-            		<ArticleBox title="En annen artikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
-            		<ArticleBox title="Enda en artikkel" body="Lorem ipsum dolor sit amet" extraClass="col-md-6" />
+            		{ posts }
             	</div>
             	<div id="content-block-sidebar" className="col-md-4">
             		<FrontpageSidebar />
