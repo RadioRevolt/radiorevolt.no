@@ -59,7 +59,15 @@ router.get('/post', async (req, res) => {
 
 router.get('/post/:post_id', async (req, res) => {
   const post = await Post.findById(req.params.post_id);
-  res.json(post);
+  if(post.broadcast){
+    const broadcast = await Broadcast.findById(post.broadcast);
+    res.json({
+      post,
+      broadcast
+    });
+  }else{
+    res.json(post);
+  };
 });
 
 router.post('/post', jsonParser, (req, res) => {
@@ -89,6 +97,31 @@ router.get('/broadcast', async (req, res) => {
   catch (e) {
      console.log("error");
   }
+});
+
+router.get('/broadcast/:broadcast_id', async (req, res) => {
+  const broadcast = await Broadcast.findById(req.params.broadcast_id);
+  res.json(broadcast);
+});
+
+router.post('/broadcast', jsonParser, (req, res) => {
+  const broadcast = new Broadcast(req.body);
+  broadcast.save((err) => {
+    if (err)
+      res.send(err);
+    res.json({message: 'Broadcast added.', data: broadcast});
+  });
+});
+
+router.put('/broadcast/:broadcast_id', jsonParser, async (req, res) => {
+  const broadcast = await Broadcast.findById(req.params.broadcast_id);
+  broadcast.update(
+  req.body,
+  (err, raw) => {
+    if (err)
+      res.send(err);
+    res.json({message: 'Broadcast updated.'});
+  });
 });
 
 export default router;
