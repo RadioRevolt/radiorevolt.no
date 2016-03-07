@@ -1,8 +1,7 @@
 var flux = require('flux-react');
 var actions = require('./actions');
 
-var PostDAO = require('./dao/PostDAO');
-var ProgramDAO = require('./dao/ProgramDAO');
+var PostDAO = require('./dao/PostDAO.js');
 
 var PostStore = flux.createStore({
     postsForProgram: {},
@@ -14,7 +13,8 @@ var PostStore = flux.createStore({
         actions.addPost
     ],
     addPost: function (post) {
-        this.posts.push(post);
+        // Logic for adding post
+        // Update backend and cache
         this.emitChange();
     },
     exports: {
@@ -24,12 +24,13 @@ var PostStore = flux.createStore({
                 return cacheValue;
             }
 
-            ProgramDAO.getPostDetails(postID, function () {
-                // Legg inn i cache
+            var dao = new PostDAO();
+            dao.getPostDetails(postID, (data) => {
+                this.postDetails[postID] = data;
                 this.emitChange();
             });
 
-            return undefined;
+            return {};
         },
         getPostsForProgram: function (programID, page) {
             let cacheValue = this.postsForProgram[programID];
@@ -39,12 +40,16 @@ var PostStore = flux.createStore({
                 }
             }
 
-            ProgramDAO.getPostsForProgram(programID, page, function () {
-                // Legg inn i cache
+            var dao = new PostDAO();
+            dao.getPostsForProgram(programID, page, (data) => {
+                if (cacheValue == undefined) {
+                    this.postsForProgram[programID] = [];
+                }
+                this.postsForProgram[programID][page] = data;
                 this.emitChange();
             });
 
-            return undefined;
+            return [];
         },
         getBroadcastsForProgram: function (programID, page) {
             let cacheValue = this.broadcastsForProgram[programID];
@@ -54,36 +59,42 @@ var PostStore = flux.createStore({
                 }
             }
 
-            ProgramDAO.getBroadcastsForProgram(programID, page, function () {
-                // Legg inn i cache
+            var dao = new PostDAO();
+            dao.getBroadcastsForProgram(programID, page, (data) => {
+                if (cacheValue == undefined) {
+                    this.broadcastsForProgram[programID] = [];
+                }
+                this.broadcastsForProgram[programID][page] = data;
                 this.emitChange();
             });
 
-            return undefined;
+            return [];
         },
         getRecentPosts: function(n) {
             if (this.recentPosts.length != 0) {
                 return this.recentPosts;
             }
 
-            ProgramDAO.getRecentPosts(n, function () {
-                // Legg inn i cache
+            var dao = new PostDAO();
+            dao.getRecentPosts(n, (data) => {
+                this.recentPosts = data;
                 this.emitChange();
             });
 
-            return undefined;
+            return [];
         },
         getRecentBroadcasts: function(n) {
             if (this.recentBroadcasts.length != 0) {
                 return this.recentBroadcasts;
             }
 
-            ProgramDAO.getRecentBroadcasts(n, function () {
-                // Legg inn i cache
+            var dao = new PostDAO();
+            dao.getRecentBroadcasts(n, (data) => {
+                this.recentBroadcasts = data;
                 this.emitChange();
             });
 
-            return undefined;
+            return [];
         }
     }
 });

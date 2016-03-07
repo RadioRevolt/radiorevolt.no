@@ -1,13 +1,20 @@
+var qs = require('qs');
+
 var ProgramDAO = function () {
-	this.handleError = function() {
+	let urlPrefix = 'http://localhost:3000';
+
+	this.handleError = function(err) {
 		console.log('An error occurred.')
+		console.log(err);
 	};
 
 	this.getPrograms = function (callback) {
-		fetch('/api/program/', {
+		fetch(urlPrefix + '/api/program/', {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then((response) => {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
@@ -16,10 +23,12 @@ var ProgramDAO = function () {
 			type: 'active'
 		});
 
-		fetch('/api/program/?' + queryString, {
+		fetch(urlPrefix + '/api/program/?' + queryString, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then((response) => {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
@@ -28,18 +37,22 @@ var ProgramDAO = function () {
 			type: 'inactive'
 		});
 
-		fetch('/api/program/?' + queryString, {
+		fetch(urlPrefix + '/api/program/?' + queryString, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then((response) => {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
-	this.getProgramDetails = function(program, callback) {
-		fetch(`/api/program/${programID}/`, {
+	this.getProgramDetails = function(programID, callback) {
+		fetch(urlPrefix + `/api/program/${programID}/`, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then((response) => {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	}
 };

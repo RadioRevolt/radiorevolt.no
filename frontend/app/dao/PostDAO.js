@@ -1,8 +1,11 @@
 var qs = require('qs');
 
 var PostDAO = function () {
-	this.handleError = function () {
+	let urlPrefix = 'http://localhost:3000';
+
+	this.handleError = function (err) {
 		console.log('An error occurred.');
+		console.log(err);
 	};
 
 	this.getPostsForProgram = function (programID, page, callback) {
@@ -11,10 +14,12 @@ var PostDAO = function () {
 			page: page
 		});
 
-		fetch('/api/post/?' + queryString, {
+		fetch(urlPrefix + '/api/post/?' + queryString, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
@@ -25,44 +30,50 @@ var PostDAO = function () {
 			type: 'broadcast'
 		});
 
-		fetch('/api/post/?' + queryString, {
+		fetch(urlPrefix + '/api/post/?' + queryString, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
 	this.getRecentPosts = function (n, callback) {
 		var queryString = qs.stringify({
-			page: page,
 			limit: n
 		});
 
-		fetch('/api/post/?' + queryString, {
+		fetch(urlPrefix + '/api/post/?' + queryString, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
 	this.getRecentBroadcasts = function(n, callback) {
 		var queryString = qs.stringify({
-			page: page,
 			limit: n
 		});
 
-		fetch('/api/post/?' + queryString, {
+		fetch(urlPrefix + '/api/post/?' + queryString, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	};
 
 	this.getPostDetails = function(postID, callback) {
-		fetch(`/api/post/${postID}/`, {
+		fetch(urlPrefix + `/api/post/${postID}/`, {
 			method: 'get'
-		}).then(callback).catch(function(err) {
-			this.handleError();
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
 		});
 	}
 };
