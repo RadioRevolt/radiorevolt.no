@@ -49,3 +49,9 @@ body {
 #footer-right {
 	background-color: #cff;
 }
+
+.youtube-block-iframe {
+	border: 0;
+	width: 580px;
+	height: 320px;
+}

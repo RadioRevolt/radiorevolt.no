@@ -3,6 +3,8 @@ var PostStore = require('PostStore');
 var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
+var RenderedPost = require('./sirtrevor/RenderedPost');
+
 var Post = React.createClass({
 	getInitialState: function() {
         return {
@@ -27,12 +29,18 @@ var Post = React.createClass({
         });
     },
     render: function() {
+    	var sirTrevorBlocks = [
+    		{"type":"text","data":{"text":"Hello, I'm **Sir Trevor**.\nCreate some new blocks and see _what I can do_.\n"}},
+    		{"type":"video","data":{"source":"youtube","remote_id":"hcFLFpmc4Pg"}}
+		];
+
     	if (Object.keys(this.state.post).length !== 0) {
     		// SirTrevor.js-logikk skal inn her
     		return (
     			<div id="post-wrapper">
     				<h1>{ this.state.post.post.title }</h1>
     				<p>{ this.state.post.post.title }</p>
+    				<RenderedPost blocks={ sirTrevorBlocks } />
 	            </div>
     		)
     	} else {

@@ -1,5 +1,6 @@
 var React = require('react');
 var PostStore = require('PostStore');
+var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
 var FrontpageSidebar = require('./FrontpageSidebar');
@@ -11,7 +12,8 @@ var PostBox = require('./PostBox');
 var Frontpage = React.createClass({
     getInitialState: function() {
         return {
-            posts: PostStore.getRecentPosts(6)
+            posts: PostStore.getRecentPosts(6),
+            programs: ProgramStore.getPrograms()
         };
     },
     componentWillMount: function() {
@@ -22,15 +24,29 @@ var Frontpage = React.createClass({
     },
     changeState: function() {
         this.setState({
-            posts: PostStore.getRecentPosts(6)
+            posts: PostStore.getRecentPosts(6),
+            programs: ProgramStore.getPrograms()
         });
     },
     renderPost: function(post) {
+        let programSlug = null;
+        this.state.programs.forEach((each) => {
+            if (each["_id"] == post.program) {
+                programSlug = each.slug;
+            }
+        });
+
         return (
-            <PostBox title={ post.title } body={ post.lead } extraClass="col-md-6" />
+            <PostBox title={ post.title } body={ post.title } programSlug={ programSlug } id={ post["_id"] } extraClass="col-md-6" />
         );
     },
     render: function() {
+        if (this.state.posts.length == 0 || this.state.programs.length == 0) {
+            return (
+                <div id="frontpage-wrapper">
+                </div>
+            )
+        }
         let posts = this.state.posts.map(this.renderPost);
 
         return (
