@@ -5,6 +5,10 @@ const programSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  slug: {
+  	type: String,
+  	required: true
+  },
   programID: {
     type: String,
     required: true

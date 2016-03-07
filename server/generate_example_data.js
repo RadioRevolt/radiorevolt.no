@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import loremIpsum from 'lorem-ipsum';
-
+import S from 'string';
 
 import config from './config';
 import Program from './app/model/Program';
@@ -39,6 +39,7 @@ const generatePrograms = async () => {
   for (const name of program_names) {
     await Program.create({
       name: name,
+      slug: S(name).slugify().s,
       programID: `100${i++}`,
       description: loremIpsum()
     });
