@@ -46,8 +46,8 @@ var ProgramDAO = function () {
 		});
 	};
 
-	this.getProgramDetails = function(programID, callback) {
-		fetch(urlPrefix + `/api/program/${programID}/`, {
+	this.getProgramDetails = function(id, callback) {
+		fetch(urlPrefix + `/api/program/${id}/`, {
 			method: 'get'
 		}).then((response) => {
 			response.json().then(callback);

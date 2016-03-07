@@ -1,14 +1,54 @@
 var React = require('react');
-var PostStore = require('PostStore');
+var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
+var PostBox = require('./PostBox');
+
 var ProgramFrontpage = React.createClass({
-    render: function() {
+	getInitialState: function() {
+        return {
+            programDetails: ProgramStore.getProgramDetailsBySlug(this.props.params.programslug)
+        };
+    },
+    componentWillMount: function() {
+        ProgramStore.addChangeListener(this.changeState);
+    },
+    componentWillUnmount: function() {
+        ProgramStore.removeChangeListener(this.changeState);
+    },
+    componentWillReceiveProps: function(nextProps) {
+        this.changeState(nextProps.params.programslug);
+    },
+    changeState: function(slug) {
+        if (slug == undefined) {
+            slug = this.props.params.programslug;
+        }
+
+        this.setState({
+            programDetails: ProgramStore.getProgramDetailsBySlug(slug)
+        });
+    },
+    renderPost: function(post) {
         return (
-            <div id="program-frontpage-wrapper">
-                <p>ProgramFrontpage</p>
-            </div>
-           );
+            <PostBox title={ post.title } body={ post.lead } id={ post["_id"] } programSlug={ this.state.programDetails.program.slug } extraClass="col-md-12" />
+        );
+    },
+    render: function() {
+    	let posts = null;
+    	if (Object.keys(this.state.programDetails).length !== 0) {
+    		posts = this.state.programDetails.posts.map(this.renderPost);
+            return (
+	            <div id="program-frontpage-wrapper">
+	                <h1>{ this.state.programDetails.program.name }</h1>
+	                { posts }
+	            </div>
+        	);
+        } else {
+        	return (
+        		<div id="program-frontpage-wrapper">
+        		</div>
+        	)
+        }
     }
 });
 

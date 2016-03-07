@@ -6,6 +6,7 @@ var SmallLivePlayer = React.createClass({
     render: function() {
         return (
             <div id="small-live-player-wrapper">
+            	SmallLivePlayer
             </div>
            );
     }
