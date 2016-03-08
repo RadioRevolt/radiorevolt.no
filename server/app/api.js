@@ -59,15 +59,7 @@ router.get('/post', async (req, res) => {
 
 router.get('/post/:post_id', async (req, res) => {
   const post = await Post.findById(req.params.post_id);
-  if(post.broadcast){
-    const broadcast = await Broadcast.findById(post.broadcast);
-    res.json({
-      post,
-      broadcast
-    });
-  }else{
-    res.json(post);
-  };
+  res.json(post);
 });
 
 router.post('/post', jsonParser, (req, res) => {
