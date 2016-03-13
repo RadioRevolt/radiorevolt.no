@@ -29,5 +29,15 @@ cd server
 npm install
 npm start
 ```
-
 and visit http://localhost:3000
+
+### Example data from the server
+A script has been created to fetch example data to be used during development. It may be run as follows:
+
+```bash
+cd server
+./node_modules/.bin/babel-node download_dummy_data.js
+```
+
+
+The data will be written to a file named `example_data.json`. To override the slice size set by the script regarding the number of episodes per program to keep, use the `--slice` option, or `--all` to keep all data.

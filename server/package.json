@@ -22,6 +22,8 @@
   },
   "devDependencies": {
     "babel-register": "^6.4.3",
+    "commander": "^2.9.0",
+    "concat-stream": "^1.5.1",
     "eslint": "^2.0.0",
     "eslint-plugin-import": "^1.0.0-beta.0",
     "gulp": "^3.9.0",
