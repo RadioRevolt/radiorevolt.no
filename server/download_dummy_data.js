@@ -12,11 +12,9 @@ const downloadAndParseJSON = function (url) {
     http.get(url, (res) => {
       res.setEncoding('utf8');
       res.on('error', reject);
-      res.pipe(concat((data) => {
-        resolve(JSON.parse(data));
-      }));
+      res.pipe(concat(resolve));
     });
-  });
+  }).then(JSON.parse);
 };
 
 const downloadPrograms = downloadAndParseJSON.bind(undefined, `${CHIMERA_API_URL_PREFIX}/shows/?format=json`);
