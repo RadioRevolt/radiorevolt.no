@@ -37,7 +37,7 @@ var Frontpage = React.createClass({
         });
 
         return (
-            <PostBox title={ post.title } body={ post.title } programSlug={ programSlug } id={ post["_id"] } extraClass="col-md-6" />
+            <PostBox title={ post.title } body={ post.lead } programSlug={ programSlug } id={ post["_id"] } extraClass="col-md-6" />
         );
     },
     render: function() {

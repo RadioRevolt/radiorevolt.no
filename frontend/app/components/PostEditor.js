@@ -8,7 +8,8 @@ var SirTrevorEditor = require('./sirtrevor/SirTrevorEditor');
 var PostEditor = React.createClass({
 	getInitialState: function() {
         return {
-            post: PostStore.getPostDetails(this.props.params.postid)
+            post: PostStore.getPostDetails(this.props.params.postid),
+            sirTrevorInstance: null
         };
     },
     componentWillMount: function() {
@@ -28,18 +29,36 @@ var PostEditor = React.createClass({
             post: PostStore.getPostDetails(id)
         });
     },
-    render: function() {
-    	var sirTrevorBlocks = [
-    		{"type":"text","data":{"text":"Hello, I'm **Sir Trevor**.\nCreate some new blocks and see _what I can do_.\n"}},
-    		{"type":"video","data":{"source":"youtube","remote_id":"hcFLFpmc4Pg"}}
-		];
+    sirTrevorInstanceSetter: function(instance) {
+        console.log("Called!");
+        this.setState({ sirTrevorInstance: instance });
+    },
+    submitForm: function() {
+        this.state.sirTrevorInstance.onFormSubmit();
+        var sirTrevorData = this.state.sirTrevorInstance.store.retrieve().data;
 
+        var postBody = {
+            title: "Dummytittel",
+            author: "Dummyforfatter",
+            program: null,
+            broadcast: null,
+            body: JSON.stringify(sirTrevorData),
+            lead: "Dummylead"
+        };
+
+        console.log(postBody);
+
+        var postID = this.props.params.postid;
+        actions.updatePost(postID, postBody);
+    },
+    render: function() {
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
     			<div id="post-wrapper">
-    				<SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } postid={ this.props.params.postid } />
+    				<SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } instanceSetter={ this.sirTrevorInstanceSetter } />
+                    <button id="submitButton" type="submit" className="btn btn-primary pull-right" autocomplete="off" onClick={ this.submitForm }>Lagre</button>
 	            </div>
-    		)
+    		);
     	} else {
 	    	return (
 	            <div id="post-wrapper">

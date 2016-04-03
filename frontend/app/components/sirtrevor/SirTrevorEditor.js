@@ -13,43 +13,26 @@ var SirTrevorEditor = React.createClass({
         }
     },
     createSirTrevor: function() {
-        this.setState({
-            sirTrevorInstance: new SirTrevor.Editor({ el: this.refs.sirTrevorTextarea })
+        SirTrevor.setDefaults({
+            defaultType: "Heading",
+            required: ["Heading", "Text"]
         });
+
+        var sirTrevorInstance = new SirTrevor.Editor({ el: this.refs.sirTrevorTextarea });
+        this.setState({
+            sirTrevorInstance: sirTrevorInstance
+        });
+        this.props.instanceSetter(sirTrevorInstance);
     },
     componentDidMount: function() {
         document.getElementById('sirTrevorInstance').value = JSON.stringify({data: this.props.blocks});
         this.createSirTrevor();
     },
-    submitForm: function() {
-        this.state.sirTrevorInstance.onFormSubmit();
-        var sirTrevorData = this.state.sirTrevorInstance.store.retrieve().data;
-
-        var postBody = {
-            title: "Dummytittel",
-            author: "Dummyforfatter",
-            program: null,
-            broadcast: null,
-            body: JSON.stringify(sirTrevorData),
-            lead: "Dummylead"
-        };
-
-        console.log(postBody);
-
-        var postID = this.props.postid;
-        if (!postID) {
-            actions.addPost(postBody);
-        } else {
-            actions.updatePost(postID, postBody);
-        }
-    },
     render: function() {
-        console.log(this.state.sirTrevorInstance);
 		return (
 			<div id="sir-trevor-editor-wrapper">
 				<form>
                     <textarea id='sirTrevorInstance' ref="sirTrevorTextarea"></textarea>
-                    <button id="submitButton" type="submit" className="btn btn-primary pull-right" autocomplete="off" onClick={ this.submitForm }>Lagre</button>
                 </form>
             </div>
 		)
