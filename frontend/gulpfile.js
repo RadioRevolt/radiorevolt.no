@@ -149,6 +149,29 @@ var cssTask = function (options) {
     }
 }
 
+var vendorCSSTask = function (options) {
+    if (options.development) {
+      var run = function () {
+        console.log(arguments);
+        var start = new Date();
+        console.log('Building vendor CSS bundle');
+        gulp.src(options.src)
+          .pipe(concat('vendors.css'))
+          .pipe(gulp.dest(options.dest))
+          .pipe(notify(function () {
+            console.log('Vendor CSS bundle built in ' + (Date.now() - start) + 'ms');
+          }));
+      };
+      run();
+      gulp.watch(options.src, run);
+    } else {
+      gulp.src(options.src)
+        .pipe(concat('vendors.css'))
+        .pipe(cssmin())
+        .pipe(gulp.dest(options.dest));
+    }
+}
+
 gulp.task('lint', function () {
 	return gulp.src(['**/*.js', '!node_modules/**'])
 		.pipe(eslint())
@@ -170,6 +193,12 @@ gulp.task('default', ['lint'], function () {
     dest: './build'
   });
 
+  vendorCSSTask({
+    development: true,
+    src: './node_modules/sir-trevor/build/sir-trevor.css',
+    dest: './build'
+  });
+
 });
 
 gulp.task('deploy', function () {
@@ -183,6 +212,12 @@ gulp.task('deploy', function () {
   cssTask({
     development: false,
     src: './styles/**/*.css',
+    dest: './dist'
+  });
+
+  vendorCSSTask({
+    development: false,
+    src: './node_modules/sir-trevor/build/sir-trevor.css',
     dest: './dist'
   });
 
