@@ -6,11 +6,10 @@ var actions = require('actions');
 
 var RenderedTextBlock = React.createClass({
     render: function() {
-    	let markdownText = this.props.data.text;
-    	let renderedHTML = markdown.toHTML(markdownText);
+    	let sirTrevorHTML = this.props.data.text;
 
 		return (
-			<div className="rendered-block rendered-text-block-wrapper" dangerouslySetInnerHTML={{ __html: renderedHTML }} />
+			<div className="rendered-block rendered-text-block-wrapper" dangerouslySetInnerHTML={{ __html: sirTrevorHTML }} />
 		)
     }
 });

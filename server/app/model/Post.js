@@ -13,7 +13,9 @@ const postSchema = new mongoose.Schema({
   broadcast: {
     type: ObjectId,
     default: null
-  }
+  },
+  body: String,
+  lead: String
 });
 
 const Post = mongoose.model('Post', postSchema);

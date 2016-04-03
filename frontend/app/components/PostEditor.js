@@ -37,7 +37,7 @@ var PostEditor = React.createClass({
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
     			<div id="post-wrapper">
-    				<SirTrevorEditor blocks={ sirTrevorBlocks } />
+    				<SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } postid={ this.props.params.postid } />
 	            </div>
     		)
     	} else {

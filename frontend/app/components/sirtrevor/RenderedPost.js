@@ -5,6 +5,7 @@ var actions = require('actions');
 
 var RenderedTextBlock = require('./RenderedTextBlock');
 var RenderedVideoBlock = require('./RenderedVideoBlock');
+var RenderedHeadingBlock = require('./RenderedHeadingBlock');
 
 var RenderedPost = React.createClass({
     render: function() {
@@ -12,7 +13,8 @@ var RenderedPost = React.createClass({
 
         let componentForBlock = {
             "text": RenderedTextBlock,
-            "video": RenderedVideoBlock
+            "video": RenderedVideoBlock,
+            "heading": RenderedHeadingBlock
         }
 
         let renderedBlocks = blocks.map((each) => {

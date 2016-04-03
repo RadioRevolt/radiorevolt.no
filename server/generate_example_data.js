@@ -59,7 +59,9 @@ const generatePosts = async (cb) => {
           author: 'Team Rocket',
           program: new ObjectId(program.id),
           URL: 'http://pappagorg.radiorevolt.no/somethingsomething'
-        })
+        }),
+        lead: 'Eksempel på post',
+        body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'
       });
     }
   }
@@ -73,6 +75,8 @@ const generatePostsWithoutBroadcast = async (cb) => {
         title: `Post number ${i+1}`,
         author: 'Team Rocket',
         program: new ObjectId(program.id),
+        lead: 'Eksempel på post',
+        body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'
       });
     }
   }

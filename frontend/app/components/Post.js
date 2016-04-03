@@ -3,6 +3,9 @@ var PostStore = require('PostStore');
 var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
+var ReactRouter = require('react-router');
+var Link = ReactRouter.Link;
+
 var RenderedPost = require('./sirtrevor/RenderedPost');
 
 var Post = React.createClass({
@@ -36,9 +39,13 @@ var Post = React.createClass({
 
     	if (Object.keys(this.state.post).length !== 0) {
     		// SirTrevor.js-logikk skal inn her
+    		console.log(this.props);
     		return (
     			<div id="post-wrapper">
-    				<RenderedPost blocks={ sirTrevorBlocks } />
+    				<div id="admin-controls">
+    					<Link to={`/${ this.props.params.programslug }/${ this.props.params.postid }/edit`}>Rediger</Link>
+    				</div>
+    				<RenderedPost blocks={ JSON.parse(this.state.post.body) } />
 	            </div>
     		)
     	} else {
