@@ -1,5 +1,5 @@
 var React = require('react');
-var PostStore = require('PostStore');
+var PostStore = require('PostStore');	
 var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
@@ -38,8 +38,6 @@ var Post = React.createClass({
     		// SirTrevor.js-logikk skal inn her
     		return (
     			<div id="post-wrapper">
-    				<h1>{ this.state.post.post.title }</h1>
-    				<p>{ this.state.post.post.title }</p>
     				<RenderedPost blocks={ sirTrevorBlocks } />
 	            </div>
     		)

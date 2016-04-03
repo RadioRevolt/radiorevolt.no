@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import multer from 'multer';
+import crypto from 'crypto';
 
 import Program from './model/Program';
 import Post from './model/Post';
@@ -10,6 +12,21 @@ const {ObjectId} = mongoose.Types;
 
 const router = express.Router();
 const jsonParser = bodyParser.json();
+
+const IMAGE_UPLOAD_FOLDER = 'uploads/';
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: IMAGE_UPLOAD_FOLDER,
+    filename(req, file, cb) {
+      crypto.pseudoRandomBytes(10, (err, raw) => {
+        const hex = raw.toString('hex');
+        const [name, ext] = file.originalname.split('.');
+        cb(err, err ? undefined : `${name}-${hex}.${ext}`);
+      });
+    }
+  })
+});
 
 router.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -59,15 +76,7 @@ router.get('/post', async (req, res) => {
 
 router.get('/post/:post_id', async (req, res) => {
   const post = await Post.findById(req.params.post_id);
-  if(post.broadcast){
-    const broadcast = await Broadcast.findById(post.broadcast);
-    res.json({
-      post,
-      broadcast
-    });
-  }else{
-    res.json(post);
-  };
+  res.json(post);
 });
 
 router.post('/post', jsonParser, (req, res) => {
@@ -121,6 +130,14 @@ router.put('/broadcast/:broadcast_id', jsonParser, async (req, res) => {
     if (err)
       res.send(err);
     res.json({message: 'Broadcast updated.'});
+  });
+});
+
+router.post('/image', upload.single('attachment[file]'), (req, res) => {
+  res.json({
+    file: {
+      url: req.file.path
+    }
   });
 });
 
