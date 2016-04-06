@@ -14,7 +14,6 @@ var SirTrevorEditor = React.createClass({
     },
     createSirTrevor: function() {
         SirTrevor.setDefaults({
-            defaultType: "Heading",
             required: ["Heading", "Text"]
         });
 
