@@ -54,7 +54,7 @@ router.post('/program', jsonParser, (req, res) => {
   const program = new Program(req.body);
   program.save((err) => {
     if (err)
-      res.send(err);
+      return res.send(err);
     res.json({message: 'Program added.', data: program});
   });
 });
@@ -65,7 +65,7 @@ router.put('/program/:program_id', jsonParser, async (req, res) => {
   req.body,
   (err, raw) => {
     if (err)
-      res.send(err);
+      return res.send(err);
     res.json({message: 'Program updated.'});
   });
 });
@@ -83,7 +83,7 @@ router.post('/post', jsonParser, (req, res) => {
   const post = new Post(req.body);
   post.save((err) => {
     if (err)
-      res.send(err);
+      return res.send(err);
     res.json({message: 'Post added.', data: post});
   });
 });
@@ -94,7 +94,7 @@ router.put('/post/:post_id', jsonParser, async (req, res) => {
   req.body,
   (err, raw) => {
     if (err)
-      res.send(err);
+      return res.send(err);
     res.json({message: 'Post updated.'});
   });
 });
@@ -117,7 +117,7 @@ router.post('/broadcast', jsonParser, (req, res) => {
   const broadcast = new Broadcast(req.body);
   broadcast.save((err) => {
     if (err)
-      res.send(err);
+      return res.send(err);
     res.json({message: 'Broadcast added.', data: broadcast});
   });
 });
@@ -128,7 +128,7 @@ router.put('/broadcast/:broadcast_id', jsonParser, async (req, res) => {
   req.body,
   (err, raw) => {
     if (err)
-      res.send(err);
+      return res.send(err);
     res.json({message: 'Broadcast updated.'});
   });
 });
