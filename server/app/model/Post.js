@@ -1,8 +1,14 @@
 import mongoose from 'mongoose';
 
+import shortid from 'shortid';
+
 const {ObjectId} = mongoose.Schema.Types;
 
 const postSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: shortid.generate
+  },
   title: String,
   date: {
     type: Date,
