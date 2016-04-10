@@ -84,8 +84,10 @@ router.post('/post', jsonParser, (req, res) => {
   const post = new Post(req.body);
   post.save((err) => {
     if (err)
+      console.log(err)
       return res.send(err);
     res.json({message: 'Post added.', data: post});
+    console.log("added");
   });
 });
 
@@ -95,8 +97,10 @@ router.put('/post/:post_id', jsonParser, async (req, res) => {
   req.body,
   (err, raw) => {
     if (err)
+      console.log(err);
       return res.send(err);
     res.json({message: 'Post updated.'});
+    console.log("updated");
   });
 });
 

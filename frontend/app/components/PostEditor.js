@@ -3,6 +3,8 @@ var PostStore = require('PostStore');
 var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
+var PostMetaControls = require('./PostMetaControls');
+var PostEpisodeControls = require('./PostEpisodeControls');
 var SirTrevorEditor = require('./sirtrevor/SirTrevorEditor');
 
 var PostEditor = React.createClass({
@@ -33,31 +35,67 @@ var PostEditor = React.createClass({
         console.log("Called!");
         this.setState({ sirTrevorInstance: instance });
     },
+    handleListLeadChange: function(event) {
+        let value = event.target.value;
+        this.setState({ lead: value });
+    },
     submitForm: function() {
         this.state.sirTrevorInstance.onFormSubmit();
         var sirTrevorData = this.state.sirTrevorInstance.store.retrieve().data;
 
+        let heading = "INGEN OVERSKRIFT SATT";
+        sirTrevorData.forEach((each) => {
+            if (each.type == 'heading') {
+                heading = each.data.text;
+            }
+        });
+
+        let authorText = this.refs.postMetaControls.state.authorText;
+        let authorUsername = this.refs.postMetaControls.state.authorUsername;
+        let program = this.refs.postMetaControls.state.program;
+
         var postBody = {
-            title: "Dummytittel",
-            author: "Dummyforfatter",
-            program: null,
+            title: heading,
+            author_username: authorUsername,
+            author_text: authorText,
+            program: this.state.post.program,
             broadcast: null,
             body: JSON.stringify(sirTrevorData),
-            lead: "Dummylead"
+            lead: this.state.lead
         };
 
-        console.log(postBody);
-
-        var postID = this.props.params.postid;
-        actions.updatePost(postID, postBody);
+        actions.updatePost(this.props.params.postid, postBody);
     },
     render: function() {
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
-    			<div id="post-wrapper">
-    				<SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } instanceSetter={ this.sirTrevorInstanceSetter } />
+                <div id="post-wrapper">
+                    <PostMetaControls
+                        ref="postMetaControls"
+                        authorUsername={ this.state.post.authorUsername }
+                        authorText={ this.state.post.authorText }
+                        publicationDate={ this.state.post.publicationDate }
+                        publicationTime={ this.state.post.publicationTime }
+                    />
+                    <SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } instanceSetter={ this.sirTrevorInstanceSetter } />
+                    <div className="form-group">
+                        <label for="list-lead">Sammendrag</label>
+                        <textarea
+                            className="form-control"
+                            rows="4"
+                            onChange={ this.handleListLeadChange }
+                            id="list-lead"
+                            placeholder="Vises i lister"
+                            text={ this.state.post.lead }
+                        />
+                    </div>
+                    <PostEpisodeControls
+                        ref="postEpisodeControls"
+                        onDemandAudioID={ this.state.post.onDemandAudioID }
+                        podcastAudioID={ this.state.post.podcastAudioID }
+                    />
                     <button id="submitButton" type="submit" className="btn btn-primary pull-right" autocomplete="off" onClick={ this.submitForm }>Lagre</button>
-	            </div>
+                </div>
     		);
     	} else {
 	    	return (

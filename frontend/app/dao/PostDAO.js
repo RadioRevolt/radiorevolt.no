@@ -24,6 +24,7 @@ var PostDAO = function () {
 	};
 
 	this.updatePost = function(postID, postBody, callback) {
+		console.log("called updatePost with postID " + postID);
 		fetch(urlPrefix + '/api/post/' + postID, {
 			method: 'put',
 			headers: {

@@ -33,29 +33,18 @@ var PostCreator = React.createClass({
         });
 
         let authorText = this.refs.postMetaControls.state.authorText;
-        let authorFromList = this.refs.postMetaControls.state.authorFromList;
-
-        let author = "";
-        if (authorText.length > 0 && authorFromList.length > 0) {
-            let author = authorText + ", " + authorFromList;
-        } else if (authorText.length > 0) {
-            let author = authorText;
-        } else if (authorFromList.length > 0) {
-            let author = authorFromList;
-        }
-
+        let authorUsername = this.refs.postMetaControls.state.authorUsername;
         let program = this.refs.postMetaControls.state.program;
 
         var postBody = {
             title: heading,
-            author: author,
+            author_username: authorUsername,
+            author_text: authorText,
             program: program,
             broadcast: null,
             body: JSON.stringify(sirTrevorData),
-            lead: this.state.listLead
+            lead: this.state.lead
         };
-
-        console.log(postBody);
 
         actions.addPost(postBody);
     },

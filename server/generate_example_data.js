@@ -52,7 +52,8 @@ const generatePosts = async (cb) => {
     for (let i = 0; i < DUMMY_POST_BROADCASTS_PER_SHOW; i++) {
       await Post.create({
         title: `Post number ${i+1}`,
-        author: 'Team Rocket',
+        author_username: 'teamrocket',
+        author_text: '',
         program: new ObjectId(program.id),
         broadcast: await Broadcast.create({
           title: `Broadcast number ${i+1}`,

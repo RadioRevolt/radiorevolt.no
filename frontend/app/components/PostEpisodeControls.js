@@ -6,11 +6,17 @@ var actions = require('actions');
 var PostEpisodeControls = React.createClass({
 	getInitialState: function() {
         return {
-            broadcastDate: this.props.broadcastDate || null
+            onDemandAudioID: this.props.onDemandAudioID || null,
+            podcastAudioID: this.props.podcastAudioID || null
         };
     },
-    handleBroadcastDateChange: function(event) {
-        //
+    handleOnDemandAudioIDChange: function(event) {
+        let value = event.target.value;
+        this.setState({ onDemandAudioID: value });
+    },
+    handlePodcastAudioIDChange: function(event) {
+        let value = event.target.value;
+        this.setState({ podcastAudioID: value });
     },
     render: function() {
 		return (
@@ -18,13 +24,13 @@ var PostEpisodeControls = React.createClass({
                 <div id="audio-controls" className="row">
                     <div className="col-md-6 form-group">
                         <label for="inputAuthorFromList">Stream-on-demand-lydfil</label>
-                        <select className="form-control" id="inputOnDemandAudio">
+                        <select className="form-control" onChange={ this.handleOnDemandAudioIDChange } id="inputOnDemandAudio">
                             <option>1</option>
                         </select>
                     </div>
                     <div className="col-md-6 form-group">
                         <label for="inputAuthorText">Podkast-lydfil</label>
-                        <select className="form-control" id="inputPodcastAudio">
+                        <select className="form-control" onChange={ this.handlePodcastAudioIDChange } id="inputPodcastAudio">
                             <option>1</option>
                         </select>
                     </div>

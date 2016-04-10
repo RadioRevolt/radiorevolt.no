@@ -8,7 +8,8 @@ const postSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  author: String,
+  author_username: String,
+  author_text: String,
   program: ObjectId,
   broadcast: {
     type: ObjectId,
