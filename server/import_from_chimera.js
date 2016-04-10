@@ -79,9 +79,6 @@ const run = async () => {
 
 db.once('open', async () => {
   try {
-    await Program.remove({});
-    await Post.remove({});
-    await Broadcast.remove({});
     await run();
   } catch (error) {
     console.error(error);
