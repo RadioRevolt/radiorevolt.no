@@ -13,7 +13,8 @@ const programSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  description: String
+  body: String,
+  lead: String
 });
 
 const Program = mongoose.model('Program', programSchema);
