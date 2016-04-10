@@ -10,7 +10,7 @@ var SmallLivePlayer = React.createClass({
             		<span className="glyphicon glyphicon-play" aria-hidden="true"></span>
             	</div>
             	<div className="show-info">
-            		<div id="live-now-text">Live nå:</div>
+            		<div id="live-now-text">LIVE NÅ:</div>
             		<div id="program-name">Garasjen</div>
             		<div id="currently-playing">Erlend Elvesveen &ndash; Betal meg i sølv</div>
             	</div>

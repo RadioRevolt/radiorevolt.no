@@ -69,7 +69,7 @@ var PostEditor = React.createClass({
     render: function() {
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
-                <div id="post-wrapper">
+                <div id="post-editor-wrapper">
                     <PostMetaControls
                         ref="postMetaControls"
                         authorUsername={ this.state.post.authorUsername }

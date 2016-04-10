@@ -10,8 +10,8 @@ var HeaderMenu = React.createClass({
         return (
             <div id="header-menu-wrapper">
             	<ul id="header-menu">
-            		<li><Link to={'/programmer/'}>Programmer</Link></li>
-            		<li><Link to={'/om/'}>Om oss</Link></li>
+            		<li><Link to={'/programmer/'}>PROGRAMMER</Link></li>
+            		<li><Link to={'/om/'}>OM OSS</Link></li>
             	</ul>
             </div>
            );

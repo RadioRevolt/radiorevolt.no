@@ -55,10 +55,10 @@ var Frontpage = React.createClass({
         return (
             <div id="frontpage-wrapper">
             	<div id="content-block-posts" className="col-md-8">
-                    <div id="top-post">
+                    <div id="top-post" className="row">
                         { topPost }
                     </div>
-                    <div id="post-two-times-two">
+                    <div id="post-two-times-two" className="row">
             		    { posts }
                     </div>
             	</div>

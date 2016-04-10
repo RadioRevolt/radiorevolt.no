@@ -8,9 +8,6 @@ var FrontpageSidebar = React.createClass({
     render: function() {
         return (
             <div id="frontpage-sidebar-wrapper">
-            	<div id="player">
-            		<LargeLivePlayer />
-            	</div>
             	<div id="sidebar-latest-episodes">
             		<SidebarPostList title="Siste episoder" posts={ this.props.latestEpisodes } />
             	</div>

@@ -10,13 +10,13 @@ var SidebarPostList = React.createClass({
             	<ul className="sidebar-post-list">
             		<li className="sidebar-post-list-element row"><div className="col-xs-12">
                         <img className="post-image pull-left" src="test.png" />
-                        <div className="post-program">Garasjen</div>
+                        <div className="post-program">GARASJEN</div>
                         <div className="post-title">Trumpfer dronene F35?</div>
                         <div className="post-lead">Vi snakker om Chromecast, er det egentlig bra?</div>
                     </div></li>
             		<li className="sidebar-post-list-element row"><div className="col-xs-12">
                         <img className="post-image pull-left" src="test.png" />
-                        <div className="post-program">Garasjen</div>
+                        <div className="post-program">GARASJEN</div>
                         <div className="post-title">Trumpfer dronene F35?</div>
                         <div className="post-lead">Vi snakker om Chromecast, er det egentlig bra?</div>
                     </div></li>

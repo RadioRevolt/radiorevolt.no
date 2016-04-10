@@ -43,15 +43,21 @@ var App = React.createClass({
     render: function() {
         var self = this;
         return (
-            <div id="app-wrapper" className="container">
-                <div id="header-block" className="row">
-                    <Header />
+            <div id="app-wrapper">
+                <div id="header-content-wrapper" className="container">
+                    <div id="header-block" className="row">
+                        <Header />
+                    </div>
+                    <div id="content-block" className="row">
+                        { self.props.children }
+                    </div>
                 </div>
-                <div id="content-block" className="row">
-                    { self.props.children }
-                </div>
-                <div id="footer-block" className="row">
-                    <Footer />
+                <div id="footer-wrapper">
+                    <div className="container">
+                        <div id="footer-block">
+                            <Footer />
+                        </div>
+                    </div>
                 </div>
             </div>
            );
