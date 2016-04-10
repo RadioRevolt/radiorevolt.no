@@ -4,8 +4,8 @@ body {
 }
 
 #header-block {
-	padding-top: 1em;
-	padding-bottom: 3em;
+	padding-top: 2em;
+	padding-bottom: 1em;
 	background-color: #ffe;
 }
 
@@ -19,7 +19,7 @@ body {
 
 #header-menu li {
 	display: inline;
-	padding-right: 10px;
+	padding-right: 25px;
 }
 
 #content-block {
@@ -58,4 +58,62 @@ body {
 
 #sir-trevor-editor-wrapper {
 	margin-bottom: 15px;
+}
+
+#small-live-player-wrapper {
+	padding: 10px;
+	background-color: #333;
+	color: #eee;
+}
+
+#small-live-player-wrapper .play-button {
+	font-size: 3.5em;
+	margin-right: 20px;
+	margin-left: 10px;
+}
+
+#small-live-player-wrapper #program-name {
+	font-size: 1.5em;
+	font-weight: 600;
+}
+
+.sidebar-post-list {
+	list-style-type: none;
+	padding-left: 0;
+	margin-left: 0px;
+}
+
+.sidebar-post-list li {
+	margin-bottom: 15px;
+}
+
+.sidebar-post-list-element .post-image {
+	height: 80px;
+	width: 80px;
+	margin-right: 10px;
+}
+
+.sidebar-post-list-element .post-program {
+	font-size: 0.9em;
+}
+
+.sidebar-post-list-element .post-title {
+	font-size: 1.2em;
+	font-weight: 600;
+}
+
+.sidebar-post-list-element .post-lead {
+	font-size: 0.9em;
+}
+
+.post-box-wrapper {
+	margin-bottom: 10px;
+}
+
+.post-box-wrapper h2 {
+	margin-top: 10px;
+}
+
+.post-box-image {
+	height: 250px;
 }

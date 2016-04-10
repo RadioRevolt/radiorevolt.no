@@ -2,7 +2,7 @@ var React = require('react');
 
 var LargeLivePlayer = require('./LargeLivePlayer');
 var LatestEpisodes = require('./LatestEpisodes');
-var PopularPosts = require('./PopularPosts');
+var SidebarPostList = require('./SidebarPostList');
 
 var FrontpageSidebar = React.createClass({
     render: function() {
@@ -12,10 +12,10 @@ var FrontpageSidebar = React.createClass({
             		<LargeLivePlayer />
             	</div>
             	<div id="sidebar-latest-episodes">
-            		<LatestEpisodes />
+            		<SidebarPostList title="Siste episoder" posts={ this.props.latestEpisodes } />
             	</div>
             	<div id="sidebar-popular-posts">
-            		<PopularPosts />
+            		<SidebarPostList title="Populært nå" posts={ this.props.popularPosts } />
             	</div>
             </div>
            );
