@@ -2,6 +2,9 @@ var React = require('react');
 var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
+var ReactRouter = require('react-router');
+var Link = ReactRouter.Link;
+
 var FrontpageSidebar = require('./FrontpageSidebar');
 
 var ProgramList = React.createClass({
@@ -23,7 +26,7 @@ var ProgramList = React.createClass({
     },
     renderProgram: function(program) {
         return (
-            <li>{ program.name }</li>
+            <li><Link to={`/${ program.slug }`}>{ program.name }</Link></li>
         );
     },
     render: function() {
@@ -32,6 +35,7 @@ var ProgramList = React.createClass({
         return (
             <div id="frontpage-wrapper">
             	<div id="content-block-body" className="col-md-8">
+            		<h1>Programmer</h1>
             		<ul>{ programs }</ul>
             	</div>
             	<div id="content-block-sidebar" className="col-md-4">

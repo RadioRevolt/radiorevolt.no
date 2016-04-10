@@ -10,12 +10,20 @@ var PostStore = flux.createStore({
     recentPosts: [],
     recentBroadcasts: [],
     actions: [
-        actions.addPost
+        actions.addPost,
+        actions.updatePost
     ],
-    addPost: function (post) {
-        // Logic for adding post
-        // Update backend and cache
-        this.emitChange();
+    addPost: function (postBody) {
+        var dao = new PostDAO();
+        dao.addPost(postBody, (data) => {
+            this.emitChange();
+        });
+    },
+    updatePost: function(postID, postBody) {
+        var dao = new PostDAO();
+        dao.updatePost(postID, postBody, (data) => {
+            this.emitChange();
+        });
     },
     exports: {
         getPostDetails: function(postID) {

@@ -13,7 +13,6 @@ var cssmin = require('gulp-cssmin');
 var gutil = require('gulp-util');
 var shell = require('gulp-shell');
 var glob = require('glob');
-var livereload = require('gulp-livereload');
 var jasminePhantomJs = require('gulp-jasmine2-phantomjs');
 
 // External dependencies you do not want to rebundle while developing,
@@ -52,7 +51,6 @@ var browserifyTask = function (options) {
       .pipe(source('main.js'))
       .pipe(gulpif(!options.development, streamify(uglify())))
       .pipe(gulp.dest(options.dest))
-      .pipe(gulpif(options.development, livereload()))
       .pipe(notify(function () {
         console.log('APP bundle built in ' + (Date.now() - start) + 'ms');
       }));
@@ -89,7 +87,6 @@ var browserifyTask = function (options) {
       .on('error', gutil.log)
 	      .pipe(source('specs.js'))
 	      .pipe(gulp.dest(options.dest))
-	      .pipe(livereload())
 	      .pipe(notify(function () {
 	        console.log('TEST bundle built in ' + (Date.now() - start) + 'ms');
 	      }));
@@ -149,6 +146,29 @@ var cssTask = function (options) {
     }
 }
 
+var vendorCSSTask = function (options) {
+    if (options.development) {
+      var run = function () {
+        console.log(arguments);
+        var start = new Date();
+        console.log('Building vendor CSS bundle');
+        gulp.src(options.src)
+          .pipe(concat('vendors.css'))
+          .pipe(gulp.dest(options.dest))
+          .pipe(notify(function () {
+            console.log('Vendor CSS bundle built in ' + (Date.now() - start) + 'ms');
+          }));
+      };
+      run();
+      gulp.watch(options.src, run);
+    } else {
+      gulp.src(options.src)
+        .pipe(concat('vendors.css'))
+        .pipe(cssmin())
+        .pipe(gulp.dest(options.dest));
+    }
+}
+
 gulp.task('lint', function () {
 	return gulp.src(['**/*.js', '!node_modules/**'])
 		.pipe(eslint())
@@ -170,6 +190,12 @@ gulp.task('default', ['lint'], function () {
     dest: './build'
   });
 
+  vendorCSSTask({
+    development: true,
+    src: './node_modules/sir-trevor/build/sir-trevor.css',
+    dest: './build'
+  });
+
 });
 
 gulp.task('deploy', function () {
@@ -183,6 +209,12 @@ gulp.task('deploy', function () {
   cssTask({
     development: false,
     src: './styles/**/*.css',
+    dest: './dist'
+  });
+
+  vendorCSSTask({
+    development: false,
+    src: './node_modules/sir-trevor/build/sir-trevor.css',
     dest: './dist'
   });
 

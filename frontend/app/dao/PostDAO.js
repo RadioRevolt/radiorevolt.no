@@ -8,6 +8,37 @@ var PostDAO = function () {
 		console.log(err);
 	};
 
+	this.addPost = function(postBody, callback) {
+		fetch(urlPrefix + '/api/post/', {
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(postBody)
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
+		});
+	};
+
+	this.updatePost = function(postID, postBody, callback) {
+		console.log("called updatePost with postID " + postID);
+		fetch(urlPrefix + '/api/post/' + postID, {
+			method: 'put',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(postBody)
+		}).then(function(response) {
+			response.json().then(callback);
+		}).catch((err) => {
+			this.handleError(err);
+		});
+	}
+
 	this.getPostsForProgram = function (programID, page, callback) {
 		var queryString = qs.stringify({
 			programID: programID,

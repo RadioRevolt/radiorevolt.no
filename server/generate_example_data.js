@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import loremIpsum from 'lorem-ipsum';
-
+import S from 'string';
 
 import config from './config';
 import Program from './app/model/Program';
@@ -39,6 +39,7 @@ const generatePrograms = async () => {
   for (const name of program_names) {
     await Program.create({
       name: name,
+      slug: S(name).slugify().s,
       programID: `100${i++}`,
       description: loremIpsum()
     });
@@ -51,14 +52,17 @@ const generatePosts = async (cb) => {
     for (let i = 0; i < DUMMY_POST_BROADCASTS_PER_SHOW; i++) {
       await Post.create({
         title: `Post number ${i+1}`,
-        author: 'Team Rocket',
+        author_username: 'teamrocket',
+        author_text: '',
         program: new ObjectId(program.id),
         broadcast: await Broadcast.create({
           title: `Broadcast number ${i+1}`,
           author: 'Team Rocket',
           program: new ObjectId(program.id),
           URL: 'http://pappagorg.radiorevolt.no/somethingsomething'
-        })
+        }),
+        lead: 'Eksempel på post',
+        body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'
       });
     }
   }
@@ -72,6 +76,8 @@ const generatePostsWithoutBroadcast = async (cb) => {
         title: `Post number ${i+1}`,
         author: 'Team Rocket',
         program: new ObjectId(program.id),
+        lead: 'Eksempel på post',
+        body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'
       });
     }
   }

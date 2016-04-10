@@ -27,13 +27,22 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "array.prototype.find": "^2.0.0",
     "babelify": "^6.4.0",
     "classnames": "^2.2.3",
+    "es6-promise": "^3.1.2",
+    "eventablejs": "^1.0.5",
     "flux-react": "^2.6.7",
     "history": "^1.17.0",
+    "jsonp-promise": "^0.1.2",
+    "markdown": "^0.5.0",
+    "object.assign": "^4.0.3",
     "qs": "^6.1.0",
     "react": "^0.14.6",
     "react-router": "^1.0.3",
+    "selection-range": "^1.1.0",
+    "sir-trevor": "https://github.com/madebymany/sir-trevor-js/archive/v0.6.0-beta7.tar.gz",
+    "spin.js": "^2.3.2",
     "whatwg-fetch": "^0.11.0"
   }
 }

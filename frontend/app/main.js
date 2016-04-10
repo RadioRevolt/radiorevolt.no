@@ -9,6 +9,8 @@ var Program = require('components/Program.js');
 var ProgramFrontpage = require('components/ProgramFrontpage.js');
 var IndependentPost = require('components/IndependentPost.js');
 var Post = require('components/Post.js');
+var PostEditor = require('components/PostEditor.js');
+var PostCreator = require('components/PostCreator.js');
 
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
@@ -27,7 +29,11 @@ React.render((
 				</Route>
 				<Route path=":programslug" component={ Program } >
 					<IndexRoute component={ ProgramFrontpage } />
-					<Route path=":postid" component={ Post } />
+					<Route path="new" component={ PostCreator } />
+					<Route path=":postid">
+						<IndexRoute component={ Post } />
+						<Route path="edit" component={ PostEditor } />
+					</Route>
 				</Route>
 			</Route>
 		</Router>

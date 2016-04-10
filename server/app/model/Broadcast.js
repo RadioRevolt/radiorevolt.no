@@ -10,6 +10,8 @@ const broadcastSchema = new mongoose.Schema({
   },
   author: String,
   program: ObjectId,
+  onDemandAudioID: String,
+  podcastAudioID: String,
   URL: String
 });
 
