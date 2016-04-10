@@ -15,8 +15,8 @@ var PostBox = React.createClass({
 
         return (
             <div className={ wrapperDivClasses }>
-                <div className="row">
-                    <Link to={`/${ this.props.programSlug }/${ this.props.id }`}><img className="post-box-image col-md-12"/></Link>
+                <div className="row post-box-image-container">
+                    <Link to={`/${ this.props.programSlug }/${ this.props.id }`}><img src="img/example.jpg" className="post-box-image col-md-12"/></Link>
                 </div>
             	<h2><Link to={`/${ this.props.programSlug }/${ this.props.id }`}>{ this.props.title }</Link></h2>
                 <p>{ this.props.body }</p>

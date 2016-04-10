@@ -6,3 +6,4 @@ build/bootstrap-css
 build/bootstrap-fonts
 build/bootstrap-js
 build/css/*
+build/img/example*
