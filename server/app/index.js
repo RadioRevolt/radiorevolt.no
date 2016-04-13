@@ -10,6 +10,9 @@ import apiRouter from './api';
 const app = express();
 app.use('/api', apiRouter);
 
+// TODO: Change to properly resolve path
+app.use(express.static('../frontend/build'));
+
 // Connect to MongoDB
 const {MONGODB_URL} = config;
 mongoose.connect(MONGODB_URL);
