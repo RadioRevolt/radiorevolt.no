@@ -54,7 +54,8 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
   secret: 'thisisasecretchangethislater',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  unset: 'destroy'
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -73,6 +74,7 @@ app.post('/login', jsonParser, passport.authenticate('local'), (req, res) => {
 
 app.get('/logout', (req, res) => {
   req.logout();
+  req.session.destroy();
   res.redirect('/');
 });
 
