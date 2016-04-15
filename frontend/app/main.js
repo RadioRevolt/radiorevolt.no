@@ -11,6 +11,8 @@ var IndependentPost = require('components/IndependentPost.js');
 var Post = require('components/Post.js');
 var PostEditor = require('components/PostEditor.js');
 var PostCreator = require('components/PostCreator.js');
+import Login from 'components/Login';
+
 
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
@@ -22,6 +24,7 @@ React.render((
 		<Router history={ hashHistory }>
 			<Route path="/" component={ App }>
 				<IndexRoute component={ Frontpage } />
+				<Route path="login" component={ Login } />
 				<Route path="om" component={ About } />
 				<Route path="programmer" component={ ProgramList } />
 				<Route path="post" component={ IndependentPost } >
