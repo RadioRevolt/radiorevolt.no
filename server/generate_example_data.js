@@ -6,6 +6,7 @@ import config from './config';
 import Program from './app/model/Program';
 import Post from './app/model/Post';
 import Broadcast from './app/model/Broadcast';
+import User from './app/model/User';
 
 const {ObjectId} = mongoose.Types;
 
@@ -32,7 +33,31 @@ const flushCollections = async () => {
   await Program.remove({});
   await Post.remove({});
   await Broadcast.remove({});
+  await User.remove({});
 };
+
+
+const generateUsers = async () => {
+  const userData = [
+    {
+      username: 'journalist',
+      password: 'pannekake'
+    },
+    {
+      username: 'desker',
+      password: 'avengers'
+    }
+  ];
+
+  for (const ud of userData) {
+    try {
+      await User.create(ud);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
 
 const generatePrograms = async () => {
   let i = 1;
@@ -86,6 +111,7 @@ const generatePostsWithoutBroadcast = async (cb) => {
 db.once('open', async () => {
   try {
     await flushCollections();
+    await generateUsers();
     await generatePrograms();
     await generatePosts();
     await generatePostsWithoutBroadcast();
