@@ -75,7 +75,7 @@ app.post('/login', jsonParser, passport.authenticate('local'), (req, res) => {
 app.get('/logout', (req, res) => {
   req.logout();
   req.session.destroy();
-  res.redirect('/');
+  res.redirect('/#/login');
 });
 
 
