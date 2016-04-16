@@ -74,10 +74,10 @@ app.post('/login', jsonParser, passport.authenticate('local'), (req, res) => {
 
 app.get('/logout', (req, res) => {
   req.logout();
-  req.session.destroy();
-  res.redirect('/#/login');
+  req.session.destroy(() => {
+    res.redirect('/#/login');
+  });
 });
-
 
 // TODO: Change to get info from config instead, to ease deployment
 // Connect to MongoDB

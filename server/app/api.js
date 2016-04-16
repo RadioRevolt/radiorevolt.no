@@ -8,6 +8,8 @@ import Program from './model/Program';
 import Post from './model/Post';
 import Broadcast from './model/Broadcast';
 
+import {ensureAuthenticated} from './auth';
+
 const {ObjectId} = mongoose.Types;
 
 const router = express.Router();
@@ -28,6 +30,7 @@ const upload = multer({
   })
 });
 
+// TODO: Remove these if possible. These should only be added to APIs known to be used externally, which should also be protected or verified in some way
 router.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE")
@@ -51,7 +54,7 @@ router.get('/program/:program_id', async (req, res) => {
   });
 });
 
-router.post('/program', jsonParser, (req, res) => {
+router.post('/program', ensureAuthenticated, jsonParser, (req, res) => {
   const program = new Program(req.body);
   program.save((err) => {
     if (err)
@@ -60,7 +63,7 @@ router.post('/program', jsonParser, (req, res) => {
   });
 });
 
-router.put('/program/:program_id', jsonParser, async (req, res) => {
+router.put('/program/:program_id', ensureAuthenticated, jsonParser, async (req, res) => {
   const program = await Program.findById(req.params.program_id);
   program.update(
   req.body,
@@ -80,7 +83,7 @@ router.get('/post/:post_id', async (req, res) => {
   res.json(post);
 });
 
-router.post('/post', jsonParser, (req, res) => {
+router.post('/post', ensureAuthenticated, jsonParser, (req, res) => {
   const post = new Post(req.body);
   post.save((err) => {
     if (err)
@@ -91,7 +94,7 @@ router.post('/post', jsonParser, (req, res) => {
   });
 });
 
-router.put('/post/:post_id', jsonParser, async (req, res) => {
+router.put('/post/:post_id', ensureAuthenticated, jsonParser, async (req, res) => {
   const post = await Post.findById(req.params.post_id);
   post.update(
   req.body,
@@ -118,7 +121,7 @@ router.get('/broadcast/:broadcast_id', async (req, res) => {
   res.json(broadcast);
 });
 
-router.post('/broadcast', jsonParser, (req, res) => {
+router.post('/broadcast', ensureAuthenticated, jsonParser, (req, res) => {
   const broadcast = new Broadcast(req.body);
   broadcast.save((err) => {
     if (err)
@@ -127,7 +130,7 @@ router.post('/broadcast', jsonParser, (req, res) => {
   });
 });
 
-router.put('/broadcast/:broadcast_id', jsonParser, async (req, res) => {
+router.put('/broadcast/:broadcast_id', ensureAuthenticated, jsonParser, async (req, res) => {
   const broadcast = await Broadcast.findById(req.params.broadcast_id);
   broadcast.update(
   req.body,
@@ -138,7 +141,7 @@ router.put('/broadcast/:broadcast_id', jsonParser, async (req, res) => {
   });
 });
 
-router.post('/image', upload.single('attachment[file]'), (req, res) => {
+router.post('/image', ensureAuthenticated, upload.single('attachment[file]'), (req, res) => {
   res.json({
     file: {
       url: req.file.path
