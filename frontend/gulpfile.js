@@ -61,7 +61,7 @@ var browserifyTask = function (options) {
     appBundler = watchify(appBundler);
     appBundler.on('update', rebundle);
   }
-      
+
   rebundle();
 
   // We create a separate bundle for our dependencies as they
@@ -106,7 +106,7 @@ var browserifyTask = function (options) {
       debug: true,
       require: dependencies
     });
-    
+
     // Run the vendor bundle
     var start = new Date();
     console.log('Building VENDORS bundle');
@@ -118,10 +118,52 @@ var browserifyTask = function (options) {
       .pipe(notify(function () {
         console.log('VENDORS bundle built in ' + (Date.now() - start) + 'ms');
       }));
-    
+
   }
-  
+
 }
+
+var radioPlayerJSTask = function (options) {
+  // Our app bundler
+	var appBundler = browserify({
+		entries: [options.src], // Only need initial file, browserify finds the rest
+    extensions: ['.js'],
+   	transform: [babelify], // We want to convert JSX to normal javascript
+		debug: options.development, // Gives us sourcemapping
+		cache: {}, packageCache: {}, fullPaths: options.development, // Requirement of watchify
+    paths: ['./player/']
+	});
+
+	// We set our dependencies as externals on our app bundler when developing.
+  // You might consider doing this for production also and load two javascript
+  // files (main.js and vendors.js), as vendors.js will probably not change and
+  // takes full advantage of caching
+	appBundler.external(options.development ? dependencies : []);
+
+
+  // The rebundle process
+  var rebundle = function () {
+    var start = Date.now();
+    console.log('Building RADIOPLAYER bundle');
+    appBundler.bundle()
+      .on('error', gutil.log)
+      .pipe(source('player.js'))
+      .pipe(gulpif(!options.development, streamify(uglify())))
+      .pipe(gulp.dest(options.dest))
+      .pipe(notify(function () {
+        console.log('RADIOPLAYER bundle built in ' + (Date.now() - start) + 'ms');
+      }));
+  };
+  // Fire up Watchify when developing
+  if (options.development) {
+    appBundler = watchify(appBundler);
+    appBundler.on('update', rebundle);
+  }
+
+  rebundle();
+
+
+};
 
 var cssTask = function (options) {
     if (options.development) {
@@ -188,7 +230,13 @@ gulp.task('default', ['lint'], function () {
     src: './app/main.js',
     dest: './build'
   });
-  
+
+	radioPlayerJSTask({
+		development: true,
+		src: './player.js',
+		dest: './build'
+	});
+
   cssTask({
     development: true,
     src: './styles/**/*.css',
@@ -216,7 +264,7 @@ gulp.task('deploy', function () {
     src: './app/main.js',
     dest: './dist'
   });
-  
+
   cssTask({
     development: false,
     src: './styles/**/*.css',
