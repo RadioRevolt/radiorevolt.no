@@ -40,8 +40,7 @@ router.use((req, res, next) => {
 });
 
 const partialListQueryHandler = async function(model, req, res) {
-  const {limit, page} = req.query;
-  let {page_size} = req.query;
+  let {limit, page, page_size} = req.query;
 
   // Passing both limit and page parameters is not supported
   if ((limit !== undefined) && (page !== undefined)) {
@@ -51,6 +50,7 @@ const partialListQueryHandler = async function(model, req, res) {
   const docsQuery = model.find({}).sort('-date');
 
   if (limit) {
+    limit = Number(limit);
     return res.json(await docsQuery.limit(limit));
   } else if (page) {
     page_size = page_size || DEFAULT_PAGE_SIZE;
