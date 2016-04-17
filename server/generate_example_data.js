@@ -80,14 +80,13 @@ const generatePosts = async (cb) => {
     for (let i = 0; i < DUMMY_POST_BROADCASTS_PER_SHOW; i++) {
       await Post.create({
         title: `Post number ${i+1}`,
-        author_username: 'teamrocket',
-        author_text: '',
+        author_username: '',
+        author_text: 'Team Rocket',
         program: new ObjectId(program.id),
         broadcast: await Broadcast.create({
-          title: `Broadcast number ${i+1}`,
-          author: 'Team Rocket',
           program: new ObjectId(program.id),
-          URL: 'http://pappagorg.radiorevolt.no/somethingsomething'
+          onDemandAudioID: 3689,
+          podcastAudioID: 3434
         }),
         lead: 'Eksempel på post',
         body: '[{"type":"text", "data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n"}}]'
@@ -102,7 +101,8 @@ const generatePostsWithoutBroadcast = async (cb) => {
     for (let i = DUMMY_POST_BROADCASTS_PER_SHOW; i < DUMMY_POST_COUNT_PER_SHOW; i++) {
       await Post.create({
         title: `Post number ${i+1}`,
-        author: 'Team Rocket',
+        author_username: '',
+        author_text: 'Team Rocket',
         program: new ObjectId(program.id),
         lead: 'Eksempel på post',
         body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'

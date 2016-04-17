@@ -137,6 +137,7 @@ h2 {
 .sidebar-post-list-element .post-program {
 	font-size: 0.9em;
 	font-weight: 300;
+	text-transform: uppercase;
 }
 
 .sidebar-post-list-element .post-title {
@@ -414,4 +415,8 @@ h2 {
     bottom: 0;
     left: 0;
     background: #007fd1;
+}
+
+.play-live-button {
+	cursor: pointer;
 }
