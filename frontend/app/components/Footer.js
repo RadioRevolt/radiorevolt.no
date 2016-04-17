@@ -7,7 +7,8 @@ var Footer = React.createClass({
         return (
             <div id="footer-wrapper">
             	<div id="footer-left" className="col-md-8">
-            		<img src="img/logo_black.png" id="header-logo" />
+            		<img src="img/logo_black.png" id="footer-logo" /><br/>
+                    Denne tjenesten tilbys av <a href="http://dusken.no/">Studentmediene i Trondheim AS</a>. Musikken er gjengitt med tilatelse fra TONO/NCB. Uautorisert lenking, videreføring eller kopiering er ulovlig.
             	</div>
             	<div id="footer-right" className="col-md-4 pull-right">
             		<h3>Har du et tips?</h3>

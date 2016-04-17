@@ -58,7 +58,7 @@ var PostMetaControls = React.createClass({
                         </select>
                     </div>
                     <div className="col-md-6 form-group">
-                        <label for="inputDate">Publiseringstidspunkt (tomt felt betyr umiddelbart)</label>
+                        <label for="inputDate">Publiseringstidspunkt (tomme felt betyr nå)</label>
                         <div className="form-inline">
                             <div className="form-group">
                                 <label className="sr-only" for="inputDate">Publication date</label>

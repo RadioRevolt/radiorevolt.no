@@ -130,7 +130,7 @@ var cssTask = function (options) {
         var start = new Date();
         console.log('Building CSS bundle');
         gulp.src(options.src)
-          .pipe(concat('main.css'))
+          .pipe(concat('css/main.css'))
           .pipe(gulp.dest(options.dest))
           .pipe(notify(function () {
             console.log('CSS bundle built in ' + (Date.now() - start) + 'ms');
@@ -140,7 +140,7 @@ var cssTask = function (options) {
       gulp.watch(options.src, run);
     } else {
       gulp.src(options.src)
-        .pipe(concat('main.css'))
+        .pipe(concat('css/main.css'))
         .pipe(cssmin())
         .pipe(gulp.dest(options.dest));
     }
@@ -153,7 +153,7 @@ var vendorCSSTask = function (options) {
         var start = new Date();
         console.log('Building vendor CSS bundle');
         gulp.src(options.src)
-          .pipe(concat('vendors.css'))
+          .pipe(concat('css/vendors.css'))
           .pipe(gulp.dest(options.dest))
           .pipe(notify(function () {
             console.log('Vendor CSS bundle built in ' + (Date.now() - start) + 'ms');
@@ -163,7 +163,7 @@ var vendorCSSTask = function (options) {
       gulp.watch(options.src, run);
     } else {
       gulp.src(options.src)
-        .pipe(concat('vendors.css'))
+        .pipe(concat('css/vendors.css'))
         .pipe(cssmin())
         .pipe(gulp.dest(options.dest));
     }

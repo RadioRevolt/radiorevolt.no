@@ -54,7 +54,7 @@ var PostCreator = React.createClass({
             {"type": "text", "data": {"text": "<p>Brødtekst</p>", "format": "html"}}
         ];
 		return (
-			<div id="post-wrapper">
+			<div id="post-editor-wrapper">
                 <PostMetaControls ref="postMetaControls" />
 				<SirTrevorEditor blocks={ blocks } instanceSetter={ this.sirTrevorInstanceSetter } />
                 <div className="form-group">

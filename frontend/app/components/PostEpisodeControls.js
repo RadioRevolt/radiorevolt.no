@@ -1,7 +1,7 @@
 var React = require('react');
-var PostStore = require('PostStore');
-var ProgramStore = require('ProgramStore');
-var actions = require('actions');
+var PostStore = require('../PostStore');
+var ProgramStore = require('../ProgramStore');
+var actions = require('../actions');
 
 var PostEpisodeControls = React.createClass({
 	getInitialState: function() {
