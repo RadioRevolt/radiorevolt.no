@@ -11,7 +11,7 @@ var PostBox = require('./PostBox');
 var Frontpage = React.createClass({
     getInitialState: function() {
         return {
-            posts: PostStore.getRecentPosts(6),
+            posts: PostStore.getRecentPosts(7),
             programs: ProgramStore.getPrograms()
         };
     },
@@ -36,7 +36,6 @@ var Frontpage = React.createClass({
         });
 
         var extraClass = "col-md-" + width;
-        console.log(extraClass);
 
         return (
             <PostBox title={ post.title } body={ post.lead } programSlug={ programSlug } id={ post["_id"] } extraClass={ extraClass } />

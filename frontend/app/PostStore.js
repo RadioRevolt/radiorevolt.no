@@ -85,7 +85,12 @@ var PostStore = flux.createStore({
 
             var dao = new PostDAO();
             dao.getRecentPosts(n, (data) => {
-                this.recentPosts = data;
+                if (data.length == 0) {
+                    this.recentPosts = [{}];
+                } else {
+                    this.recentPosts = data;
+                }
+
                 this.emitChange();
             });
 
@@ -98,7 +103,12 @@ var PostStore = flux.createStore({
 
             var dao = new PostDAO();
             dao.getRecentBroadcasts(n, (data) => {
-                this.recentBroadcasts = data;
+                if (data.length == 0) {
+                    this.recentBroadcasts = [{}];
+                } else {
+                    this.recentBroadcasts = data;
+                }
+
                 this.emitChange();
             });
 
