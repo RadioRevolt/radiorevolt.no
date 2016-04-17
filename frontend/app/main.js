@@ -1,5 +1,5 @@
 var React = require('react');
-import {render} from 'react-dom';
+import {render} from 'react';
 var ReactRouter = require('react-router');
 
 var App = require('./App.js');

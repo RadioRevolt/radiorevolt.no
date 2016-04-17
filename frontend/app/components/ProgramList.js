@@ -25,18 +25,34 @@ var ProgramList = React.createClass({
         });
     },
     renderProgram: function(program) {
+        var slug = program.slug;
+        var id = slug + "-row";
+        var lead = "Dette programmet har ikke skrevet infotekst om seg selv.";
+        if (program.lead.length > 0) {
+            lead = program.lead;
+        }
+
         return (
-            <li><Link to={`/${ program.slug }`}>{ program.name }</Link></li>
+            <div id={ id } className="col-xs-12 col-md-6 program-list-element">
+                <div className="row">
+                    <div className="program-logo col-md-4"><img src="img/test.png" /></div>
+                    <div className="program-name col-md-8">
+                        <h3><Link to={`/${ program.slug }`}>{ program.name }</Link></h3>
+                        <p>{ program.lead }</p>
+                    </div>
+                </div>
+            </div>
         );
     },
     render: function() {
         let programs = this.state.programs.map(this.renderProgram);
 
         return (
-            <div id="frontpage-wrapper">
+            <div id="program-list-wrapper">
             	<div id="content-block-body" className="col-md-8">
-            		<h1>Programmer</h1>
-            		<ul>{ programs }</ul>
+                    <div className="row">
+            		  { programs }
+                    </div>
             	</div>
             	<div id="content-block-sidebar" className="col-md-4">
             		<FrontpageSidebar />

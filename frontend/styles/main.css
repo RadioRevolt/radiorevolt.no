@@ -2,6 +2,7 @@ body {
 	background-color: #222;
 	color: #000;
 	font-family: "Lato", sans-serif;
+	margin-bottom: 56px;
 }
 
 a, a:visited, a:hover, a:active {
@@ -136,6 +137,7 @@ h2 {
 .sidebar-post-list-element .post-program {
 	font-size: 0.9em;
 	font-weight: 300;
+	text-transform: uppercase;
 }
 
 .sidebar-post-list-element .post-title {
@@ -170,4 +172,21 @@ h2 {
 #post-editor-wrapper label {
 	text-transform: uppercase;
 	font-weight: 300;
+}
+
+.play-live-button {
+	cursor: pointer;
+}
+
+.login-form input {
+	max-width: 400px;
+}
+
+#program-list-wrapper .program-list-element {
+	padding-top: 10px;
+	margin-bottom: 10px;
+}
+
+#program-list-wrapper .program-name h3 {
+	margin-top: 0px;
 }

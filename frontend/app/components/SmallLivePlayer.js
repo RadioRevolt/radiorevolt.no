@@ -3,12 +3,15 @@ var PostStore = require('../PostStore');
 var actions = require('../actions');
 
 var SmallLivePlayer = React.createClass({
+	playLive: function() {
+		window.revoltPlayer.playLive(0);
+	},
     render: function() {
         return (
             <div id="small-live-player-wrapper" className="row">
-            	<div className="pull-left play-button">
+            	<a target="_blank" onClick={ this.playLive } className="play-live-button"><div className="pull-left play-button">
             		<span className="glyphicon glyphicon-play" aria-hidden="true"></span>
-            	</div>
+            	</div></a>
             	<div className="show-info">
             		<div id="live-now-text">LIVE NÅ:</div>
             		<div id="program-name">Garasjen</div>

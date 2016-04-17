@@ -11,7 +11,7 @@
   left: 0;
   right: 0;
   border-radius: 0;
-  height: 4em;
+  height: 3.5em;
   color: #fff;
   background: #333;
   z-index: 1;
@@ -22,6 +22,10 @@
   position: absolute;
 }
 
+.audioplayer .fa {
+  vertical-align: middle;
+}
+
 /* Back button*/
 
 .audioplayer-previous {
@@ -30,7 +34,7 @@
   cursor: pointer;
   z-index: 2;
   top: 0;
-  padding: 1em;
+  padding: 0.8em;
   left: 0;
   text-align: center;
   border-right: 1px solid #111;
@@ -49,7 +53,7 @@
   cursor: pointer;
   z-index: 2;
   top: 0;
-  padding: 1em;
+  padding: 0.8em;
   left: 4em;
   text-align: center;
   border-right: 1px solid #111;
@@ -68,7 +72,7 @@
   cursor: pointer;
   z-index: 2;
   top: 0;
-  padding: 1em;
+  padding: 0.8em;
   left: 8em;
   text-align: center;
   border-right: 1px solid #111;
@@ -85,7 +89,7 @@
   width: 4.5em;
   font-size: small;
   height: 100%;
-  line-height: 1em;
+  line-height: 0.8em;
   text-align: center;
   z-index: 2;
   top: 2.25em;
@@ -106,7 +110,7 @@
   background-color: #222;
   cursor: pointer;
   z-index: 1;
-  top: 2em;
+  top: 1.8em;
   right: 9em;
   left: 16.5em;
 }

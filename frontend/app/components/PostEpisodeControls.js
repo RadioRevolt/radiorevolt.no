@@ -23,13 +23,13 @@ var PostEpisodeControls = React.createClass({
 			<div id="post-meta-controls-wrapper">
                 <div id="audio-controls" className="row">
                     <div className="col-md-6 form-group">
-                        <label for="inputAuthorFromList">Stream-on-demand-lydfil</label>
+                        <label htmlFor="inputAuthorFromList">Stream-on-demand-lydfil</label>
                         <select className="form-control" onChange={ this.handleOnDemandAudioIDChange } id="inputOnDemandAudio">
                             <option>1</option>
                         </select>
                     </div>
                     <div className="col-md-6 form-group">
-                        <label for="inputAuthorText">Podkast-lydfil</label>
+                        <label htmlFor="inputAuthorText">Podkast-lydfil</label>
                         <select className="form-control" onChange={ this.handlePodcastAudioIDChange } id="inputPodcastAudio">
                             <option>1</option>
                         </select>

@@ -3,6 +3,7 @@ var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
 var PostBox = require('./PostBox');
+var RenderedPost = require('./sirtrevor/RenderedPost');
 
 var ProgramFrontpage = React.createClass({
 	getInitialState: function() {
@@ -38,8 +39,7 @@ var ProgramFrontpage = React.createClass({
     	if (Object.keys(this.state.programDetails).length !== 0) {
     		posts = this.state.programDetails.posts.map(this.renderPost);
             return (
-	            <div id="program-frontpage-wrapper">
-	                <h1>{ this.state.programDetails.program.name }</h1>
+	            <div id="program-frontpage-wrapper" className="row">
 	                { posts }
 	            </div>
         	);

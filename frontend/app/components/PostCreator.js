@@ -58,11 +58,11 @@ var PostCreator = React.createClass({
                 <PostMetaControls ref="postMetaControls" />
 				<SirTrevorEditor blocks={ blocks } instanceSetter={ this.sirTrevorInstanceSetter } />
                 <div className="form-group">
-                    <label for="list-lead">Sammendrag</label>
+                    <label htmlFor="list-lead">Sammendrag</label>
                     <textarea className="form-control" rows="4" onChange={ this.handleListLeadChange } id="list-lead" placeholder="Vises i lister" />
                 </div>
                 <PostEpisodeControls ref="postEpisodeControls" />
-                <button id="submitButton" type="submit" className="btn btn-primary pull-right" autocomplete="off" onClick={ this.submitForm }>Opprett</button>
+                <button id="submitButton" type="submit" className="btn btn-primary pull-right" autoComplete="off" onClick={ this.submitForm }>Opprett</button>
             </div>
 		);
     }
