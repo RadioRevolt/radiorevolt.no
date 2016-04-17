@@ -265,6 +265,12 @@ gulp.task('deploy', function () {
     dest: './dist'
   });
 
+  radioPlayerJSTask({
+    development: false,
+    src: './player.js',
+    dest: './dist'
+  });
+
   cssTask({
     development: false,
     src: './styles/**/*.css',
