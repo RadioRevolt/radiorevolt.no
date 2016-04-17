@@ -36,7 +36,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/program', async (req, res) => {
-  const programs = await Program.find({});
+  const programs = await Program.find(req.query);
   res.json(programs);
 });
 
@@ -72,7 +72,7 @@ router.put('/program/:program_id', jsonParser, async (req, res) => {
 });
 
 router.get('/post', async (req, res) => {
-  res.json(await Post.find({}));
+  res.json(await Post.find(req.query));
 });
 
 router.get('/post/:post_id', async (req, res) => {
@@ -106,7 +106,7 @@ router.put('/post/:post_id', jsonParser, async (req, res) => {
 
 router.get('/broadcast', async (req, res) => {
   try {
-    res.json(await Broadcast.find({}).sort('-date'));
+    res.json(await Broadcast.find(req.query).sort('-date'));
   }
   catch (e) {
      console.log("error");
