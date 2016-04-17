@@ -169,6 +169,11 @@ var vendorCSSTask = function (options) {
     }
 }
 
+var copyTask = function (options) {
+  gulp.src(options.src)
+    .pipe(gulp.dest(options.dest));
+}
+
 gulp.task('lint', function () {
 	return gulp.src(['**/*.js', '!node_modules/**'])
 		.pipe(eslint())
@@ -196,6 +201,12 @@ gulp.task('default', ['lint'], function () {
     dest: './build'
   });
 
+  copyTask({
+    development: true,
+    src: './static/**/*',
+    dest: './build'
+  });
+
 });
 
 gulp.task('deploy', function () {
@@ -215,6 +226,12 @@ gulp.task('deploy', function () {
   vendorCSSTask({
     development: false,
     src: './node_modules/sir-trevor/build/sir-trevor.css',
+    dest: './dist'
+  });
+
+  copyTask({
+    development: false,
+    src: './static/**/*',
     dest: './dist'
   });
 
