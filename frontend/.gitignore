@@ -8,4 +8,4 @@ build/bootstrap-js
 build/css/*
 build/*
 static/img/example*
-
+app/settings.js

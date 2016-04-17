@@ -1,7 +1,8 @@
 var qs = require('qs');
+var settings = require('../settings');
 
 var ProgramDAO = function () {
-	let urlPrefix = 'http://localhost:3000';
+	let urlPrefix = settings.apiUrl;
 
 	this.handleError = function(err) {
 		console.log('An error occurred.')
@@ -9,7 +10,7 @@ var ProgramDAO = function () {
 	};
 
 	this.getPrograms = function (callback) {
-		fetch(urlPrefix + '/api/program/', {
+		fetch(urlPrefix + '/program/', {
 			method: 'get'
 		}).then((response) => {
 			response.json().then(callback);
@@ -23,7 +24,7 @@ var ProgramDAO = function () {
 			type: 'active'
 		});
 
-		fetch(urlPrefix + '/api/program/?' + queryString, {
+		fetch(urlPrefix + '/program/?' + queryString, {
 			method: 'get'
 		}).then((response) => {
 			response.json().then(callback);
@@ -37,7 +38,7 @@ var ProgramDAO = function () {
 			type: 'inactive'
 		});
 
-		fetch(urlPrefix + '/api/program/?' + queryString, {
+		fetch(urlPrefix + '/program/?' + queryString, {
 			method: 'get'
 		}).then((response) => {
 			response.json().then(callback);
@@ -47,7 +48,7 @@ var ProgramDAO = function () {
 	};
 
 	this.getProgramDetails = function(id, callback) {
-		fetch(urlPrefix + `/api/program/${id}/`, {
+		fetch(urlPrefix + `/program/${id}/`, {
 			method: 'get'
 		}).then((response) => {
 			response.json().then(callback);

@@ -4,6 +4,8 @@ Basert på https://github.com/christianalfoni/flux-react-boilerplate
 
 ## Oppsett
 
+First, copy `app/settings.js_template` to `app/settings.js` and edit the settings as needed.
+
 For å sette opp frontenden er du nødt til å ha node.js installert.
 
 * `npm install -g gulp`

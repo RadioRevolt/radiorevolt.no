@@ -41,3 +41,7 @@ cd server
 
 
 The data will be written to a file named `example_data.json`. To override the slice size set by the script regarding the number of episodes per program to keep, use the `--slice` option, or `--all` to keep all data.
+
+## Frontend
+
+See `frontend/README.md`.

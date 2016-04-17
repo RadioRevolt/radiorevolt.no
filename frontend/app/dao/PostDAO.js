@@ -1,7 +1,8 @@
 var qs = require('qs');
+var settings = require('../settings');
 
 var PostDAO = function () {
-	let urlPrefix = 'http://localhost:3000';
+	let urlPrefix = settings.apiUrl;
 
 	this.handleError = function (err) {
 		console.log('An error occurred.');
@@ -9,7 +10,7 @@ var PostDAO = function () {
 	};
 
 	this.addPost = function(postBody, callback) {
-		fetch(urlPrefix + '/api/post/', {
+		fetch(urlPrefix + '/post/', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',
@@ -26,7 +27,7 @@ var PostDAO = function () {
 
 	this.updatePost = function(postID, postBody, callback) {
 		console.log("called updatePost with postID " + postID);
-		fetch(urlPrefix + '/api/post/' + postID, {
+		fetch(urlPrefix + '/post/' + postID, {
 			method: 'put',
 			headers: {
 				'Accept': 'application/json',
@@ -47,7 +48,7 @@ var PostDAO = function () {
 			page: page
 		});
 
-		fetch(urlPrefix + '/api/post/?' + queryString, {
+		fetch(urlPrefix + '/post/?' + queryString, {
 			method: 'get'
 		}).then(function(response) {
 			response.json().then(callback);
@@ -63,7 +64,7 @@ var PostDAO = function () {
 			type: 'broadcast'
 		});
 
-		fetch(urlPrefix + '/api/post/?' + queryString, {
+		fetch(urlPrefix + '/post/?' + queryString, {
 			method: 'get'
 		}).then(function(response) {
 			response.json().then(callback);
@@ -77,7 +78,7 @@ var PostDAO = function () {
 			limit: n
 		});
 
-		fetch(urlPrefix + '/api/post/?' + queryString, {
+		fetch(urlPrefix + '/post/?' + queryString, {
 			method: 'get'
 		}).then(function(response) {
 			response.json().then(callback);
@@ -91,7 +92,7 @@ var PostDAO = function () {
 			limit: n
 		});
 
-		fetch(urlPrefix + '/api/post/?' + queryString, {
+		fetch(urlPrefix + '/post/?' + queryString, {
 			method: 'get'
 		}).then(function(response) {
 			response.json().then(callback);
@@ -101,7 +102,7 @@ var PostDAO = function () {
 	};
 
 	this.getPostDetails = function(postID, callback) {
-		fetch(urlPrefix + `/api/post/${postID}/`, {
+		fetch(urlPrefix + `/post/${postID}/`, {
 			method: 'get'
 		}).then(function(response) {
 			response.json().then(callback);

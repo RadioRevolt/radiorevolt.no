@@ -1,0 +1,5 @@
+var settings = {
+	'apiUrl': ''
+}
+
+module.exports = settings;
