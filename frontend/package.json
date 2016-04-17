@@ -23,6 +23,7 @@
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "phantomjs": "^1.9.19",
+    "react-addons-test-utils": "^15.0.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
   },
@@ -38,7 +39,8 @@
     "markdown": "^0.5.0",
     "object.assign": "^4.0.3",
     "qs": "^6.1.0",
-    "react": "^0.14.6",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
     "react-router": "^1.0.3",
     "selection-range": "^1.1.0",
     "sir-trevor": "https://github.com/madebymany/sir-trevor-js/archive/v0.6.0-beta7.tar.gz",

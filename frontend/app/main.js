@@ -1,4 +1,5 @@
 var React = require('react');
+import {render} from 'react-dom';
 var ReactRouter = require('react-router');
 
 var App = require('./App.js');
@@ -20,7 +21,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 var Link = ReactRouter.Link;
 var hashHistory = ReactRouter.hashHistory;
 
-React.render((
+render((
 		<Router history={ hashHistory }>
 			<Route path="/" component={ App }>
 				<IndexRoute component={ Frontpage } />
