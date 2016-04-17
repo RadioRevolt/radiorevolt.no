@@ -44,6 +44,7 @@
     "react-router": "^1.0.3",
     "selection-range": "^1.1.0",
     "sir-trevor": "https://github.com/madebymany/sir-trevor-js/archive/v0.6.0-beta7.tar.gz",
+    "soundmanager2": "^2.97.20150601-a",
     "spin.js": "^2.3.2",
     "whatwg-fetch": "^0.11.0"
   },
