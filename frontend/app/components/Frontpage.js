@@ -1,7 +1,7 @@
 var React = require('react');
-var PostStore = require('PostStore');
-var ProgramStore = require('ProgramStore');
-var actions = require('actions');
+var PostStore = require('../PostStore');
+var ProgramStore = require('../ProgramStore');
+var actions = require('../actions');
 
 var FrontpageSidebar = require('./FrontpageSidebar');
 var LargeLivePlayer = require('./LargeLivePlayer');

@@ -1,6 +1,6 @@
 var React = require('react');
-var PostStore = require('PostStore');
-var actions = require('actions');
+var PostStore = require('../PostStore');
+var actions = require('../actions');
 
 var Post = React.createClass({
     render: function() {
