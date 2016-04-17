@@ -8,7 +8,9 @@ var PostStore = flux.createStore({
     broadcastsForProgram: {},
     postDetails: {},
     recentPosts: [],
+    recentPostsCount: 0,
     recentBroadcasts: [],
+    recentBroadcastsCount: 0,
     actions: [
         actions.addPost,
         actions.updatePost
@@ -79,17 +81,14 @@ var PostStore = flux.createStore({
             return [];
         },
         getRecentPosts: function(n) {
-            if (this.recentPosts.length != 0) {
-                return this.recentPosts;
+            if (this.recentPostsCount >= n) {
+                return this.recentPosts.slice(0, n);
             }
 
             var dao = new PostDAO();
             dao.getRecentPosts(n, (data) => {
-                if (data.length == 0) {
-                    this.recentPosts = [{}];
-                } else {
-                    this.recentPosts = data;
-                }
+                this.recentPosts = data;
+                this.recentPostsCount = n;
 
                 this.emitChange();
             });
@@ -97,17 +96,14 @@ var PostStore = flux.createStore({
             return [];
         },
         getRecentBroadcasts: function(n) {
-            if (this.recentBroadcasts.length != 0) {
-                return this.recentBroadcasts;
+            if (this.recentBroadcastsCount >= n) {
+                return this.recentBroadcasts.slice(0, n);
             }
 
             var dao = new PostDAO();
             dao.getRecentBroadcasts(n, (data) => {
-                if (data.length == 0) {
-                    this.recentBroadcasts = [{}];
-                } else {
-                    this.recentBroadcasts = data;
-                }
+                this.recentBroadcasts = data;
+                this.recentBroadcastsCount = n;
 
                 this.emitChange();
             });

@@ -26,7 +26,9 @@ const program_names = [
   'Nerdeprat',
   'Reaktor',
   'Feber',
-  'Helsebror'
+  'Helsebror',
+  'RevoltMorgen',
+  'Skammekroken'
 ];
 
 const flushCollections = async () => {
@@ -66,7 +68,8 @@ const generatePrograms = async () => {
       name: name,
       slug: S(name).slugify().s,
       programID: `100${i++}`,
-      description: loremIpsum()
+      lead: 'Eksempel på lead for et program.',
+      body: '[{"type":"text", "data":{"text":"Dette er et eksempel på et program laget med SirTrevor.js.\\n"}}]'
     });
   }
 };
@@ -87,7 +90,7 @@ const generatePosts = async (cb) => {
           URL: 'http://pappagorg.radiorevolt.no/somethingsomething'
         }),
         lead: 'Eksempel på post',
-        body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'
+        body: '[{"type":"text", "data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n"}}]'
       });
     }
   }

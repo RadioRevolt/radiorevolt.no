@@ -2,6 +2,7 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var PostStore = require('../PostStore');
 var actions = require('../actions');
+
 import {loggedIn, logOut} from '../utils/auth';
 
 var Link = ReactRouter.Link;

@@ -175,3 +175,12 @@ h2 {
 .login-form input {
 	max-width: 400px;
 }
+
+#program-list-wrapper .program-list-element {
+	padding-top: 10px;
+	margin-bottom: 10px;
+}
+
+#program-list-wrapper .program-name h3 {
+	margin-top: 0px;
+}

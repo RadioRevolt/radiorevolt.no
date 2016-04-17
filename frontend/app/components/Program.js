@@ -3,6 +3,7 @@ var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
 var SmallLivePlayer = require('./SmallLivePlayer');
+var RenderedPost = require('./sirtrevor/RenderedPost')
 
 var ProgramSidebar = React.createClass({
     render: function() {
@@ -11,7 +12,7 @@ var ProgramSidebar = React.createClass({
             programInfoBlurb = (
                 <div id="program-info-blurb">
                     <h2>{ this.props.programDetails.program.name }</h2>
-                    <p>Dette er en placeholder-infotekst om programmet { this.props.programDetails.program.name }.</p>
+                    <RenderedPost blocks={ JSON.parse(this.props.programDetails.program.body) } />
                 </div>
             )
         }

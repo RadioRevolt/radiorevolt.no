@@ -3,6 +3,7 @@ var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
 var PostBox = require('./PostBox');
+var RenderedPost = require('./sirtrevor/RenderedPost');
 
 var ProgramFrontpage = React.createClass({
 	getInitialState: function() {

@@ -8,6 +8,8 @@ var Link = ReactRouter.Link;
 
 var RenderedPost = require('./sirtrevor/RenderedPost');
 
+import {loggedIn, logOut} from '../utils/auth';
+
 var Post = React.createClass({
 	getInitialState: function() {
         return {
@@ -32,12 +34,16 @@ var Post = React.createClass({
         });
     },
     render: function() {
+    	var editLink = null;
+    	if (loggedIn()) {
+    		editLink = (<div id="admin-controls">
+    						<Link to={`/${ this.props.params.programslug }/${ this.props.params.postid }/edit`}>Rediger</Link>
+    					</div>);
+    	}
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
     			<div id="post-wrapper">
-    				<div id="admin-controls">
-    					<Link to={`/${ this.props.params.programslug }/${ this.props.params.postid }/edit`}>Rediger</Link>
-    				</div>
+    				{ editLink }
     				<RenderedPost blocks={ JSON.parse(this.state.post.body) } />
 	            </div>
     		)
