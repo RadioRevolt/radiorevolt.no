@@ -15,6 +15,7 @@ var PostDAO = function () {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
+			credentials: 'same-origin',
 			body: JSON.stringify(postBody)
 		}).then(function(response) {
 			response.json().then(callback);
@@ -31,6 +32,7 @@ var PostDAO = function () {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
+			credentials: 'same-origin',
 			body: JSON.stringify(postBody)
 		}).then(function(response) {
 			response.json().then(callback);

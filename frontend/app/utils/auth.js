@@ -21,4 +21,5 @@ export const loggedIn = () => localStorage.getItem('loggedIn') !== null;
 
 export const logOut = () => {
   localStorage.removeItem('loggedIn');
+  location.href = '/logout';
 };
