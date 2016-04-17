@@ -16,6 +16,7 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 const IMAGE_UPLOAD_FOLDER = 'uploads/';
+const DEFAULT_PAGE_SIZE = 10;
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -36,11 +37,33 @@ router.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-})
+});
+
+const partialListQueryHandler = async function(model, req, res) {
+  const {limit, page} = req.query;
+  let {page_size} = req.query;
+
+  // Passing both limit and page parameters is not supported
+  if ((limit !== undefined) && (page !== undefined)) {
+    return res.sendStatus(400);
+  }
+
+  const docsQuery = model.find({}).sort('-date');
+
+  if (limit) {
+    return res.json(await docsQuery.limit(limit));
+  } else if (page) {
+    page_size = page_size || DEFAULT_PAGE_SIZE;
+    const offset = (page - 1) * page_size;
+    return res.json(await docsQuery.skip(offset).limit(page_size));
+  } else {
+    return res.json(await docsQuery);
+  }
+};
+
 
 router.get('/program', async (req, res) => {
-  const programs = await Program.find(req.query);
-  res.json(programs);
+  res.json(await Program.find({}).sort('name'));
 });
 
 router.get('/program/:program_id', async (req, res) => {
@@ -74,9 +97,7 @@ router.put('/program/:program_id', ensureAuthenticated, jsonParser, async (req, 
   });
 });
 
-router.get('/post', async (req, res) => {
-  res.json(await Post.find(req.query));
-});
+router.get('/post', partialListQueryHandler.bind(undefined, Post));
 
 router.get('/post/:post_id', async (req, res) => {
   const post = await Post.findById(req.params.post_id);
@@ -107,14 +128,7 @@ router.put('/post/:post_id', ensureAuthenticated, jsonParser, async (req, res) =
   });
 });
 
-router.get('/broadcast', async (req, res) => {
-  try {
-    res.json(await Broadcast.find(req.query).sort('-date'));
-  }
-  catch (e) {
-     console.log("error");
-  }
-});
+router.get('/broadcast', partialListQueryHandler.bind(undefined, Broadcast));
 
 router.get('/broadcast/:broadcast_id', async (req, res) => {
   const broadcast = await Broadcast.findById(req.params.broadcast_id);
