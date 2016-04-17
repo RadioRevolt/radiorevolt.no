@@ -109,6 +109,8 @@ Player = function(playerElement) {
     function togglePlayPause() {
         if (soundObject && soundObject.readyState) {
             soundObject.togglePause();
+        } else {
+          playLive(0);
         }
     }
 
@@ -144,27 +146,6 @@ Player = function(playerElement) {
 
         playlistController.clearPlaylist();
 
-        // $.getJSON(apiURL, function(broadcasts) {
-        //           for(var i = broadcasts.length-1; i >= 0; i--) {
-        //         var date = broadcasts[i].dato.toString().substr(0,4);
-        //         date += "-" + broadcasts[i].dato.toString().substr(4,2);
-        //         date += "-" + broadcasts[i].dato.toString().substr(6);
-        //         playlistController.addShow({
-        //             title: broadcasts[i].title,
-        //             showName: broadcasts[i].program,
-        //             //showURL: rrURL + program.program.slug,
-        //             url: broadcasts[i].url,
-        //             date: date
-        //         });
-        //
-        //         if (broadcasts[i].id === episodeID) {
-        //             playlistController.setPosition(broadcasts.length-1-i);
-        //         }
-        //     }
-        //
-        //     playShow(playlistController.getCurrent());
-        // });
-
         fetch(apiURL).then(res => res.json()).then(function (broadcasts) {
           for (var i = broadcasts.length-1; i >= 0; i--) {
             var date = broadcasts[i].dato.toString().substr(0,4);
@@ -193,26 +174,6 @@ Player = function(playerElement) {
         var rrURL = "http://radiorevolt.no/";
 
         playlistController.clearPlaylist();
-
-        // $.getJSON(podcastURL, function(broadcasts) {
-        //     $.getJSON(programURL, function(program) {
-        //         for(var i = broadcasts.length-1; i >= 0; i--) {
-        //             playlistController.addShow({
-        //                 title: broadcasts[i].name,
-        //                 showName: program.program.name,
-        //                 showURL: rrURL + program.program.slug,
-        //                 url: broadcasts[i].URL,
-        //                 date: broadcasts[i].date.substring(0, broadcasts[i].date.length-1)
-        //             });
-        //
-        //             if (broadcasts[i]._id === broadcastID) {
-        //                 playlistController.setPosition(broadcasts.length-1-i);
-        //             }
-        //         }
-        //
-        //         playShow(playlistController.getCurrent());
-        //     });
-        // });
 
         var broadcastPromise = fetch(podcastURL).then(res => res.json()).catch((err) => {
           console.error(err);
@@ -257,20 +218,6 @@ Player = function(playerElement) {
         var URL = currentShowURL + now.getFullYear() + "/" + pad(now.getMonth()+1, 2) + "/" + pad(now.getDate(), 2) + "/" + studio;
 
         if (live) {
-            // $.getJSON(URL, function(results) {
-            //     for (var key in results) {
-            //         var start = new Date(results[key].starttime),
-            //             end = new Date(results[key].endtime);
-            //
-            //         if (start.getTime() < then.getTime() && end.getTime() > then.getTime()) {
-            //             setTitle(results[key].title);
-            //             setTimeout(setLiveTitle, Math.abs(end.getTime() - then.getTime()) + 5000);
-            //             break;
-            //
-            //         }
-            //     }
-            // });
-
           fetch(URL).then(res => res.json()).then(function (results) {
             for (var key in results) {
               var start = new Date(results[key].starttime),
@@ -627,7 +574,7 @@ Player = function(playerElement) {
         newPosition = newPosition >= 0 && newPosition <= 1 ? newPosition : 0;
 
         if (live) {
-            dom.progressPlayed.style.width = parseInt(liveController.getMaxOffset()*(1-newPosition)*100) + '%';
+          dom.progressPlayed.style.width = parseInt(newPosition*100) + '%';
         } else {
             sound = soundObject;
 
