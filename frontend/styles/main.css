@@ -199,15 +199,19 @@ h2 {
     left: 0;
     right: 0;
     border-radius: 0;
-    height: 2.5em;
+    height: 3em;
     color: #fff;
     background: #333;
     z-index: 1;
-    font-family: 'Open Sans', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
 }
 
 .audioplayer > div {
     position: absolute;
+}
+
+.audioplayer .fa {
+	vertical-align: middle;
 }
 
 /* Back button*/
@@ -277,7 +281,7 @@ h2 {
     text-align: center;
     z-index: 2;
     top: 0;
-    padding: 1.5em;
+    padding: 1.3em;
 }
 
 .audioplayer-time-current {
@@ -298,8 +302,8 @@ h2 {
     cursor: pointer;
     z-index: 1;
     top: 1.5em;
-    right: 8.5em;
-    left: 11.5em;
+    right: 10.5em;
+    left: 13.5em;
 }
 
 .audioplayer-bar div
@@ -336,12 +340,17 @@ h2 {
     height: 100%;
     z-index: 2;
     top: 0;
-    padding: 1em 0;
+    padding: 1.25em 0;
     right: 0;
     line-height: 1em;
     font-size: small;
     text-align: center;
     border-left: 1px solid #111;
+    text-transform: uppercase;
+}
+
+.audioplayer-live .fa {
+	vertical-align: baseline;
 }
 
 .audioplayer-live:hover,
