@@ -23,9 +23,10 @@
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "phantomjs": "^1.9.19",
-    "react-addons-test-utils": "^15.0.1",
+    "react-addons-test-utils": "^0.14",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "react": "^0.14.8"
   },
   "dependencies": {
     "array.prototype.find": "^2.0.0",
@@ -39,12 +40,14 @@
     "markdown": "^0.5.0",
     "object.assign": "^4.0.3",
     "qs": "^6.1.0",
-    "react": "^15.0.1",
-    "react-dom": "^15.0.1",
+    "react-dom": "^0.14",
     "react-router": "^1.0.3",
     "selection-range": "^1.1.0",
     "sir-trevor": "https://github.com/madebymany/sir-trevor-js/archive/v0.6.0-beta7.tar.gz",
     "spin.js": "^2.3.2",
     "whatwg-fetch": "^0.11.0"
+  },
+  "peerDependencies": {
+    "react": "^0.14.8"
   }
 }

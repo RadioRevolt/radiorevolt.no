@@ -8,7 +8,11 @@ var Link = ReactRouter.Link;
 
 var HeaderMenu = React.createClass({
     render() {
-       const authLink = !loggedIn() ? <Link to={'/login/'}>Logg inn</Link> : <a href="/logout" onClick={logOut}>Logg out</a>;
+        var authLink = null;
+        if (loggedIn()) {
+            authLink = <a href="/logout" onClick={logOut}>Logg ut</a>;
+        }
+
         return (
             <div id="header-menu-wrapper">
                 <ul id="header-menu">

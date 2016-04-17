@@ -43,9 +43,9 @@ class Login extends Component {
     const errorMessage = error ? <div className="alert alert-danger" role="alert">{error}</div> : null;
 
     return (
-      <div>
+      <div className="col-sm-12">
       {errorMessage}
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="login-form">
         <div className="form-group">
           <label htmlFor="username">Brukernavn</label>
           <input type="text" className="form-control" id="username" placeholder="Brukernavn" name="username" value={this.state.username} onChange={this.handleUsernameChange}/>

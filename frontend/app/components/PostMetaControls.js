@@ -38,34 +38,34 @@ var PostMetaControls = React.createClass({
 			<div id="post-meta-controls-wrapper">
                 <div id="author-controls" className="row">
                     <div className="col-md-6 form-group">
-                        <label for="inputAuthorFromList">Forfatter</label>
+                        <label htmlFor="inputAuthorFromList">Forfatter</label>
                         <select className="form-control" onChange={this.handleAuthorFromListChange} id="inputAuthorFromList">
                             <option>1</option>
                         </select>
                     </div>
                     <div className="col-md-6 form-group">
-                        <label for="inputAuthorText">Forfatter (fritekst)</label>
+                        <label htmlFor="inputAuthorText">Forfatter (fritekst)</label>
                         <input className="form-control" onChange={this.handleAuthorTextChange} id="inputAuthorText" placeholder="Navn eller organisasjon" />
                     </div>
                 </div>
 
                 <div id="program-controls" className="row">
                     <div className="col-md-6 form-group">
-                        <label for="inputProgram">Program</label>
+                        <label htmlFor="inputProgram">Program</label>
                         <select className="form-control" onChange={this.handleProgramChange} id="inputProgram">
                             <option>Garasjen</option>
                             <option>Reservebenken</option>
                         </select>
                     </div>
                     <div className="col-md-6 form-group">
-                        <label for="inputDate">Publiseringstidspunkt (tomme felt betyr nå)</label>
+                        <label htmlFor="inputDate">Publiseringstidspunkt (tomme felt betyr nå)</label>
                         <div className="form-inline">
                             <div className="form-group">
-                                <label className="sr-only" for="inputDate">Publication date</label>
+                                <label className="sr-only" htmlFor="inputDate">Publication date</label>
                                 <input className="form-control" onChange={this.handlePublicationDateChange} id="inputDate" placeholder="YYYY-MM-DD" />
                             </div>
                             <div className="form-group pull-right">
-                                <label className="sr-only" for="inputTime">Publication time</label>
+                                <label className="sr-only" htmlFor="inputTime">Publication time</label>
                                 <input className="form-control" onChange={this.handlePublicationTimeChange} id="inputTime" placeholder="HH:MM" />
                             </div>
                         </div>

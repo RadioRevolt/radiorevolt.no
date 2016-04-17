@@ -10,13 +10,13 @@ var ProgramSidebar = React.createClass({
         if (Object.keys(this.props.programDetails).length !== 0) {
             programInfoBlurb = (
                 <div id="program-info-blurb">
-                    Dette er en placeholder-infotekst om programmet { this.props.programDetails.program.name }.
+                    <h2>{ this.props.programDetails.program.name }</h2>
+                    <p>Dette er en placeholder-infotekst om programmet { this.props.programDetails.program.name }.</p>
                 </div>
             )
         }
         return (
             <div id="program-sidebar-wrapper">
-                <SmallLivePlayer />
                 { programInfoBlurb }
             </div>
            );
@@ -54,7 +54,6 @@ var Program = React.createClass({
                     { this.props.children }
                 </div>
                 <div id="content-block-sidebar" className="col-md-4">
-                    { this.props.params.programslug }
                     <ProgramSidebar programDetails={ this.state.programDetails } />
                 </div>
             </div>
