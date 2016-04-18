@@ -3,10 +3,12 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import multer from 'multer';
 import crypto from 'crypto';
+import http from 'http';
 
 import Program from './model/Program';
 import Post from './model/Post';
 import Broadcast from './model/Broadcast';
+import User from './model/User';
 
 import {ensureAuthenticated} from './auth';
 
@@ -160,6 +162,78 @@ router.post('/image', ensureAuthenticated, upload.single('attachment[file]'), (r
     file: {
       url: req.file.path
     }
+  });
+});
+
+router.get('/user', ensureAuthenticated, async (req, res) => {
+  res.json(await User.find({}, 'username').sort('username'));
+});
+
+var getRadioApiPath = function(path, callback, errorCallback) {
+  http.get({
+    host: 'pappagorg.radiorevolt.no',
+    path: path,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }, (innerRes) => {
+    var output = '';
+    innerRes.setEncoding('utf8');
+    innerRes.on('data', (c) => {
+      output += c;
+    });
+    innerRes.on('end', () => {
+      var results = JSON.parse(output);
+      callback(results);
+    });
+  }).on('error', (err) => { errorCallback(err); });
+}
+
+router.get('/ondemand', ensureAuthenticated, async (req, res) => {
+  getRadioApiPath('/v1/lyd/ondemand/', (results) => {
+    res.json(results);
+  }, (err) => {
+    res.json([]);
+  });
+});
+
+router.get('/ondemand/:programId', ensureAuthenticated, async (req, res) => {
+  getRadioApiPath('/v1/lyd/ondemand/' + req.params.programId, (results) => {
+    res.json(results);
+  }, (err) => {
+    res.json([]);
+  });
+});
+
+router.get('/ondemand/:programId/:onDemandId', async (req, res) => {
+  getRadioApiPath('/v1/lyd/ondemand/' + req.params.programId + '/' + req.params.onDemandId, (results) => {
+    res.json(results);
+  }, (err) => {
+    res.json([]);
+  });
+});
+
+router.get('/podcast', ensureAuthenticated, async (req, res) => {
+  getRadioApiPath('/v1/lyd/podcast/', (results) => {
+    res.json(results);
+  }, (err) => {
+    res.json([]);
+  });
+});
+
+router.get('/podcast/:programId', ensureAuthenticated, async (req, res) => {
+  getRadioApiPath('/v1/lyd/podcast/' + req.params.programId, (results) => {
+    res.json(results);
+  }, (err) => {
+    res.json([]);
+  });
+});
+
+router.get('/podcast/:programId/:podcastId', async (req, res) => {
+  getRadioApiPath('/v1/lyd/podcast/' + req.params.programId + '/' + req.params.podcastId, (results) => {
+    res.json(results);
+  }, (err) => {
+    res.json([]);
   });
 });
 

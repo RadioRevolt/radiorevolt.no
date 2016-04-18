@@ -84,7 +84,6 @@ const generatePosts = async (cb) => {
         author_text: 'Team Rocket',
         program: new ObjectId(program.id),
         broadcast: await Broadcast.create({
-          program: new ObjectId(program.id),
           onDemandAudioID: 3689,
           podcastAudioID: 3434
         }),
