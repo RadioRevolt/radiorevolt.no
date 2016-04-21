@@ -11,7 +11,7 @@
   left: 0;
   right: 0;
   border-radius: 0;
-  height: 3.5em;
+  height: 4em;
   color: #fff;
   background: #333;
   z-index: 1;
@@ -22,10 +22,6 @@
   position: absolute;
 }
 
-.audioplayer .fa {
-  vertical-align: middle;
-}
-
 /* Back button*/
 
 .audioplayer-previous {
@@ -34,7 +30,7 @@
   cursor: pointer;
   z-index: 2;
   top: 0;
-  padding: 0.8em;
+  padding: 1em;
   left: 0;
   text-align: center;
   border-right: 1px solid #111;
@@ -45,6 +41,29 @@
   background-color: #222;
 }
 
+/* Wind back button */
+
+.audioplayer-wind-back {
+  display: none;
+  width: 4em;
+  cursor: pointer;
+  z-index: 2;
+  padding: 1em;
+  left: 4em;
+  text-align: center;
+  height: 3.5em;
+  top: 1em;
+}
+
+.wind-forward-text {
+  font-size: x-small;
+}
+
+.fa-stack {
+  right: .5em;
+  bottom: .5em;
+}
+
 /* Play button */
 
 .audioplayer-playpause {
@@ -53,7 +72,7 @@
   cursor: pointer;
   z-index: 2;
   top: 0;
-  padding: 0.8em;
+  padding: 1em;
   left: 4em;
   text-align: center;
   border-right: 1px solid #111;
@@ -64,6 +83,24 @@
   background-color: #222;
 }
 
+/* Wind forward button */
+
+.audioplayer-wind-forward {
+  display: none;
+  width: 4em;
+  cursor: pointer;
+  z-index: 2;
+  padding: 1em;
+  left: 12em;
+  text-align: center;
+  height: 3.5em;
+  top: 1em;
+}
+
+.wind-back-text {
+  font-size: x-small;
+}
+
 /* Next button */
 
 .audioplayer-next {
@@ -72,7 +109,7 @@
   cursor: pointer;
   z-index: 2;
   top: 0;
-  padding: 0.8em;
+  padding: 1em;
   left: 8em;
   text-align: center;
   border-right: 1px solid #111;
@@ -89,7 +126,7 @@
   width: 4.5em;
   font-size: small;
   height: 100%;
-  line-height: 0.8em;
+  line-height: 1em;
   text-align: center;
   z-index: 2;
   top: 2.25em;
@@ -110,7 +147,7 @@
   background-color: #222;
   cursor: pointer;
   z-index: 1;
-  top: 1.8em;
+  top: 2em;
   right: 9em;
   left: 16.5em;
 }
@@ -132,7 +169,6 @@
 /* Title */
 
 .audioplayer-title {
-  line-height: 1em;
   font-size: small;
   overflow: hidden;
   top: .4em;
@@ -218,4 +254,136 @@
   bottom: 0;
   left: 0;
   background: #007fd1;
+}
+
+/* Mobile */
+
+@media(max-width: 991px){
+
+  .audioplayer {
+    height: 6em;
+  }
+
+  /* Back button*/
+
+  .audioplayer-previous {
+    border-right: 0;
+    height: 3.5em;
+    top: 1em;
+  }
+
+  .audioplayer-previous:hover,
+  .audioplayer-previous:focus {
+    background-color: transparent;
+  }
+
+  /* Wind back button */
+
+  .audioplayer-wind-back {
+    display: block;
+  }
+
+  .wind-forward-text {
+  }
+
+  /* Play button */
+
+  .audioplayer-playpause {
+    left: 8em;
+    border-right: 0;
+    height: 3.5em;
+    top: 1em;
+  }
+
+  .audioplayer-playpause:hover,
+  .audioplayer-playpause:focus {
+    background-color: transparent;
+  }
+
+  /* Wind forward button */
+
+  .audioplayer-wind-forward {
+    display: block;
+  }
+
+  .wind-back-text {
+  }
+
+  /* Next button */
+
+  .audioplayer-next {
+    border-right: 0;
+    left: 16em;
+    height: 3.5em;
+    top: 1em;
+  }
+
+  .audioplayer-next:hover,
+  .audioplayer-next:focus {
+    background-color: transparent;
+  }
+
+  /* Time */
+
+  .audioplayer-time {
+    top: 5em;
+  }
+
+  .audioplayer-time-current {
+    left: 1em;
+  }
+
+  .audioplayer-time-duration {
+    right: 1em;
+  }
+
+  /* Progress bar */
+
+  .audioplayer-bar {
+    top: 4.5em;
+    left: 5em;
+    right: 5em;
+  }
+
+  .audioplayer-bar div {
+  }
+
+  .audioplayer-bar-played  {
+  }
+
+  /* Title */
+
+  .audioplayer-title {
+    left: 1em;
+    right: 1em;
+  }
+
+  /* Live */
+
+  .audioplayer-live {
+    border-left: 0;
+    height: 3.5em;
+    top: 1em;
+  }
+
+  .audioplayer-live:hover,
+  .audioplayer-live:focus {
+    background-color: transparent;
+  }
+
+  /* Volume */
+
+  .audioplayer-volume {
+    border-left: 0;
+
+  }
+
+  .audioplayer-volume:hover,
+  .audioplayer-volume:focus {
+    background-color: transparent;
+  }
+
+  .audioplayer-volume-adjust {
+    display: none;
+  }
 }
