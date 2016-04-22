@@ -45,12 +45,12 @@ The player can be accessed through the global variable `revoltPlayer`.
   <dd>Plays the next track in the queue if available. If the current audio is a podcast or stream-on-demand, it plays the next podcast/stream-on-demand (basedon time).
   If the current audio is live, it plays the next live show from the start. If the current show is the most recent, it starts to play live. If you are already playing live, noting happens.</dd>
   
-  <dt>revoltPlayer.playPodcast(broadcastID, programID)</dt>
+  <dt>revoltPlayer.playPodcast(int::broadcastID, int::programID)</dt>
   <dd>Plays the specified podcast, and adds all podcast created by the program to the queue (relative to the specified podcast)</dd>
   
-  <dt>revoltPlayer.playOnDemand(broadcastID, programID)</dt>
+  <dt>revoltPlayer.playOnDemand(int::broadcastID, int::programID)</dt>
   <dd>Plays the specified on-demand-broadcast, and adds all on-demand-broadcasts created by the program to the queue (relative to the specified broadcast)</dd>
   
-  <dt>revoltPlayer.playLive()</dt>
-  <dd>Plays live (with 0 offset)</dd>
+  <dt>revoltPlayer.playLive(int::offset)</dt>
+  <dd>Plays live with an offset in seconds (offset = 0 for live). Maximum offset is 4 hours (14400 seconds)</dd>
 </dl>
