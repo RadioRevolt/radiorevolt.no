@@ -9,35 +9,65 @@ var SirTrevorEditor = require('./sirtrevor/SirTrevorEditor');
 
 var PostEditor = React.createClass({
 	getInitialState: function() {
+        var post = PostStore.getPostDetails(this.props.params.postid);
         return {
-            post: PostStore.getPostDetails(this.props.params.postid),
-            sirTrevorInstance: null
+            post: post,
+            sirTrevorInstance: null,
+            programs: ProgramStore.getPrograms(),
+            lead: post.lead
         };
     },
     componentWillMount: function() {
         PostStore.addChangeListener(this.changeState);
+        ProgramStore.addChangeListener(this.changeState);
     },
     componentWillUnmount: function() {
         PostStore.removeChangeListener(this.changeState);
+        ProgramStore.removeChangeListener(this.changeState);
     },
     componentWillReceiveProps: function(nextProps) {
         this.changeState(nextProps.params.postid);
+        this.changeState(nextProps.params.programslug);
     },
     changeState: function(id) {
     	if (id == undefined) {
     		id = this.props.params.postid;
     	}
+
+        var post = PostStore.getPostDetails(id);
+        var lead = post.lead;
+
         this.setState({
-            post: PostStore.getPostDetails(id)
+            post: post,
+            lead: lead,
+            programs: ProgramStore.getPrograms()
         });
     },
     sirTrevorInstanceSetter: function(instance) {
-        console.log("Called!");
         this.setState({ sirTrevorInstance: instance });
     },
     handleListLeadChange: function(event) {
         let value = event.target.value;
         this.setState({ lead: value });
+    },
+    validateForm: function(postBody) {
+        if (postBody.author_text.length == 0 && postBody.author_username == null) {
+            return false;
+        }
+
+        if (postBody.title.length == 0) {
+            return false;
+        }
+
+        if (postBody.program == null) {
+            return false;
+        }
+
+        if (postBody.lead.length == 0) {
+            return false;
+        }
+
+        return true;
     },
     submitForm: function() {
         this.state.sirTrevorInstance.onFormSubmit();
@@ -51,31 +81,49 @@ var PostEditor = React.createClass({
         });
 
         let authorText = this.refs.postMetaControls.state.authorText;
-        let authorUsername = this.refs.postMetaControls.state.authorUsername;
-        let program = this.refs.postMetaControls.state.program;
+        let authorUsername = this.refs.postMetaControls.state.authorUsername || null;
+        let programSlug = this.refs.postMetaControls.state.program;
+
+        let program = null;
+        for (let p of this.state.programs) {
+            if (p.slug == programSlug) {
+                program = p._id;
+                break;
+            }
+        }
 
         var postBody = {
             title: heading,
             author_username: authorUsername,
             author_text: authorText,
-            program: this.state.post.program,
+            program: program,
             broadcast: null,
             body: JSON.stringify(sirTrevorData),
             lead: this.state.lead
         };
 
-        actions.updatePost(this.props.params.postid, postBody);
+        console.log(postBody);
+
+        var valid = this.validateForm(postBody);
+
+        if (valid) {
+            actions.updatePost(this.props.params.postid, postBody);
+            this.props.history.pushState(null, '/' + this.props.params.programslug + '/' + this.props.params.postid + '/');
+        } else {
+            console.log("invalid post");
+        }
     },
     render: function() {
+        console.log(this.state.post);
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
                 <div id="post-editor-wrapper">
                     <PostMetaControls
                         ref="postMetaControls"
-                        authorUsername={ this.state.post.authorUsername }
-                        authorText={ this.state.post.authorText }
-                        publicationDate={ this.state.post.publicationDate }
-                        publicationTime={ this.state.post.publicationTime }
+                        program={ this.props.params.programslug }
+                        authorUsername={ this.state.post.author_username }
+                        authorText={ this.state.post.author_text }
+                        date={ this.state.post.date }
                     />
                     <SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } instanceSetter={ this.sirTrevorInstanceSetter } />
                     <div className="form-group">
@@ -86,13 +134,13 @@ var PostEditor = React.createClass({
                             onChange={ this.handleListLeadChange }
                             id="list-lead"
                             placeholder="Vises i lister"
-                            text={ this.state.post.lead }
-                        />
+                        >{ this.state.post.lead }</textarea>
                     </div>
                     <PostEpisodeControls
                         ref="postEpisodeControls"
                         onDemandAudioID={ this.state.post.onDemandAudioID }
                         podcastAudioID={ this.state.post.podcastAudioID }
+                        programSlug={ this.props.params.programslug }
                     />
                     <button id="submitButton" type="submit" className="btn btn-primary pull-right" autoComplete="off" onClick={ this.submitForm }>Lagre</button>
                 </div>

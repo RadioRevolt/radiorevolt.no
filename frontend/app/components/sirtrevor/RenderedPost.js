@@ -6,15 +6,30 @@ var actions = require('actions');
 var RenderedTextBlock = require('./RenderedTextBlock');
 var RenderedVideoBlock = require('./RenderedVideoBlock');
 var RenderedHeadingBlock = require('./RenderedHeadingBlock');
+var RenderedImageBlock = require('./RenderedImageBlock');
 
 var RenderedPost = React.createClass({
     render: function() {
         let blocks = this.props.blocks;
 
+        var dummyImageUrl = 'img/example.jpg';
+        var imageBlock = {
+            "type": "image",
+            "data": {
+                "file": {
+                    "url": dummyImageUrl
+                }
+            }
+        };
+        blocks = [imageBlock].concat(blocks);
+
+        console.log(blocks);
+
         let componentForBlock = {
             "text": RenderedTextBlock,
             "video": RenderedVideoBlock,
-            "heading": RenderedHeadingBlock
+            "heading": RenderedHeadingBlock,
+            "image": RenderedImageBlock
         }
 
         let renderedBlocks = blocks.map((each) => {

@@ -49,13 +49,10 @@ var ProgramList = React.createClass({
 
         return (
             <div id="program-list-wrapper">
-            	<div id="content-block-body" className="col-md-8">
+            	<div id="content-block-body" className="col-md-12">
                     <div className="row">
             		  { programs }
                     </div>
-            	</div>
-            	<div id="content-block-sidebar" className="col-md-4">
-            		<FrontpageSidebar />
             	</div>
             </div>
            );

@@ -7,7 +7,6 @@ const broadcastSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  program: ObjectId,
   onDemandAudioID: String,
   podcastAudioID: String
 });
