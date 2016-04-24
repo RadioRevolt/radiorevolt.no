@@ -27,14 +27,21 @@ var Frontpage = React.createClass({
             programs: ProgramStore.getPrograms()
         });
     },
-    renderPost: function(post, width) {
-        let programSlug = null;
+    renderTopPost: function(post) {
+        var programSlug = this.getSlugForId(post.program);
+        return (
+            <PostBox title={ post.title } body={ post.lead } programSlug={ programSlug } id={ post["_id"] } extraClass="col-md-12" tall={ true } />
+        );
+    },
+    getSlugForId: function(id) {
         this.state.programs.forEach((each) => {
-            if (each["_id"] == post.program) {
-                programSlug = each.slug;
+            if (each["_id"] == id) {
+                return each.slug;
             }
         });
-
+    },
+    renderPost: function(post, width) {
+        var programSlug = this.getSlugForId(post.program);
         var extraClass = "col-md-" + width;
 
         return (
@@ -48,21 +55,18 @@ var Frontpage = React.createClass({
                 </div>
             )
         }
-        let topPost = this.renderPost(this.state.posts[0], 12);
+        let topPost = this.renderTopPost(this.state.posts[0]);
         let posts = this.state.posts.slice(1).map((post) => { return(this.renderPost(post, 6)); });
 
         return (
             <div id="frontpage-wrapper">
-            	<div id="content-block-posts" className="col-md-8">
+            	<div id="content-block-posts" className="col-md-12">
                     <div id="top-post" className="row">
                         { topPost }
                     </div>
                     <div id="post-two-times-two" className="row">
             		    { posts }
                     </div>
-            	</div>
-            	<div id="content-block-sidebar" className="col-md-3">
-            		<FrontpageSidebar />
             	</div>
             </div>
            );

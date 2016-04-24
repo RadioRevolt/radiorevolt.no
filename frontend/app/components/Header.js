@@ -11,13 +11,13 @@ var Header = React.createClass({
         return (
             <div id="header-wrapper">
             	<div id="header-left" className="col-md-4">
-                    <SmallLivePlayer />
-            	</div>
-                <div id="header-center" className="col-md-4">
                     <HeaderMenu />
-                </div>
-                <div id="header-right" className="col-md-2">
+            	</div>
+                <div id="header-center" className="col-md-2">
                     <HeaderLogo />
+                </div>
+                <div id="header-right" className="col-md-4 col-md-offset-2">
+                    <SmallLivePlayer />
                 </div>
             </div>
            );
