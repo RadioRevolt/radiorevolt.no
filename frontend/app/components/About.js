@@ -8,7 +8,7 @@ var About = React.createClass({
     render: function() {
         return (
             <div id="about-wrapper">
-            	<div id="content-block-posts" className="col-md-8">
+            	<div id="content-block-posts" className="col-md-12">
             	<h1>Om Radio Revolt</h1>
 
             	<p>Radio Revolt er en ikke-kommersiell studentdrevet radiokanal som gir deg det nyeste innen musikk, underholdning og studentnyheter fra Trondheim. Kanalen sender nytt innhold hver dag og sammarbeider også mye med studentavisa Under Dusken. Radio Revolts mål er å være et alternativt tilbud, ikke bare til studenter, men til alle som vil høre radio laget av studenter. Vi har en utfordrende musikkprofil, med intervjuer av aktuelle artister og spilling av mange lokale band.</p>
@@ -32,9 +32,6 @@ var About = React.createClass({
             	<p>I 2013 endret Mediastud AS navn til Studentmediene i Trondheim AS, som i dag er eid av Studentersamfundet og Studentsamskipnaden i Trondheim (SiT) i fellesskap, og gjengene Radio Revolt, Under Dusken og Student-TV ble slått sammen. Samme år ble også <a href="http://dusken.no">dusken.no</a> lansert, som en felles nettside for medieinnholdet fra Studentmediene.</p>
 
             	<p>Mellom vi ble tatt av FM i 2014 og mars 2015 sendte vi kun på nett. I 2015 ble lokal-DAB-nettet i Sør-Trøndelag lansert, og Radio Revolt var blant den første gruppen lokalkanaler som fikk konsesjon til sending på DAB.</p>
-				</div>
-				<div id="content-block-sidebar" className="col-md-4">
-					<FrontpageSidebar />
 				</div>
             </div>
            );

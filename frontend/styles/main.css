@@ -13,7 +13,7 @@ h1, h2, h3 {
 	font-family: 'PT Serif', serif;
 }
 
-h2 {
+h1, h2 {
 	font-weight: 700;
 }
 
@@ -199,6 +199,10 @@ h2 {
 	font-style: italic;
 }
 
+#post-wrapper h1, #about-wrapper h1 {
+	font-style: italic;
+}
+
 .post-box-image {
 	width: 100%;
 	height: 250px;
@@ -206,7 +210,19 @@ h2 {
 }
 
 .post-box-image.tall {
-	height: 350px;
+	height: 500px;
+}
+
+.post-image {
+	height: 333px;
+	object-fit: cover;
+}
+
+#admin-controls {
+	text-transform: uppercase;
+	font-weight: 300;
+	font-style: italic;
+	padding-bottom: 10px;
 }
 
 .horizontal-post-box-image {

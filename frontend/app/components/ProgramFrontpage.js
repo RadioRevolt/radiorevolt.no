@@ -30,8 +30,13 @@ var ProgramFrontpage = React.createClass({
         });
     },
     renderPost: function(post) {
+        var text = post.lead;
+        text = text.replace('\n', '</p><p>')
+        text = '<p>' + text + '</p>'
+        var textElement = <span dangerouslySetInnerHTML={ { "__html": text } } />
+
         return (
-            <HorizontalPostBox title={ post.title } body={ post.lead } id={ post["_id"] } programSlug={ this.state.programDetails.program.slug } extraClass="col-md-12" />
+            <HorizontalPostBox title={ post.title } body={ textElement } id={ post["_id"] } programSlug={ this.state.programDetails.program.slug } extraClass="col-md-12" />
         );
     },
     render: function() {

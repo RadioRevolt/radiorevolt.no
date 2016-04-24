@@ -9,11 +9,12 @@ var SirTrevorEditor = require('./sirtrevor/SirTrevorEditor');
 
 var PostEditor = React.createClass({
 	getInitialState: function() {
+        var post = PostStore.getPostDetails(this.props.params.postid);
         return {
-            post: PostStore.getPostDetails(this.props.params.postid),
+            post: post,
             sirTrevorInstance: null,
             programs: ProgramStore.getPrograms(),
-            lead: ""
+            lead: post.lead
         };
     },
     componentWillMount: function() {
