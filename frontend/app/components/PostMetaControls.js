@@ -70,8 +70,6 @@ var PostMetaControls = React.createClass({
         var authors = [];
         authors.unshift(<option value={ null }></option>);
 
-        console.log(this.props.authorText);
-
 		return (
 			<div id="post-meta-controls-wrapper">
                 <div id="author-controls" className="row">

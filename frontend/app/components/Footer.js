@@ -23,8 +23,8 @@ var Footer = React.createClass({
                 	<div id="footer-right" className="col-md-4 pull-right">
                 		<h3>Har du et tips?</h3>
                 		<ul>
-                			<li>tips@radiorevolt.no</li>
-                			<li>@radiorevolt</li>
+                			<li><a href="mailto:tips@radiorevolt.no">tips@radiorevolt.no</a></li>
+                			<li><a href="https://twitter.com/revoltfm">@revoltfm</a></li>
                 		</ul>
                 		<h3>Annonsere hos oss?</h3>
                 		<p>Kontakt <a href="mailto:salgssjef@studentmediene.no">salgssjef@studentmediene.no.</a></p>

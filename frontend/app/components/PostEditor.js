@@ -32,8 +32,13 @@ var PostEditor = React.createClass({
     	if (id == undefined) {
     		id = this.props.params.postid;
     	}
+
+        var post = PostStore.getPostDetails(id);
+        var lead = post.lead;
+
         this.setState({
-            post: PostStore.getPostDetails(id),
+            post: post,
+            lead: lead,
             programs: ProgramStore.getPrograms()
         });
     },
@@ -102,6 +107,7 @@ var PostEditor = React.createClass({
 
         if (valid) {
             actions.updatePost(this.props.params.postid, postBody);
+            this.props.history.pushState(null, '/' + this.props.params.programslug + '/' + this.props.params.postid + '/');
         } else {
             console.log("invalid post");
         }
@@ -127,8 +133,7 @@ var PostEditor = React.createClass({
                             onChange={ this.handleListLeadChange }
                             id="list-lead"
                             placeholder="Vises i lister"
-                            text={ this.state.post.lead }
-                        />
+                        >{ this.state.post.lead }</textarea>
                     </div>
                     <PostEpisodeControls
                         ref="postEpisodeControls"

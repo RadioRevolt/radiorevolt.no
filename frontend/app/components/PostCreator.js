@@ -11,6 +11,7 @@ var PostCreator = React.createClass({
 	getInitialState: function() {
         return {
             sirTrevorInstance: null,
+            programs: ProgramStore.getPrograms(),
             lead: ""
         };
     },
@@ -21,11 +22,26 @@ var PostCreator = React.createClass({
         let value = event.target.value;
         this.setState({ lead: value });
     },
+    componentWillMount: function() {
+        ProgramStore.addChangeListener(this.changeState);
+    },
+    componentWillUnmount: function() {
+        ProgramStore.removeChangeListener(this.changeState);
+    },
     componentWillReceiveProps: function(nextProps) {
         this.changeState(nextProps.params.programslug);
     },
+    changeState: function() {
+        this.setState({
+            programs: ProgramStore.getPrograms()
+        });
+    },
     validateForm: function(postBody) {
         if (postBody.author_text.length == 0 && postBody.author_username == null) {
+            return false;
+        }
+
+        if (!postBody.title) {
             return false;
         }
 
@@ -34,6 +50,10 @@ var PostCreator = React.createClass({
         }
 
         if (postBody.program == null) {
+            return false;
+        }
+
+        if (!postBody.lead) {
             return false;
         }
 
@@ -87,7 +107,8 @@ var PostCreator = React.createClass({
         var valid = this.validateForm(postBody);
 
         if (valid) {
-            actions.updatePost(this.props.params.postid, postBody);
+            actions.addPost(postBody);
+            this.props.history.pushState(null, '/' + this.props.params.programslug + '/');
         } else {
             console.log("invalid post");
         }

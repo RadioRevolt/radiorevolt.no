@@ -2,7 +2,7 @@ var React = require('react');
 var ProgramStore = require('ProgramStore');
 var actions = require('actions');
 
-var PostBox = require('./PostBox');
+var HorizontalPostBox = require('./HorizontalPostBox');
 var RenderedPost = require('./sirtrevor/RenderedPost');
 
 var ProgramFrontpage = React.createClass({
@@ -31,7 +31,7 @@ var ProgramFrontpage = React.createClass({
     },
     renderPost: function(post) {
         return (
-            <PostBox title={ post.title } body={ post.lead } id={ post["_id"] } programSlug={ this.state.programDetails.program.slug } extraClass="col-md-12" />
+            <HorizontalPostBox title={ post.title } body={ post.lead } id={ post["_id"] } programSlug={ this.state.programDetails.program.slug } extraClass="col-md-12" />
         );
     },
     render: function() {

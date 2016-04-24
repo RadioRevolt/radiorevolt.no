@@ -9,7 +9,7 @@ var HeaderLogo = React.createClass({
     render: function() {
         return (
             <div id="header-logo-wrapper">
-            	<Link to={'/'}><img src="img/radiorevolt.svg" id="header-logo" /></Link>
+            	<Link to={'/'}><img src="img/radiorevolt.jpg" id="header-logo" /></Link>
             </div>
            );
     }
