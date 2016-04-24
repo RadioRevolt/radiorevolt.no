@@ -78,6 +78,11 @@ const generatePosts = async (cb) => {
   for (const name of program_names) {
     const program = await Program.findOne({name: name});
     for (let i = 0; i < DUMMY_POST_BROADCASTS_PER_SHOW; i++) {
+      var lipsumArray = [];
+      for (var j = 0; j < 4; j++) {
+        lipsumArray.push("<p>" + loremIpsum({ count: 4, format: 'html' }) + "</p>")
+      }
+      var lipsum = lipsumArray.join("");
       await Post.create({
         title: `Post number ${i+1}`,
         author_username: '',
@@ -87,8 +92,8 @@ const generatePosts = async (cb) => {
           onDemandAudioID: 3689,
           podcastAudioID: 3434
         }),
-        lead: 'Eksempel på post',
-        body: '[{"type":"text", "data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n"}}]'
+        lead: loremIpsum(),
+        body: `[{"type": "heading", "data": {"text": "Example episode post ${i+1}", "format": "html"}}, {"type": "text", "data": {"text": "${lipsum}", "format": "html"}}]`
       });
     }
   }
@@ -98,13 +103,18 @@ const generatePostsWithoutBroadcast = async (cb) => {
   for (const name of program_names) {
     const program = await Program.findOne({name: name});
     for (let i = DUMMY_POST_BROADCASTS_PER_SHOW; i < DUMMY_POST_COUNT_PER_SHOW; i++) {
+      var lipsumArray = [];
+      for (var j = 0; j < 4; j++) {
+        lipsumArray.push("<p>" + loremIpsum({ count: 4, format: 'html' }) + "</p>")
+      }
+      var lipsum = lipsumArray.join("");
       await Post.create({
         title: `Post number ${i+1}`,
         author_username: '',
         author_text: 'Team Rocket',
         program: new ObjectId(program.id),
-        lead: 'Eksempel på post',
-        body: '[{"type":"text","data":{"text":"Dette er et eksempel på en post laget med SirTrevor.js.\\n", "format": "html"}}]'
+        lead: loremIpsum(),
+        body: `[{"type": "heading", "data": {"text": "Example post ${i+1}", "format": "html"}}, {"type": "text", "data": {"text": "${lipsum}", "format": "html"}}]`
       });
     }
   }

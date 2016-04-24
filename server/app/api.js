@@ -118,7 +118,7 @@ router.post('/post', ensureAuthenticated, jsonParser, (req, res) => {
 });
 
 router.put('/post/:post_id', ensureAuthenticated, jsonParser, async (req, res) => {
-  const post = await Post.findById(req.params.post_id);
+  const post = await Post.findById(req.params.post_id).populate('broadcast');
   post.update(
   req.body,
   (err, raw) => {

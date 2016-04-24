@@ -11,7 +11,7 @@ var PostCreator = React.createClass({
 	getInitialState: function() {
         return {
             sirTrevorInstance: null,
-            listLead: ""
+            lead: ""
         };
     },
     sirTrevorInstanceSetter: function(instance) {
@@ -19,10 +19,29 @@ var PostCreator = React.createClass({
     },
     handleListLeadChange: function(event) {
         let value = event.target.value;
-        this.setState({ listLead: value });
+        this.setState({ lead: value });
     },
     componentWillReceiveProps: function(nextProps) {
         this.changeState(nextProps.params.programslug);
+    },
+    validateForm: function(postBody) {
+        if (postBody.author_text.length == 0 && postBody.author_username == null) {
+            return false;
+        }
+
+        if (postBody.title.length == 0) {
+            return false;
+        }
+
+        if (postBody.program == null) {
+            return false;
+        }
+
+        if (postBody.lead.length == 0) {
+            return false;
+        }
+
+        return true;
     },
     submitForm: function() {
         this.state.sirTrevorInstance.onFormSubmit();
@@ -63,7 +82,15 @@ var PostCreator = React.createClass({
             lead: this.state.lead
         };
 
-        actions.addPost(postBody);
+        console.log(postBody);
+
+        var valid = this.validateForm(postBody);
+
+        if (valid) {
+            actions.updatePost(this.props.params.postid, postBody);
+        } else {
+            console.log("invalid post");
+        }
     },
     render: function() {
         let blocks = [

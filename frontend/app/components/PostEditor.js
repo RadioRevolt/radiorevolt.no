@@ -12,7 +12,8 @@ var PostEditor = React.createClass({
         return {
             post: PostStore.getPostDetails(this.props.params.postid),
             sirTrevorInstance: null,
-            programs: ProgramStore.getPrograms()
+            programs: ProgramStore.getPrograms(),
+            lead: ""
         };
     },
     componentWillMount: function() {
@@ -43,8 +44,24 @@ var PostEditor = React.createClass({
         let value = event.target.value;
         this.setState({ lead: value });
     },
-    validateForm: function() {
-        //
+    validateForm: function(postBody) {
+        if (postBody.author_text.length == 0 && postBody.author_username == null) {
+            return false;
+        }
+
+        if (postBody.title.length == 0) {
+            return false;
+        }
+
+        if (postBody.program == null) {
+            return false;
+        }
+
+        if (postBody.lead.length == 0) {
+            return false;
+        }
+
+        return true;
     },
     submitForm: function() {
         this.state.sirTrevorInstance.onFormSubmit();
@@ -58,7 +75,7 @@ var PostEditor = React.createClass({
         });
 
         let authorText = this.refs.postMetaControls.state.authorText;
-        let authorUsername = this.refs.postMetaControls.state.authorUsername;
+        let authorUsername = this.refs.postMetaControls.state.authorUsername || null;
         let programSlug = this.refs.postMetaControls.state.program;
 
         let program = null;
@@ -79,19 +96,27 @@ var PostEditor = React.createClass({
             lead: this.state.lead
         };
 
-        actions.updatePost(this.props.params.postid, postBody);
+        console.log(postBody);
+
+        var valid = this.validateForm(postBody);
+
+        if (valid) {
+            actions.updatePost(this.props.params.postid, postBody);
+        } else {
+            console.log("invalid post");
+        }
     },
     render: function() {
+        console.log(this.state.post);
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
                 <div id="post-editor-wrapper">
                     <PostMetaControls
                         ref="postMetaControls"
                         program={ this.props.params.programslug }
-                        authorUsername={ this.state.post.authorUsername }
-                        authorText={ this.state.post.authorText }
-                        publicationDate={ this.state.post.publicationDate }
-                        publicationTime={ this.state.post.publicationTime }
+                        authorUsername={ this.state.post.author_username }
+                        authorText={ this.state.post.author_text }
+                        date={ this.state.post.date }
                     />
                     <SirTrevorEditor blocks={ JSON.parse(this.state.post.body) } instanceSetter={ this.sirTrevorInstanceSetter } />
                     <div className="form-group">

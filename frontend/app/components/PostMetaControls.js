@@ -67,13 +67,18 @@ var PostMetaControls = React.createClass({
             programDisabled = true;
         }
 
+        var authors = [];
+        authors.unshift(<option value={ null }></option>);
+
+        console.log(this.props.authorText);
+
 		return (
 			<div id="post-meta-controls-wrapper">
                 <div id="author-controls" className="row">
                     <div className="col-md-6 form-group">
                         <label htmlFor="inputAuthorFromList">Forfatter</label>
                         <select className="form-control" onChange={this.handleAuthorFromListChange} value={ this.state.authorFromList } id="inputAuthorFromList">
-                            <option>1</option>
+                            { authors }
                         </select>
                     </div>
                     <div className="col-md-6 form-group">

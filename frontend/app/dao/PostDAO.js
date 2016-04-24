@@ -36,8 +36,10 @@ var PostDAO = function () {
 			credentials: 'same-origin',
 			body: JSON.stringify(postBody)
 		}).then(function(response) {
+			console.log(response);
 			response.json().then(callback);
 		}).catch((err) => {
+			console.log("error");
 			this.handleError(err);
 		});
 	}

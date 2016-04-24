@@ -16,6 +16,7 @@ var SmallLivePlayer = React.createClass({
             		<div id="live-now-text">LIVE NÅ:</div>
             		<div id="program-name">Garasjen</div>
             		<div id="currently-playing">Erlend Elvesveen &ndash; Betal meg i sølv</div>
+            		<div id="dab-info">Hør oss også på DAB+ i trondheimsregionen!</div>
             	</div>
             </div>
            );

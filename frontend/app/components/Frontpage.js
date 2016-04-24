@@ -61,7 +61,7 @@ var Frontpage = React.createClass({
             		    { posts }
                     </div>
             	</div>
-            	<div id="content-block-sidebar" className="col-md-4">
+            	<div id="content-block-sidebar" className="col-md-3">
             		<FrontpageSidebar />
             	</div>
             </div>
