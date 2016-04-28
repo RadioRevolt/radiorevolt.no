@@ -137,7 +137,7 @@
 }
 
 .audioplayer-time-duration {
-  right: 5em;
+  right: 8.5em;
 }
 
 /* Progress bar */
@@ -148,7 +148,7 @@
   cursor: pointer;
   z-index: 1;
   top: 2em;
-  right: 9em;
+  right: 12.5em;
   left: 16.5em;
 }
 
@@ -201,13 +201,13 @@
 /* Volume */
 
 .audioplayer-volume {
-  width: 2.5em;
+  width: 4em;
   cursor: pointer;
   height: 100%;
   z-index: 2;
   top: 0;
-  padding: .75em;
-  right: 0;
+  padding: 1em;
+  right: 4.5em;
   text-align: center;
   border-left: 1px solid #111;
 
@@ -224,7 +224,7 @@
   cursor: default;
   position: absolute;
   left: 0;
-  top: -9999px;
+  display: none;
   background: #222;
 }
 
@@ -233,7 +233,7 @@
 }
 
 .audioplayer-volume:hover .audioplayer-volume-adjust {
-  top: auto;
+  display: block;
   bottom: 100%;
 }
 
@@ -247,9 +247,9 @@
   margin: 30% auto 0;
 }
 
-.audioplayer-volume-adjust div div {
+.audioplayer-volume-level {
   width: 100%;
-  height: 100%;
+  height: 70%;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -270,6 +270,7 @@
     border-right: 0;
     height: 3.5em;
     top: 1em;
+    left: 4em;
   }
 
   .audioplayer-previous:hover,
@@ -283,16 +284,15 @@
     display: block;
   }
 
-  .wind-forward-text {
-  }
-
   /* Play button */
 
   .audioplayer-playpause {
-    left: 8em;
     border-right: 0;
     height: 3.5em;
     top: 1em;
+    position: relative !important;
+    margin: 0 auto;
+    left: auto;
   }
 
   .audioplayer-playpause:hover,
@@ -313,9 +313,10 @@
 
   .audioplayer-next {
     border-right: 0;
-    left: 16em;
     height: 3.5em;
     top: 1em;
+    right: 4em;
+    left: auto;
   }
 
   .audioplayer-next:hover,
@@ -345,12 +346,6 @@
     right: 5em;
   }
 
-  .audioplayer-bar div {
-  }
-
-  .audioplayer-bar-played  {
-  }
-
   /* Title */
 
   .audioplayer-title {
@@ -372,15 +367,11 @@
   }
 
   /* Volume */
+  /* You cannot set volume through HTML on mobile */
 
   .audioplayer-volume {
-    border-left: 0;
+    display: none;
 
-  }
-
-  .audioplayer-volume:hover,
-  .audioplayer-volume:focus {
-    background-color: transparent;
   }
 
   .audioplayer-volume-adjust {
