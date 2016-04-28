@@ -32,7 +32,8 @@ Player = function(playerElement) {
 
   var winding = false,
     liveOffset = 0,
-    defaultVolume = 70,
+    volume = 70,
+    oldVolume = 0,
     dom = {
       player: null,
       playPause: null,
@@ -44,6 +45,8 @@ Player = function(playerElement) {
       progressLoaded: null,
       progressPlayed: null,
       volume: null,
+      volumeLevel: null,
+      volumeButton : null,
       previous: null,
       next: null,
       windBack: null,
@@ -53,7 +56,11 @@ Player = function(playerElement) {
     live = false,
     playlistController = null,
     liveController = null,
-    apiURL = settings.apiUrl;
+    apiURL = settings.apiUrl,
+    isTouch = 'ontouchstart' in window,
+    eStart = isTouch ? 'touchstart'	: 'mousedown',
+    eMove = isTouch ? 'touchmove'	: 'mousemove',
+    eEnd = isTouch ? 'touchcancel'	: 'mouseup';
 
   function setTitle(title) {
     var maxLength = 140;
@@ -142,7 +149,6 @@ Player = function(playerElement) {
   }
 
   function playOnDemand(episodeID, programID) {
-    // TODO: implement this (http://pappagorg.radiorevolt.no/v1/lyd/ondemand/2592)
     live = false;
 
     var apiURL = "http://pappagorg.radiorevolt.no/v1/lyd/ondemand/" + programID;
@@ -189,7 +195,6 @@ Player = function(playerElement) {
     Promise.all([broadcastPromise, programPromise]).then(function(values) {
       var broadcasts = values[0];
       var program = values[1];
-      debugger;
 
       for (var i = broadcasts.length-1; i >= 0; i--) {
         playlistController.addShow({
@@ -270,6 +275,26 @@ Player = function(playerElement) {
 
   }
 
+  function setVolume(v) {
+    v = v > 100 ? 100 : (v < 0 ? 0 : v);
+
+    dom.volumeLevel.style.height = v + '%';
+
+    if (v >= 50 && volume < 50) {
+      dom.volumeButton.innerHTML = '<i class="fa fa-2x fa-volume-up"></i>';
+    } else if (v > 0 && v < 50 && (volume == 0 || volume >= 50)) {
+      dom.volumeButton.innerHTML = '<i class="fa fa-2x fa-volume-down"></i>';
+    } else if (v == 0 && volume > 0) {
+      dom.volumeButton.innerHTML = '<i class="fa fa-2x fa-volume-off"></i>';
+    }
+
+    soundManager.setVolume(v);
+
+    oldVolume = volume;
+
+    volume = v;
+  }
+
   function wind(sec) {
     if (!live) {
       return;
@@ -327,7 +352,7 @@ Player = function(playerElement) {
 
       url: url,
 
-      volume: defaultVolume,
+      volume: volume,
 
       whileplaying: function() {
         if (!live && !winding) {
@@ -596,14 +621,16 @@ Player = function(playerElement) {
     barX = utils.position.getOffX(target);
     barWidth = target.offsetWidth;
 
-    x = e.clientX - barX;
+    e = isTouch ? e.changedTouches[0] : e;
+
+    x = isTouch ? (e.pageX - barX) : (e.clientX - barX);
 
     newPosition = (x / barWidth);
 
     newPosition = newPosition >= 0 && newPosition <= 1 ? newPosition : 0;
 
     if (live) {
-      dom.progressPlayed.style.width = parseInt(newPosition*100) + '%';
+      dom.progressPlayed.style.width = parseInt(newPosition*1000)/10.0 + '%';
     } else {
       sound = soundObject;
 
@@ -628,7 +655,9 @@ Player = function(playerElement) {
     barX = utils.position.getOffX(target);
     barWidth = target.offsetWidth;
 
-    x = e.clientX - barX;
+    e = isTouch ? e.changedTouches[0] : e;
+
+    x = isTouch ? (e.pageX - barX) : (e.clientX - barX);
 
     newPosition = (x / barWidth);
 
@@ -650,9 +679,9 @@ Player = function(playerElement) {
       }
     }
 
-    utils.events.remove(document, 'mousemove', handleMouse);
+    utils.events.remove(document, eMove, handleMouse);
 
-    utils.events.remove(document, 'mouseup', releaseMouse);
+    utils.events.remove(document, eEnd, releaseMouse);
 
     utils.events.preventDefault(e);
 
@@ -660,6 +689,42 @@ Player = function(playerElement) {
 
     return false;
 
+  }
+
+  function handleVolume(e) {
+    var target, newVolume, volumeButton, oldVolume;
+
+    target = dom.volume;
+    volumeButton = dom.volumeButton;
+
+    oldVolume = volume;
+
+    newVolume = ((window.innerHeight- e.clientY) - target.offsetTop - volumeButton.clientHeight - volumeButton.offsetTop*2)/target.clientHeight;
+
+    // Fix infinity-bug when mouse moves outside the volume bar
+    newVolume = newVolume > 999 ? 0 : newVolume;
+
+    newVolume = parseInt((newVolume < 0 ? 0 : (newVolume > 1 ? 1 : newVolume))*100);
+
+    setVolume(newVolume);
+
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
+
+    return false;
+  }
+
+  function handleVolumeRelease(e) {
+    handleVolume(e);
+
+    utils.events.remove(document, "mousemove", handleVolume);
+
+    utils.events.remove(document, "mouseup", handleVolumeRelease);
+
+    utils.events.preventDefault(e);
+
+    return false;
   }
 
   function isRightClick(e) {
@@ -687,20 +752,18 @@ Player = function(playerElement) {
     dom.previous = utils.get("audioplayer-previous", playerElement);
     dom.windBack = utils.get("audioplayer-wind-back", playerElement);
     dom.windForward = utils.get("audioplayer-wind-forward", playerElement);
-    // TODO: Add volume
+    dom.volume = utils.get("audioplayer-volume-adjust-bar", playerElement);
+    dom.volumeLevel = utils.get("audioplayer-volume-level", playerElement);
+    dom.volumeButton = utils.get("audioplayer-volume-button", playerElement);
 
-    var isTouch = 'ontouchstart' in window;
-
-    if(!isTouch) {
-      utils.events.add(dom.progress, 'mousedown', function(e) {
-        if (isRightClick(e)) {
-          return true;
-        }
-        utils.events.add(document, 'mousemove', handleMouse);
-        utils.events.add(document, 'mouseup', releaseMouse);
-        return handleMouse(e);
-      });
-    }
+    utils.events.add(dom.progress, eStart, function(e) {
+      if (isRightClick(e)) {
+        return true;
+      }
+      utils.events.add(document, eMove, handleMouse);
+      utils.events.add(document, eEnd, releaseMouse);
+      return handleMouse(e);
+    });
 
     utils.events.add(dom.playPause, "click", function(e) {
       togglePlayPause();
@@ -718,6 +781,24 @@ Player = function(playerElement) {
       playLive(0);
     });
 
+    utils.events.add(dom.volumeButton, "click", function(e) {
+      if (volume != 0) {
+        setVolume(0);
+      } else {
+        setVolume(oldVolume);
+      }
+    });
+
+    utils.events.add(dom.volume, "mousedown", function(e) {
+      if (isRightClick(e)) {
+        return true;
+      }
+      utils.events.add(document, 'mousemove', handleVolume);
+      utils.events.add(document, 'mouseup', handleVolumeRelease);
+      return handleVolume(e);
+    });
+
+    /*
     utils.events.add(dom.windBack, "click", function(e) {
       wind(-30);
     });
@@ -725,6 +806,7 @@ Player = function(playerElement) {
     utils.events.add(dom.windForward, "click", function(e) {
       wind(30);
     });
+    */
 
     playlistController = new PlaylistController();
     liveController = new LiveController();
@@ -876,7 +958,6 @@ utils = {
       if (o.offsetParent) {
 
         while (o.offsetParent) {
-
           curtop += o.offsetTop;
 
           o = o.offsetParent;
