@@ -8,7 +8,7 @@ var Player,
 
 soundManager.setup({
   preferFlash: false,
-  debugMode: true,
+  debugMode: false,
   html5PollingInterval: 50
 });
 
@@ -52,6 +52,23 @@ Player = function(playerElement) {
       windBack: null,
       windForward: null
     },
+    GA_CATEGORY = {
+      sod: "StreamOnDemand",
+      podcast: "Podcast",
+      live: "Live"
+    },
+    GA_ACTION = {
+      start: "playbackStarted",
+      pause: "playbackPause",
+      resume: "playbackResume",
+      minute: "playbackMinute",
+      wind: "playbackWind",
+      automaticNext: "automaticNext",
+      back: "playbackBack",
+      next: "playbackNext"
+    },
+    secondsPlayed = 0,
+    secondCounter = null,
     soundObject = null,
     live = false,
     playlistController = null,
@@ -61,6 +78,41 @@ Player = function(playerElement) {
     eStart = isTouch ? 'touchstart'	: 'mousedown',
     eMove = isTouch ? 'touchmove'	: 'mousemove',
     eEnd = isTouch ? 'touchcancel'	: 'mouseup';
+
+  function googleAnalyticsEvent(action) {
+    var category, label, show;
+
+    if (live) {
+      show = liveController.getShow();
+      category = GA_CATEGORY.live;
+      label = show.starttime+" - "+show.title;
+    } else if (playlistController.isPodcast()) {
+      show = playlistController.getCurrent();
+      category = GA_CATEGORY.podcast;
+      label = "{"+show.programID+":"+show.showID+"} "+curr.showName+" - "+curr.title;
+    } else {
+      show = playlistController.getCurrent();
+      category = GA_CATEGORY.sod;
+      label = "{"+show.programID+":"+show.showID+"} "+curr.showName+" - "+curr.title;
+    }
+
+    ga('send', {
+      hitType: 'event',
+      eventCategory: category,
+      eventAction: action,
+      eventLabel: label
+    });
+  }
+
+  function countSeconds() {
+    if (secondsPlayed % 60 == 0 && secondsPlayed > 0) {
+      googleAnalyticsEvent(GA_ACTION.minute);
+    }
+    if (soundObject.playState) {
+      secondCounter = setTimeout(countSeconds, 1000); // Call again in one second
+    }
+    secondsPlayed++;
+  }
 
   function setTitle(title) {
     var maxLength = 140;
@@ -92,6 +144,10 @@ Player = function(playerElement) {
     }
     return pad(date.getDate(), 2) + "." + pad(date.getMonth()+1, 2) + "." + date.getFullYear();
 
+  }
+
+  function getDateTimeString() {
+    return pad(date.getDate(), 2) + "-" + pad(date.getMonth()+1, 2) + "." + date.getFullYear() + " " + date.getHours() + ":00:00"
   }
 
   function pad(n, width, z) {
@@ -154,6 +210,7 @@ Player = function(playerElement) {
     var apiURL = "http://pappagorg.radiorevolt.no/v1/lyd/ondemand/" + programID;
 
     playlistController.clearPlaylist();
+    playlistController.setPodcast(false);
 
     fetch(apiURL).then(res => res.json()).then(function (broadcasts) {
       for (var i = broadcasts.length-1; i >= 0; i--) {
@@ -165,7 +222,9 @@ Player = function(playerElement) {
           showName: broadcasts[i].program,
           //showURL: rrURL + program.program.slug,
           url: broadcasts[i].url,
-          date: date
+          date: date,
+          programID: programID,
+          showID: episodeID
         });
         if (broadcasts[i].id === episodeID) {
           playlistController.setPosition(broadcasts.length-1-i);
@@ -183,6 +242,7 @@ Player = function(playerElement) {
     var rrURL = "http://radiorevolt.no/";
 
     playlistController.clearPlaylist();
+    playlistController.setPodcast(true);
 
     var broadcastPromise = fetch(podcastURL).then(res => res.json()).catch((err) => {
       console.error(err);
@@ -202,16 +262,16 @@ Player = function(playerElement) {
           showName: program.program.name,
           showURL: rrURL + program.program.slug,
           url: broadcasts[i].URL,
-          date: broadcasts[i].date.substring(0, broadcasts[i].date.length-1)
+          date: broadcasts[i].date.substring(0, broadcasts[i].date.length-1),
+          programID: programID,
+          showID: broadcastID
         });
 
         if (broadcasts[i]._id === broadcastID) {
           playlistController.setPosition(broadcasts.length-1-i);
         }
       }
-
       playShow(playlistController.getCurrent());
-
     });
   }
 
@@ -243,6 +303,9 @@ Player = function(playerElement) {
           if (start.getTime() < then.getTime() && end.getTime() > then.getTime()) {
             setTitle(results[key].title);
             setTimeout(setLiveTitle, Math.abs(end.getTime() - then.getTime()) + 5000);
+            liveController.setShow(results[key]);
+            googleAnalyticsEvent(GA_ACTION.start);
+            secondsPlayed = 0; // reinitialize the seconds counter
             return;
           }
         }
@@ -272,7 +335,6 @@ Player = function(playerElement) {
     setLiveTitle();
 
     play(liveController.setOffset(offset));
-
   }
 
   function setVolume(v) {
@@ -367,17 +429,27 @@ Player = function(playerElement) {
 
       onplay: function() {
         utils.css.swapClass(dom.playPauseIcon, "fa-play", "fa-pause");
+        // Live Google Analytics is in setTitle since it needs to update whenever a new show starts
+        if (!live) {
+          googleAnalyticsEvent(GA_ACTION.start);
+        }
+        secondsPlayed = 0; // initialize the second counter
+        countSeconds(); // Start to count seconds played
       },
 
       onpause: function() {
         utils.css.swapClass(dom.playPauseIcon, "fa-pause", "fa-play");
+        googleAnalyticsEvent(GA_ACTION.pause);
         if (live) {
           dom.live.innerHTML = 'Live <i class="fa fa-circle-o"></i>';
         }
+        clearTimeout(secondCounter); // pause the second counter
       },
 
       onresume: function() {
+        googleAnalyticsEvent(GA_ACTION.resume);
         utils.css.swapClass(dom.playPauseIcon, "fa-play", "fa-pause");
+        countSeconds(); // Start to count seconds played
       },
 
       onload: function(ok) {
@@ -404,11 +476,14 @@ Player = function(playerElement) {
 
       onstop: function() {
         utils.css.swapClass(dom.playPauseIcon, "fa-pause", "fa-play");
+        clearTimeout(secondCounter); // Stop to count seconds
       },
 
       onfinish: function() {
         if (!live) {
           var lastIndex, next;
+
+          clearTimeout(secondCounter); // Stop to count seconds
 
           lastIndex = playlistController.getPosition();
 
@@ -416,6 +491,7 @@ Player = function(playerElement) {
 
           if (next && playlistController.getPosition !== lastIndex) {
             playShow(next);
+            googleAnalyticsEvent(GA_ACTION.automaticNext);
           }
         }
       }
@@ -435,7 +511,16 @@ Player = function(playerElement) {
    */
   function PlaylistController() {
     var playlist = [],
-      position = 0;
+      position = 0,
+      podcast = false;
+
+    function isPodcast() {
+      return podcast;
+    }
+
+    function setPodcast(p) {
+      podcast = p;
+    }
 
     function getPlaylist() {
       return playlist;
@@ -513,13 +598,16 @@ Player = function(playerElement) {
       addShow: addShow,
       clearPlaylist: clearPlaylist,
       setPosition: setPosition,
-      getPosition: getPosition
+      getPosition: getPosition,
+      isPodcast: isPodcast,
+      setPodcast: setPodcast
     }
   }
 
   function LiveController() {
     var liveURL = "http://streamer.radiorevolt.no:8081/revolt",
       offset = 0,
+      show = null,
       maxOffset = 4*60*60; // four hours
 
     function setOffset(seconds) {
@@ -598,6 +686,14 @@ Player = function(playerElement) {
       return offset;
     }
 
+    function setShow(s) {
+      show = s;
+    }
+
+    function getShow() {
+      return show;
+    }
+
     return {
       setOffset: setOffset,
       setOffsetPercent: setOffsetPercent,
@@ -607,7 +703,9 @@ Player = function(playerElement) {
       playLive: playLive,
       back: back,
       forward: forward,
-      getMaxOffset: getMaxOffset
+      getMaxOffset: getMaxOffset,
+      setShow: setShow,
+      getShow: getShow
     };
   }
 
@@ -678,6 +776,8 @@ Player = function(playerElement) {
 
       }
     }
+
+    googleAnalyticsEvent(GA_ACTION.wind);
 
     utils.events.remove(document, eMove, handleMouse);
 
@@ -771,10 +871,12 @@ Player = function(playerElement) {
 
     utils.events.add(dom.next, "click", function(e) {
       playNext();
+      googleAnalyticsEvent(GA_ACTION.next);
     });
 
     utils.events.add(dom.previous, "click", function(e) {
       playPrevious();
+      googleAnalyticsEvent(GA_ACTION.back);
     });
 
     utils.events.add(dom.live, "click", function(e) {
