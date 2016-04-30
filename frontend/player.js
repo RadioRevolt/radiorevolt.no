@@ -85,15 +85,15 @@ Player = function(playerElement) {
     if (live) {
       show = liveController.getShow();
       category = GA_CATEGORY.live;
-      label = show.starttime+" - "+show.title;
+      label = show.starttime+" - "+show.title+" (Stream)";
     } else if (playlistController.isPodcast()) {
       show = playlistController.getCurrent();
       category = GA_CATEGORY.podcast;
-      label = "{"+show.programID+":"+show.showID+"} "+curr.showName+" - "+curr.title;
+      label = getNormalizedDate(curr.date)+" - "+curr.showName+" (Podcast) {"+show.programID+":"+show.showID+"}";
     } else {
       show = playlistController.getCurrent();
       category = GA_CATEGORY.sod;
-      label = "{"+show.programID+":"+show.showID+"} "+curr.showName+" - "+curr.title;
+      label = getNormalizedDate(curr.date)+" - "+curr.showName+" (SoD) {"+show.programID+":"+show.showID+"}";
     }
 
     ga('send', {
@@ -102,6 +102,11 @@ Player = function(playerElement) {
       eventAction: action,
       eventLabel: label
     });
+  }
+
+  function getNormalizedDate(str) {
+    var date = new Date(str);
+    return date.getFullYear()+"-"+pad(date.getMonth()+1, 2)+"-"+pad(date.getDate(), 2)
   }
 
   function countSeconds() {
