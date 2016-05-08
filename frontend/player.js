@@ -1,5 +1,4 @@
 import {soundManager} from 'soundmanager2';
-var settings = require('./app/settings');
 
 var Player,
   playerSelector = "audioplayer",
@@ -73,7 +72,6 @@ Player = function(playerElement) {
     live = false,
     playlistController = null,
     liveController = null,
-    apiURL = settings.apiUrl,
     isTouch = 'ontouchstart' in window,
     eStart = isTouch ? 'touchstart'	: 'mousedown',
     eMove = isTouch ? 'touchmove'	: 'mousemove',
@@ -89,11 +87,11 @@ Player = function(playerElement) {
     } else if (playlistController.isPodcast()) {
       show = playlistController.getCurrent();
       category = GA_CATEGORY.podcast;
-      label = getNormalizedDate(curr.date)+" - "+curr.showName+" (Podcast) {"+show.programID+":"+show.showID+"}";
+      label = getNormalizedDate(show.date)+" - "+show.showName+" (Podcast) {"+show.programID+":"+show.showID+"}";
     } else {
       show = playlistController.getCurrent();
       category = GA_CATEGORY.sod;
-      label = getNormalizedDate(curr.date)+" - "+curr.showName+" (SoD) {"+show.programID+":"+show.showID+"}";
+      label = getNormalizedDate(show.date)+" - "+show.showName+" (SoD) {"+show.programID+":"+show.showID+"}";
     }
 
     ga('send', {
@@ -209,7 +207,7 @@ Player = function(playerElement) {
     }
   }
 
-  function playOnDemand(episodeID, programID) {
+  function playOnDemand(episodeID, programID, pos=0) {
     live = false;
 
     var apiURL = "http://pappagorg.radiorevolt.no/v1/lyd/ondemand/" + programID;
@@ -235,15 +233,18 @@ Player = function(playerElement) {
           playlistController.setPosition(broadcasts.length-1-i);
         }
       }
-      playShow(playlistController.getCurrent());
+      playShow(playlistController.getCurrent(), pos);
+      if (from > 0) {
+        wind(from);
+      }
     });
   }
 
-  function playPodcast(broadcastID, programID) {
+  function playPodcast(broadcastID, programID, pos=0) {
     live = false;
 
-    var podcastURL = "http://" + apiURL + "/api/broadcast?program=" + programID;
-    var programURL = "http://" + apiURL + "/api/program/" + programID;
+    var podcastURL = "/api/broadcast?program=" + programID;
+    var programURL = "/api/program/" + programID;
     var rrURL = "http://radiorevolt.no/";
 
     playlistController.clearPlaylist();
@@ -276,7 +277,7 @@ Player = function(playerElement) {
           playlistController.setPosition(broadcasts.length-1-i);
         }
       }
-      playShow(playlistController.getCurrent());
+      playShow(playlistController.getCurrent(), pos);
     });
   }
 
@@ -383,16 +384,16 @@ Player = function(playerElement) {
 
   }
 
-  function playShow(show) {
+  function playShow(show, pos=0) {
     if (show === null) {
       return;
     }
     setTitle(show.showName + " - " + getDate(show.date, false));
     dom.live.innerHTML = 'Live <i class="fa fa-circle-o"></i>';
-    play(show.url);
+    play(show.url, pos);
   }
 
-  function play(url) {
+  function play(url, pos=0) {
     if (!live && !soundManager.canPlayURL(url)) {
       console.warn("cannot play url: " + url);
       return;
@@ -409,7 +410,7 @@ Player = function(playerElement) {
 
     soundObject.play({
       url: url,
-      position: 0
+      position: pos*1000
     });
   }
 
