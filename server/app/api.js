@@ -17,7 +17,7 @@ const {ObjectId} = mongoose.Types;
 const router = express.Router();
 const jsonParser = bodyParser.json();
 
-const IMAGE_UPLOAD_FOLDER = 'uploads/';
+const IMAGE_UPLOAD_FOLDER = '../frontend/build/uploads/';
 const DEFAULT_PAGE_SIZE = 10;
 
 const upload = multer({
