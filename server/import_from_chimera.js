@@ -12,7 +12,6 @@ import Program from './app/model/Program';
 import Post from './app/model/Post';
 import Broadcast from './app/model/Broadcast';
 import Image from './app/model/Image';
-import User from './app/model/User';
 
 
 const {MONGODB_URL} = config;
@@ -48,7 +47,7 @@ const run = async () => {
     }
     else{
       imageurl = `${p.image.replace("thumbs/", "").split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}`;
-      pimage = `uploads/${p.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}`;
+      pimage = `uploads/${p.name.replace("/","")}_logo${p.image.substring(p.image.length - 4)}`;
     }
     const file = fs.createWriteStream(`../frontend/build/${pimage}`);
 
@@ -105,12 +104,13 @@ const run = async () => {
           program: new ObjectId(program.id),
           broadcast: await Broadcast.create({
             date: e.public_from,
+            showID: p.showID,
             program: new ObjectId(program.id),
             podacstURL: e.podcast_url,
             onDemandAudioID: e.broadcastID
           }),
           lead: e.lead,
-          body: edescription,
+          body: ebody,
           isEpisode: true
         });
       }else{
@@ -121,6 +121,7 @@ const run = async () => {
           program: new ObjectId(program.id),
           broadcast: await Broadcast.create({
             date: e.public_from,
+            showID: p.showID,
             program: new ObjectId(program.id),
             onDemandAudioID: e.broadcastID
           }),
@@ -135,39 +136,8 @@ const run = async () => {
   console.log("Import from Chimera done!")
 };
 
-const generateUsers = async () => {
-  const userData = [
-    {
-      username: 'journalist',
-      password: 'pannekake'
-    },
-    {
-      username: 'desker',
-      password: 'avengers'
-    }
-  ];
-
-  for (const ud of userData) {
-    try {
-      await User.create(ud);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-}
-
-const flushCollections = async () => {
-  await Program.remove({});
-  await Post.remove({});
-  await Broadcast.remove({});
-  await User.remove({});
-  await Image.remove({});
-};
-
 db.once('open', async () => {
   try {
-    await flushCollections();
-    await generateUsers();
     await run();
   } catch (error) {
     console.error(error);

@@ -9,6 +9,8 @@ import Program from './model/Program';
 import Post from './model/Post';
 import Broadcast from './model/Broadcast';
 import User from './model/User';
+import Image from './model/Image';
+
 
 import {ensureAuthenticated} from './auth';
 
@@ -157,12 +159,15 @@ router.put('/broadcast/:broadcast_id', ensureAuthenticated, jsonParser, async (r
   });
 });
 
-router.post('/image', ensureAuthenticated, upload.single('attachment[file]'), (req, res) => {
+router.post('/image', ensureAuthenticated, upload.single('attachment[file]'), async (req, res) => {
   res.json({
     file: {
       url: req.file.path
     }
   });
+  await Image.create({
+    filepath: req.file.path
+  }); 
 });
 
 router.get('/user', ensureAuthenticated, async (req, res) => {

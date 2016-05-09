@@ -8,7 +8,8 @@ const broadcastSchema = new mongoose.Schema({
     default: Date.now
   },
   onDemandAudioID: String,
-  podcastURL: String
+  podcastURL: String,
+  showID: String
 });
 
 
