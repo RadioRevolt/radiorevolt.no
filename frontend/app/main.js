@@ -21,6 +21,16 @@ var IndexRoute = ReactRouter.IndexRoute;
 var Link = ReactRouter.Link;
 var hashHistory = ReactRouter.hashHistory;
 
+//Fix for authenticating on image upload
+var oldFetch = window.fetch;
+
+window.fetch = function(input, init) {
+  if (!('credentials' in init)) {
+    init['credentials'] = 'same-origin';
+  }
+  return oldFetch(input, init);
+};
+
 render((
 		<Router history={ hashHistory }>
 			<Route path="/" component={ App }>

@@ -22,7 +22,8 @@ const postSchema = new mongoose.Schema({
     default: null
   },
   body: String,
-  lead: String
+  lead: String,
+  isEpisode: Boolean
 });
 
 const Post = mongoose.model('Post', postSchema);

@@ -14,7 +14,8 @@ var SirTrevorEditor = React.createClass({
     },
     createSirTrevor: function() {
         SirTrevor.setDefaults({
-            required: ["Heading", "Text"]
+            required: ["Heading", "Text"],
+            uploadUrl: "/api/image"
         });
 
         var sirTrevorInstance = new SirTrevor.Editor({ el: this.refs.sirTrevorTextarea });
