@@ -25,7 +25,7 @@ var hashHistory = ReactRouter.hashHistory;
 var oldFetch = window.fetch;
 
 window.fetch = function(input, init) {
-  if (!('credentials' in init)) {
+  if (init && !('credentials' in init)) {
     init['credentials'] = 'same-origin';
   }
   return oldFetch(input, init);

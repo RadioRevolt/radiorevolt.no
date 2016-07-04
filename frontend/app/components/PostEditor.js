@@ -102,8 +102,6 @@ var PostEditor = React.createClass({
             lead: this.state.lead
         };
 
-        console.log(postBody);
-
         var valid = this.validateForm(postBody);
 
         if (valid) {
@@ -114,7 +112,6 @@ var PostEditor = React.createClass({
         }
     },
     render: function() {
-        console.log(this.state.post);
     	if (Object.keys(this.state.post).length !== 0) {
     		return (
                 <div id="post-editor-wrapper">
