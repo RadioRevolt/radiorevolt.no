@@ -32,10 +32,13 @@ var ProgramList = React.createClass({
             lead = program.lead;
         }
 
+        const blocks = JSON.parse(program.body);
+        const imageURL = blocks.filter((val) => {return val.type == "image"})[0].data.file.url;
+
         return (
             <div id={ id } className="col-xs-12 col-md-6 program-list-element">
                 <div className="row">
-                    <div className="program-logo col-md-4"><img src="img/test.png" /></div>
+                    <div className="program-logo col-md-4"><img src={imageURL} style={{'width':170,'height':170}} /></div>
                     <div className="program-name col-md-8">
                         <h3><Link to={`/${ program.slug }`}>{ program.name }</Link></h3>
                         <p>{ program.lead }</p>

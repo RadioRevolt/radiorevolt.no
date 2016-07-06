@@ -5,7 +5,9 @@
   "scripts": {
     "start": "babel-node app/index.js",
     "test": "mocha **/*.spec.js --compilers js:babel-register",
-    "load-example-data": "babel-node generate_example_data.js"
+    "load-example-data": "babel-node generate_example_data.js",
+    "import-from-chimera": "babel-node import_from_chimera.js",
+    "generate-test-users": "babel-node generate_test_users.js"
   },
   "author": "",
   "private": true,
@@ -25,6 +27,7 @@
     "multer": "^1.1.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "sanitize-html": "^1.11.4",
     "shortid": "^2.2.6",
     "string": "^3.3.1"
   },
