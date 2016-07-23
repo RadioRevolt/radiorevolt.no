@@ -1,0 +1,50 @@
+/**
+ * styles.css
+ *
+ * App container styles
+ */
+
+.container {
+  margin-top: 1rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto;
+  max-width: 12rem;
+}
+
+.logo:hover {
+  cursor: pointer;
+}
+
+.navbar {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  margin-top: 1rem;
+  font-size: 1.3rem;
+}
+
+.navbarItem {
+  list-style: none;
+  padding: 0 1.5rem;
+  display: inline;
+}
+
+/* Vertical navbar for very small displays */
+@media (max-width: 300px) {
+  .navbarItem {
+    display: block;
+  }
+}
+
+.navbarLink:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
