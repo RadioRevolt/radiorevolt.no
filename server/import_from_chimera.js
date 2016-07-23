@@ -8,9 +8,9 @@ import S from 'string';
 import sanitizeHtml from 'sanitize-html';
 
 import config from './config';
-import Program from './app/model/Program';
+import Show from './app/model/Show';
 import Post from './app/model/Post';
-import Broadcast from './app/model/Broadcast';
+import Episode from './app/model/Episode';
 import Image from './app/model/Image';
 
 
@@ -33,21 +33,21 @@ const downloadAndParseJSON = function (url) {
   }).then(JSON.parse);
 };
 
-const downloadPrograms = downloadAndParseJSON.bind(undefined, `${CHIMERA_API_URL_PREFIX}/shows/?format=json`);
+const downloadShows = downloadAndParseJSON.bind(undefined, `${CHIMERA_API_URL_PREFIX}/shows/?format=json`);
 
 const run = async () => {
-  const programs = await downloadPrograms();  
-  for (const p of programs) {
-   
+  const shows = await downloadShows();
+  for (const s of shows) {
+
     let imageurl = "";
     let pimage = "";
-    if(p.name == "Bankebrett"){
-      imageurl = p.image;
-      pimage = `uploads/${p.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}.jpg`;
+    if(s.name == "Bankebrett"){
+      imageurl = s.image;
+      pimage = `uploads/${s.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}.jpg`;
     }
     else{
-      imageurl = `${p.image.replace("thumbs/", "").split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}`;
-      pimage = `uploads/${p.name.replace("/","")}_logo${p.image.substring(p.image.length - 4)}`;
+      imageurl = `${s.image.replace("thumbs/", "").split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}`;
+      pimage = `uploads/${s.name.replace("/","")}_logo${s.image.substring(s.image.length - 4)}`;
     }
     const file = fs.createWriteStream(`../frontend/build/${pimage}`);
 
@@ -55,10 +55,10 @@ const run = async () => {
       res.pipe(file);
       await Image.create({
         filepath: pimage
-      }); 
+      });
     });
 
-    const pdescription = sanitizeHtml(p.description,{
+    const pdescription = sanitizeHtml(s.description,{
       allowedTags: [],
       allowedAttributes:[]
     });
@@ -73,16 +73,19 @@ const run = async () => {
         {text:pdescription,
         format:"html"}}]);
 
-    await Program.create({
-      name: p.name,
-      slug: S(p.name).slugify().s,
-      programID: p.id ,
-      body: pbody,
-      lead: p.lead
+    await Show.create({
+      name: s.name,
+      createdBy: 'Radio Revolt',
+      slug: S(s.name).slugify().s,
+      digasShowID: s.showID,
+      archived: s.is_old,
+      image: pimage,
+      body: pdescription,
+      lead: s.lead
     });
 
-    const episodes = await downloadAndParseJSON(p.episodes);
-    const program = await Program.findOne({programID: p.id});
+    const episodes = await downloadAndParseJSON(s.episodes);
+    const show = await Show.findOne({digasShowID: s.showID});
     for(const e of episodes){
 
       const edescription = sanitizeHtml(e.lead,{
@@ -90,50 +93,31 @@ const run = async () => {
         allowedAttributes:[]
       });
 
-      const ebody = JSON.stringify([
-        {type:"text",
-        data:
-          {text:edescription,
-          format:"html"}}]);
-
       if(e.podcast_url != null && e.podcast_url != ""){
-        await Post.create({
+        await Episode.create({
           title: e.headline,
-          author: '',
-          date: e.public_from,
-          program: new ObjectId(program.id),
-          broadcast: await Broadcast.create({
-            date: e.public_from,
-            showID: p.showID,
-            program: new ObjectId(program.id),
-            podacstURL: e.podcast_url,
-            onDemandAudioID: e.broadcastID
-          }),
-          lead: e.lead,
-          body: ebody,
-          isEpisode: true
+          lead: edescription,
+          createdAt: e.public_from,
+          show: new ObjectId(show.id),
+          digasBroadcastID: e.broadcastID,
+          digasShowID: s.digasShowID,
+          podacstURL: e.podcast_url,
         });
       }else{
-         await Post.create({
+        await Episode.create({
           title: e.headline,
-          author: '',
-          date: e.public_from,
-          program: new ObjectId(program.id),
-          broadcast: await Broadcast.create({
-            date: e.public_from,
-            showID: p.showID,
-            program: new ObjectId(program.id),
-            onDemandAudioID: e.broadcastID
-          }),
-          lead: e.lead,
-          body: ebody,
-          isEpisode: true
+          lead: edescription,
+          createdAt: e.public_from,
+          show: new ObjectId(show.id),
+          digasBroadcastID: e.broadcastID,
+          digasShowID: s.digasShowID,
+          podacstURL: '',
         });
       };
     };
   };
 
-  console.log("Import from Chimera done!")
+  console.log("Import from Chimera done!");
 };
 
 db.once('open', async () => {

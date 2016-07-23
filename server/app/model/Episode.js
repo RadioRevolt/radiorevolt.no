@@ -3,13 +3,16 @@ import mongoose from 'mongoose';
 const {ObjectId} = mongoose.Schema.Types;
 
 const broadcastSchema = new mongoose.Schema({
-  date: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
-  onDemandAudioID: String,
-  podcastURL: String,
-  showID: String
+  title: String,
+  lead: String,
+  show: ObjectId,
+  digasBroadcastID: String,
+  digasShowID: String,
+  podcastURL: String
 });
 
 

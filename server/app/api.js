@@ -5,9 +5,9 @@ import multer from 'multer';
 import crypto from 'crypto';
 import http from 'http';
 
-import Program from './model/Program';
+import Show from './model/Show';
 import Post from './model/Post';
-import Broadcast from './model/Broadcast';
+import Episode from './model/Episode';
 import User from './model/User';
 import Image from './model/Image';
 
@@ -66,38 +66,38 @@ const partialListQueryHandler = async function(model, req, res) {
 };
 
 
-router.get('/program', async (req, res) => {
-  res.json(await Program.find({}).sort('name'));
+router.get('/show', async (req, res) => {
+  res.json(await Show.find({}).sort('name'));
 });
 
-router.get('/program/:program_id', async (req, res) => {
-  const program = await Program.findById(req.params.program_id);
+router.get('/show/:show_id', async (req, res) => {
+  const show = await Show.findById(req.params.show_id);
   const posts = await Post.find({
-    program: program.id
+    show: show.id
   });
   res.json({
-    program,
-    posts: posts
+    show,
+    posts
   });
 });
 
-router.post('/program', ensureAuthenticated, jsonParser, (req, res) => {
-  const program = new Program(req.body);
-  program.save((err) => {
+router.post('/show', ensureAuthenticated, jsonParser, (req, res) => {
+  const show = new Show(req.body);
+  show.save((err) => {
     if (err)
       return res.send(err);
-    res.json({message: 'Program added.', data: program});
+    res.json({message: 'Show added.', data: show});
   });
 });
 
-router.put('/program/:program_id', ensureAuthenticated, jsonParser, async (req, res) => {
-  const program = await Program.findById(req.params.program_id);
-  program.update(
+router.put('/show/:show_id', ensureAuthenticated, jsonParser, async (req, res) => {
+  const show = await Show.findById(req.params.show_id);
+  show.update(
   req.body,
   (err, raw) => {
     if (err)
       return res.send(err);
-    res.json({message: 'Program updated.'});
+    res.json({message: 'Show updated.'});
   });
 });
 
@@ -111,51 +111,43 @@ router.get('/post/:post_id', async (req, res) => {
 router.post('/post', ensureAuthenticated, jsonParser, (req, res) => {
   const post = new Post(req.body);
   post.save((err) => {
-    if (err)
-      console.log(err)
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Post added.', data: post});
-    console.log("added");
   });
 });
 
 router.put('/post/:post_id', ensureAuthenticated, jsonParser, async (req, res) => {
-  const post = await Post.findById(req.params.post_id).populate('broadcast');
+  const post = await Post.findById(req.params.post_id);
   post.update(
   req.body,
   (err, raw) => {
-    if (err)
-      console.log(err);
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Post updated.'});
-    console.log("updated");
   });
 });
 
-router.get('/broadcast', partialListQueryHandler.bind(undefined, Broadcast));
+router.get('/episode', partialListQueryHandler.bind(undefined, Episode));
 
-router.get('/broadcast/:broadcast_id', async (req, res) => {
-  const broadcast = await Broadcast.findById(req.params.broadcast_id);
-  res.json(broadcast);
+router.get('/episode/:episode_id', async (req, res) => {
+  const episode = await Episode.findById(req.params.episode_id);
+  res.json(episode);
 });
 
-router.post('/broadcast', ensureAuthenticated, jsonParser, (req, res) => {
-  const broadcast = new Broadcast(req.body);
-  broadcast.save((err) => {
-    if (err)
-      return res.send(err);
-    res.json({message: 'Broadcast added.', data: broadcast});
+router.post('/episode', ensureAuthenticated, jsonParser, (req, res) => {
+  const episode = new Episode(req.body);
+  episode.save((err) => {
+    if (err) return res.send(err);
+    res.json({message: 'Episode added.', data: episode});
   });
 });
 
-router.put('/broadcast/:broadcast_id', ensureAuthenticated, jsonParser, async (req, res) => {
-  const broadcast = await Broadcast.findById(req.params.broadcast_id);
-  broadcast.update(
+router.put('/episode/:episode_id', ensureAuthenticated, jsonParser, async (req, res) => {
+  const episode = await Episode.findById(req.params.episode_id);
+  episode.update(
   req.body,
   (err, raw) => {
-    if (err)
-      return res.send(err);
-    res.json({message: 'Broadcast updated.'});
+    if (err) return res.send(err);
+    res.json({message: 'Episode updated.'});
   });
 });
 
@@ -167,7 +159,7 @@ router.post('/image', ensureAuthenticated, upload.single('attachment[file]'), as
   });
   await Image.create({
     filepath: req.file.path
-  }); 
+  });
 });
 
 router.get('/user', ensureAuthenticated, async (req, res) => {
@@ -202,16 +194,16 @@ router.get('/ondemand', ensureAuthenticated, async (req, res) => {
   });
 });
 
-router.get('/ondemand/:programId', ensureAuthenticated, async (req, res) => {
-  getRadioApiPath('/v1/lyd/ondemand/' + req.params.programId, (results) => {
+router.get('/ondemand/:showId', ensureAuthenticated, async (req, res) => {
+  getRadioApiPath('/v1/lyd/ondemand/' + req.params.showId, (results) => {
     res.json(results);
   }, (err) => {
     res.json([]);
   });
 });
 
-router.get('/ondemand/:programId/:onDemandId', async (req, res) => {
-  getRadioApiPath('/v1/lyd/ondemand/' + req.params.programId + '/' + req.params.onDemandId, (results) => {
+router.get('/ondemand/:showId/:onDemandId', async (req, res) => {
+  getRadioApiPath('/v1/lyd/ondemand/' + req.params.showId + '/' + req.params.onDemandId, (results) => {
     res.json(results);
   }, (err) => {
     res.json([]);
@@ -226,16 +218,16 @@ router.get('/podcast', ensureAuthenticated, async (req, res) => {
   });
 });
 
-router.get('/podcast/:programId', ensureAuthenticated, async (req, res) => {
-  getRadioApiPath('/v1/lyd/podcast/' + req.params.programId, (results) => {
+router.get('/podcast/:showId', ensureAuthenticated, async (req, res) => {
+  getRadioApiPath('/v1/lyd/podcast/' + req.params.showId, (results) => {
     res.json(results);
   }, (err) => {
     res.json([]);
   });
 });
 
-router.get('/podcast/:programId/:podcastId', async (req, res) => {
-  getRadioApiPath('/v1/lyd/podcast/' + req.params.programId + '/' + req.params.podcastId, (results) => {
+router.get('/podcast/:showId/:podcastId', async (req, res) => {
+  getRadioApiPath('/v1/lyd/podcast/' + req.params.showId + '/' + req.params.podcastId, (results) => {
     res.json(results);
   }, (err) => {
     res.json([]);

@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-const {ObjectId} = mongoose.Schema.Types;
-
 const imageSchema = new mongoose.Schema({
 	filepath: String
 });
