@@ -36,9 +36,9 @@ const downloadAndParseJSON = function (url) {
 const downloadPrograms = downloadAndParseJSON.bind(undefined, `${CHIMERA_API_URL_PREFIX}/shows/?format=json`);
 
 const run = async () => {
-  const programs = await downloadPrograms();  
+  const programs = await downloadPrograms();
   for (const p of programs) {
-   
+
     let imageurl = "";
     let pimage = "";
     if(p.name == "Bankebrett"){
@@ -55,7 +55,7 @@ const run = async () => {
       res.pipe(file);
       await Image.create({
         filepath: pimage
-      }); 
+      });
     });
 
     const pdescription = sanitizeHtml(p.description,{
@@ -63,21 +63,14 @@ const run = async () => {
       allowedAttributes:[]
     });
 
-    const pbody = JSON.stringify([
-      {type:"image",
-      data:
-        {file:
-          {url: pimage}}},
-      {type:"text",
-      data:
-        {text:pdescription,
-        format:"html"}}]);
-
     await Program.create({
       name: p.name,
       slug: S(p.name).slugify().s,
-      programID: p.id ,
-      body: pbody,
+      digasShowID: p.showID,
+      mage: pimage,
+      archived: p.is_old,
+      createdBy: 'Radio Revolt',
+      body: pdescription,
       lead: p.lead
     });
 
@@ -97,37 +90,22 @@ const run = async () => {
           format:"html"}}]);
 
       if(e.podcast_url != null && e.podcast_url != ""){
-        await Post.create({
+        await Broadcast.create({
           title: e.headline,
-          author: '',
-          date: e.public_from,
+          digasBroadcastID: e.broadcastID,
+          digasShowID: p.showID,
+          lead: e.lead
           program: new ObjectId(program.id),
-          broadcast: await Broadcast.create({
-            date: e.public_from,
-            showID: p.showID,
-            program: new ObjectId(program.id),
-            podacstURL: e.podcast_url,
-            onDemandAudioID: e.broadcastID
-          }),
-          lead: e.lead,
-          body: ebody,
-          isEpisode: true
+          podcastURL: e.podcast_url,
         });
-      }else{
-         await Post.create({
+      } else {
+        await Broadcast.create({
           title: e.headline,
-          author: '',
-          date: e.public_from,
+          digasBroadcastID: e.broadcastID,
+          digasShowID: p.showID,
+          lead: e.lead
           program: new ObjectId(program.id),
-          broadcast: await Broadcast.create({
-            date: e.public_from,
-            showID: p.showID,
-            program: new ObjectId(program.id),
-            onDemandAudioID: e.broadcastID
-          }),
-          lead: e.lead,
-          body: ebody,
-          isEpisode: true
+          podcastURL: '',
         });
       };
     };
