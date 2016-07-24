@@ -77,15 +77,14 @@ router.get('/program/:program_id', async (req, res) => {
   });
   res.json({
     program,
-    posts: posts
+    posts
   });
 });
 
 router.post('/program', ensureAuthenticated, jsonParser, (req, res) => {
   const program = new Program(req.body);
   program.save((err) => {
-    if (err)
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Program added.', data: program});
   });
 });
@@ -111,24 +110,18 @@ router.get('/post/:post_id', async (req, res) => {
 router.post('/post', ensureAuthenticated, jsonParser, (req, res) => {
   const post = new Post(req.body);
   post.save((err) => {
-    if (err)
-      console.log(err)
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Post added.', data: post});
-    console.log("added");
   });
 });
 
 router.put('/post/:post_id', ensureAuthenticated, jsonParser, async (req, res) => {
-  const post = await Post.findById(req.params.post_id).populate('broadcast');
+  const post = await Post.findById(req.params.post_id);
   post.update(
   req.body,
   (err, raw) => {
-    if (err)
-      console.log(err);
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Post updated.'});
-    console.log("updated");
   });
 });
 
@@ -142,8 +135,7 @@ router.get('/broadcast/:broadcast_id', async (req, res) => {
 router.post('/broadcast', ensureAuthenticated, jsonParser, (req, res) => {
   const broadcast = new Broadcast(req.body);
   broadcast.save((err) => {
-    if (err)
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Broadcast added.', data: broadcast});
   });
 });
@@ -153,8 +145,7 @@ router.put('/broadcast/:broadcast_id', ensureAuthenticated, jsonParser, async (r
   broadcast.update(
   req.body,
   (err, raw) => {
-    if (err)
-      return res.send(err);
+    if (err) return res.send(err);
     res.json({message: 'Broadcast updated.'});
   });
 });
@@ -167,7 +158,7 @@ router.post('/image', ensureAuthenticated, upload.single('attachment[file]'), as
   });
   await Image.create({
     filepath: req.file.path
-  }); 
+  });
 });
 
 router.get('/user', ensureAuthenticated, async (req, res) => {

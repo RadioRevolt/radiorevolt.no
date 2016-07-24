@@ -13,6 +13,8 @@ import Post from './app/model/Post';
 import Broadcast from './app/model/Broadcast';
 import Image from './app/model/Image';
 
+import dummyPost from './dummyPost';
+
 
 const {MONGODB_URL} = config;
 const {ObjectId} = mongoose.Types;
@@ -34,6 +36,12 @@ const downloadAndParseJSON = function (url) {
 };
 
 const downloadPrograms = downloadAndParseJSON.bind(undefined, `${CHIMERA_API_URL_PREFIX}/shows/?format=json`);
+
+const flushCollections = async () => {
+  await Program.remove({});
+  await Post.remove({});
+  await Broadcast.remove({});
+};
 
 const run = async () => {
   const programs = await downloadPrograms();
@@ -77,6 +85,13 @@ const run = async () => {
 
     const episodes = await downloadAndParseJSON(p.episodes);
     const program = await Program.findOne({digasShowID: p.showID});
+
+    /* GENERATING DUMMY POSTS */
+    for (let i = 0; i < 5; i++) {
+      await Post.create(dummyPost(program.id));
+    }
+    /* ----------- */
+
     for(const e of episodes){
 
       const edescription = sanitizeHtml(e.lead,{
@@ -111,6 +126,7 @@ const run = async () => {
 
 db.once('open', async () => {
   try {
+    await flushCollections();
     await run();
   } catch (error) {
     console.error(error);
