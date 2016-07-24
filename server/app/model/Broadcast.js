@@ -15,6 +15,8 @@ const broadcastSchema = new mongoose.Schema({
   },
   lead: String,
   program: ObjectId,
+  programName: String,
+  programSlug: String,
   podcastURL: String
 });
 

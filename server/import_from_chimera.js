@@ -106,6 +106,8 @@ const run = async () => {
           digasShowID: p.showID,
           lead: edescription,
           program: new ObjectId(program.id),
+          programName: p.name,
+          programSlug: program.slug,
           podcastURL: e.podcast_url,
         });
       } else {
