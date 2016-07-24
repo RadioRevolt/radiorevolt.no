@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import {soundManager} from 'soundmanager2';
 
 import 'whatwg-fetch';
@@ -14,9 +16,7 @@ soundManager.setup({
 });
 
 soundManager.onready(function() {
-  var playerElement;
-
-  playerElement = utils.get(playerSelector);
+  const playerElement = utils.get(playerSelector);
 
   if (playerElement) {
     window.revoltPlayer = new Player(playerElement);
@@ -209,77 +209,77 @@ Player = function(playerElement) {
     }
   }
 
-  function playOnDemand(episodeID, programID, pos=0) {
+  function playOnDemand(broadcastId, pos=0) {
     live = false;
 
-    var apiURL = "http://pappagorg.radiorevolt.no/v1/lyd/ondemand/" + programID;
+    fetch(`/api/broadcast/${broadcastId}`)
+    .then(res => res.json())
+    .then(broadcast => {
+      const apiURL = `http://pappagorg.radiorevolt.no/v1/lyd/ondemand/${broadcast.digasShowID}`;
 
-    playlistController.clearPlaylist();
-    playlistController.setPodcast(false);
+      playlistController.clearPlaylist();
+      playlistController.setPodcast(false);
 
-    fetch(apiURL).then(res => res.json()).then(function (broadcasts) {
-      for (var i = broadcasts.length-1; i >= 0; i--) {
-        var date = broadcasts[i].dato.toString().substr(0,4);
-        date += "-" + broadcasts[i].dato.toString().substr(4,2);
-        date += "-" + broadcasts[i].dato.toString().substr(6);
-        playlistController.addShow({
-          title: broadcasts[i].title,
-          showName: broadcasts[i].program,
-          //showURL: rrURL + program.program.slug,
-          url: broadcasts[i].url,
-          date: date,
-          programID: programID,
-          showID: episodeID
-        });
-        if (broadcasts[i].id === episodeID) {
-          playlistController.setPosition(broadcasts.length-1-i);
+      fetch(apiURL)
+      .then(res => res.json())
+      .then(broadcasts => {
+
+        for (var i = broadcasts.length-1; i >= 0; i--) {
+          var date = broadcasts[i].dato.toString().substr(0,4);
+          date += "-" + broadcasts[i].dato.toString().substr(4,2);
+          date += "-" + broadcasts[i].dato.toString().substr(6);
+          playlistController.addShow({
+            title: broadcast.title,
+            showName: broadcasts[i].program,
+            showURL: `/program/${broadcast.programSlug}`,
+            url: broadcasts[i].url,
+            date: date,
+            showID: broadcast.digasShowID,
+            broadcastID: broadcast.digasBroadcastID
+          });
+          if (broadcasts[i].id === broadcast.digasBroadcastID) {
+            playlistController.setPosition(broadcasts.length-1-i);
+          }
         }
-      }
-      playShow(playlistController.getCurrent(), pos);
-      if (from > 0) {
-        wind(from);
-      }
+        playShow(playlistController.getCurrent(), pos);
+      });
     });
   }
 
-  function playPodcast(broadcastID, programID, pos=0) {
+  function playPodcast(broadcastId, pos=0) {
     live = false;
 
-    var podcastURL = "/api/broadcast?program=" + programID;
-    var programURL = "/api/program/" + programID;
-    var rrURL = "http://radiorevolt.no/";
+    fetch(`/api/broadcast/${broadcastId}`)
+    .then(res => res.json())
+    .then(broadcast => {
+      const apiURL = `http://pappagorg.radiorevolt.no/v1/lyd/podcast/${broadcast.digasShowID}`;
 
-    playlistController.clearPlaylist();
-    playlistController.setPodcast(true);
+      playlistController.clearPlaylist();
+      playlistController.setPodcast(true);
 
-    var broadcastPromise = fetch(podcastURL).then(res => res.json()).catch((err) => {
-      console.error(err);
-    });
+      fetch(apiURL)
+      .then(res => res.json())
+      .then(broadcasts => {
+        for (var i = broadcasts.length-1; i >= 0; i--) {
+          var date = broadcasts[i].dato.toString().substr(0,4);
+          date += "-" + broadcasts[i].dato.toString().substr(4,2);
+          date += "-" + broadcasts[i].dato.toString().substr(6);
+          playlistController.addShow({
+            title: `${broadcast.title}`,
+            showName: broadcast.programName,
+            showURL: `/program/${broadcast.programSlug}`,
+            url: broadcasts[i].url,
+            date: date,
+            showID: broadcast.digasShowID,
+            broadcastID: broadcast.digasBroadcastID
+          });
 
-    var programPromise = fetch(programURL).then(res => res.json()).catch((err) => {
-      console.error(err);
-    });
-
-    Promise.all([broadcastPromise, programPromise]).then(function(values) {
-      var broadcasts = values[0];
-      var program = values[1];
-
-      for (var i = broadcasts.length-1; i >= 0; i--) {
-        playlistController.addShow({
-          title: broadcasts[i].name,
-          showName: program.program.name,
-          showURL: rrURL + program.program.slug,
-          url: broadcasts[i].URL,
-          date: broadcasts[i].date.substring(0, broadcasts[i].date.length-1),
-          programID: programID,
-          showID: broadcastID
-        });
-
-        if (broadcasts[i]._id === broadcastID) {
-          playlistController.setPosition(broadcasts.length-1-i);
+          if (broadcasts[i]._id === broadcast.digasBroadcastID) {
+            playlistController.setPosition(broadcasts.length-1-i);
+          }
         }
-      }
-      playShow(playlistController.getCurrent(), pos);
+        playShow(playlistController.getCurrent(), pos);
+      });
     });
   }
 
@@ -511,12 +511,12 @@ Player = function(playerElement) {
    * The class that controls the playlist (next, previous etc)
    * Contains shows on the following format:
    * {
-     *   title: <title>,
-     *   showName: <name of the show>,
-     *   showURL: <URL for the show homepage>,
-     *   url: <URL for the audio>,
-     * }
-   */
+   *   title: <title>,
+   *   showName: <name of the show>,
+   *   showURL: <URL for the show homepage>,
+   *   url: <URL for the audio>,
+   * }
+   **/
   function PlaylistController() {
     var playlist = [],
       position = 0,
