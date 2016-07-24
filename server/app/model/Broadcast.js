@@ -7,14 +7,8 @@ const broadcastSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  digasBroadcastID: {
-    type: String,
-    required: true
-  },
-  digasShowID: {
-    type: String,
-    required: true
-  },
+  digasBroadcastID: String,
+  digasShowID: String,
   createdAt: {
     type: Date,
     default: Date.now

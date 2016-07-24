@@ -43,13 +43,14 @@ const run = async () => {
     let pimage = "";
     if(p.name == "Bankebrett"){
       imageurl = p.image;
-      pimage = `uploads/${p.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}.jpg`;
+      pimage = `/uploads/${p.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}.jpg`;
     }
     else{
       imageurl = `${p.image.replace("thumbs/", "").split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}`;
-      pimage = `uploads/${p.name.replace("/","")}_logo${p.image.substring(p.image.length - 4)}`;
+      pimage = `/uploads/${p.name.replace("/","")}_logo${p.image.substring(p.image.length - 4)}`;
     }
-    const file = fs.createWriteStream(`../frontend/build/${pimage}`);
+
+    const file = fs.createWriteStream(`.${pimage}`);
 
     http.get(imageurl, async (res) => {
       res.pipe(file);
@@ -67,7 +68,7 @@ const run = async () => {
       name: p.name,
       slug: S(p.name).slugify().s,
       digasShowID: p.showID,
-      mage: pimage,
+      image: pimage,
       archived: p.is_old,
       createdBy: 'Radio Revolt',
       body: pdescription,
@@ -75,7 +76,7 @@ const run = async () => {
     });
 
     const episodes = await downloadAndParseJSON(p.episodes);
-    const program = await Program.findOne({programID: p.id});
+    const program = await Program.findOne({digasShowID: p.showID});
     for(const e of episodes){
 
       const edescription = sanitizeHtml(e.lead,{
@@ -83,27 +84,21 @@ const run = async () => {
         allowedAttributes:[]
       });
 
-      const ebody = JSON.stringify([
-        {type:"text",
-        data:
-          {text:edescription,
-          format:"html"}}]);
-
       if(e.podcast_url != null && e.podcast_url != ""){
         await Broadcast.create({
           title: e.headline,
-          digasBroadcastID: e.broadcastID,
+          digasBroadcastID: e.broadcastID ? e.broadcastID : '',
           digasShowID: p.showID,
-          lead: e.lead
+          lead: edescription,
           program: new ObjectId(program.id),
           podcastURL: e.podcast_url,
         });
       } else {
         await Broadcast.create({
           title: e.headline,
-          digasBroadcastID: e.broadcastID,
+          digasBroadcastID: e.broadcastID ? e.broadcastID : '',
           digasShowID: p.showID,
-          lead: e.lead
+          lead: edescription,
           program: new ObjectId(program.id),
           podcastURL: '',
         });
