@@ -6,13 +6,26 @@ const programSchema = new mongoose.Schema({
     required: true
   },
   slug: {
-  	type: String,
-  	required: true
-  },
-  programID: {
     type: String,
     required: true
   },
+  digasShowID: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  archived: {
+    type: Boolean,
+    default: false
+  },
+  createdBy: String,
   body: String,
   lead: String
 });
