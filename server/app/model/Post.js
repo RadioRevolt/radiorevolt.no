@@ -9,21 +9,30 @@ const postSchema = new mongoose.Schema({
     type: String,
     default: shortid.generate
   },
-  title: String,
-  date: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
-  author_username: String,
-  author_text: String,
-  program: ObjectId,
-  broadcast: {
-    type: ObjectId,
-    default: null
+  publishAt: {
+    type: Date,
+    default: Date.now
   },
+  createdBy: String,
+  title: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  slug: {
+    type: String,
+    required: true
+  },
+  program: ObjectId,
   body: String,
-  lead: String,
-  isEpisode: Boolean
+  lead: String
 });
 
 const Post = mongoose.model('Post', postSchema);

@@ -36,3 +36,6 @@ node_modules
 
 # Example data
 server/example_data.json
+
+# Uploads
+server/uploads/*

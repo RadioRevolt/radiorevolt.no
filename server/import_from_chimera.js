@@ -13,6 +13,8 @@ import Post from './app/model/Post';
 import Broadcast from './app/model/Broadcast';
 import Image from './app/model/Image';
 
+import dummyPost from './dummyPost';
+
 
 const {MONGODB_URL} = config;
 const {ObjectId} = mongoose.Types;
@@ -35,27 +37,34 @@ const downloadAndParseJSON = function (url) {
 
 const downloadPrograms = downloadAndParseJSON.bind(undefined, `${CHIMERA_API_URL_PREFIX}/shows/?format=json`);
 
+const flushCollections = async () => {
+  await Program.remove({});
+  await Post.remove({});
+  await Broadcast.remove({});
+};
+
 const run = async () => {
-  const programs = await downloadPrograms();  
+  const programs = await downloadPrograms();
   for (const p of programs) {
-   
+
     let imageurl = "";
     let pimage = "";
     if(p.name == "Bankebrett"){
       imageurl = p.image;
-      pimage = `uploads/${p.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}.jpg`;
+      pimage = `/uploads/${p.image.substring(45).split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}.jpg`;
     }
     else{
       imageurl = `${p.image.replace("thumbs/", "").split(".170x170_q85_crop_upscale.jpg").join("").split(".170x170_q85_crop_upscale.png").join("")}`;
-      pimage = `uploads/${p.name.replace("/","")}_logo${p.image.substring(p.image.length - 4)}`;
+      pimage = `/uploads/${p.name.replace("/","")}_logo${p.image.substring(p.image.length - 4)}`;
     }
-    const file = fs.createWriteStream(`../frontend/build/${pimage}`);
+
+    const file = fs.createWriteStream(`.${pimage}`);
 
     http.get(imageurl, async (res) => {
       res.pipe(file);
       await Image.create({
         filepath: pimage
-      }); 
+      });
     });
 
     const pdescription = sanitizeHtml(p.description,{
@@ -63,26 +72,26 @@ const run = async () => {
       allowedAttributes:[]
     });
 
-    const pbody = JSON.stringify([
-      {type:"image",
-      data:
-        {file:
-          {url: pimage}}},
-      {type:"text",
-      data:
-        {text:pdescription,
-        format:"html"}}]);
-
     await Program.create({
       name: p.name,
       slug: S(p.name).slugify().s,
-      programID: p.id ,
-      body: pbody,
+      digasShowID: p.showID,
+      image: pimage,
+      archived: p.is_old,
+      createdBy: 'Radio Revolt',
+      body: pdescription,
       lead: p.lead
     });
 
     const episodes = await downloadAndParseJSON(p.episodes);
-    const program = await Program.findOne({programID: p.id});
+    const program = await Program.findOne({digasShowID: p.showID});
+
+    /* GENERATING DUMMY POSTS */
+    for (let i = 0; i < 5; i++) {
+      await Post.create(dummyPost(program.id));
+    }
+    /* ----------- */
+
     for(const e of episodes){
 
       const edescription = sanitizeHtml(e.lead,{
@@ -90,44 +99,25 @@ const run = async () => {
         allowedAttributes:[]
       });
 
-      const ebody = JSON.stringify([
-        {type:"text",
-        data:
-          {text:edescription,
-          format:"html"}}]);
-
       if(e.podcast_url != null && e.podcast_url != ""){
-        await Post.create({
+        await Broadcast.create({
           title: e.headline,
-          author: '',
-          date: e.public_from,
+          digasBroadcastID: e.broadcastID ? e.broadcastID : '',
+          digasShowID: p.showID,
+          lead: edescription,
           program: new ObjectId(program.id),
-          broadcast: await Broadcast.create({
-            date: e.public_from,
-            showID: p.showID,
-            program: new ObjectId(program.id),
-            podacstURL: e.podcast_url,
-            onDemandAudioID: e.broadcastID
-          }),
-          lead: e.lead,
-          body: ebody,
-          isEpisode: true
+          programName: p.name,
+          programSlug: program.slug,
+          podcastURL: e.podcast_url,
         });
-      }else{
-         await Post.create({
+      } else {
+        await Broadcast.create({
           title: e.headline,
-          author: '',
-          date: e.public_from,
+          digasBroadcastID: e.broadcastID ? e.broadcastID : '',
+          digasShowID: p.showID,
+          lead: edescription,
           program: new ObjectId(program.id),
-          broadcast: await Broadcast.create({
-            date: e.public_from,
-            showID: p.showID,
-            program: new ObjectId(program.id),
-            onDemandAudioID: e.broadcastID
-          }),
-          lead: e.lead,
-          body: ebody,
-          isEpisode: true
+          podcastURL: '',
         });
       };
     };
@@ -138,6 +128,7 @@ const run = async () => {
 
 db.once('open', async () => {
   try {
+    await flushCollections();
     await run();
   } catch (error) {
     console.error(error);

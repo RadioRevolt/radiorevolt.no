@@ -16,11 +16,13 @@ const generateUsers = async () => {
   const userData = [
     {
       username: 'journalist',
-      password: 'pannekake'
+      password: 'pannekake',
+      name: 'Journalist Pournalist'
     },
     {
       username: 'desker',
-      password: 'avengers'
+      password: 'avengers',
+      name: 'Desker Fesker'
     }
   ];
 

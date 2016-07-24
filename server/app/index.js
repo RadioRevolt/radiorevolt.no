@@ -62,6 +62,8 @@ app.use(passport.session());
 
 app.use('/api', apiRouter);
 
+app.use('/uploads', express.static('./uploads'));
+
 // TODO: Change to properly resolve path
 app.use(express.static('../frontend/build'));
 
