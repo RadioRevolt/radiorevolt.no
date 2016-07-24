@@ -1,5 +1,7 @@
 import {soundManager} from 'soundmanager2';
 
+import 'whatwg-fetch';
+
 var Player,
   playerSelector = "audioplayer",
   utils,
